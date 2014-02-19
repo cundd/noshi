@@ -1,0 +1,19 @@
+{
+    "name": "cundd/noshi",
+    "description": "The no shi* CMS",
+    "require": {
+        "erusev/parsedown": "dev-master"
+    },
+	"license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Corn",
+            "email": "d@cundd.net"
+        }
+    ],
+    "autoload": {
+        "psr-0": { 
+            "Cundd\\Noshi\\": "Classes/" 
+        }
+    }
+}
