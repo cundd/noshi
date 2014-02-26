@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="679b3da6-8e1d-422e-b9a3-feb8613c6aeb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/_Home.md" afterPath="$PROJECT_DIR$/data/_Home.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/cundd/noshi-website/composer.json" afterPath="$PROJECT_DIR$/vendor/cundd/noshi-website/composer.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.css.map" afterPath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.css.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.css" afterPath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss" afterPath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.htaccess" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="noshi.iws" />
@@ -66,10 +62,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_Home.md" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/data/_Home.md">
+      <file leaf-file-name=".htaccess" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.htaccess">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="24" selection-start="315" selection-end="315" vertical-scroll-proportion="0.6082949" vertical-offset="54" max-vertical-offset="705">
+            <state line="47" column="37" selection-start="1369" selection-end="1369" vertical-scroll-proportion="1.0428994" vertical-offset="0" max-vertical-offset="795">
               <folding />
             </state>
           </provider>
@@ -158,6 +154,7 @@
         <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/composer.json" />
         <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss" />
         <option value="$PROJECT_DIR$/data/_Home.md" />
+        <option value="$PROJECT_DIR$/.htaccess" />
       </list>
     </option>
   </component>
@@ -779,7 +776,11 @@
       <created>1393448634098</created>
       <updated>1393448634098</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Theme updates">
+      <created>1393449181050</created>
+      <updated>1393449181050</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -844,7 +845,8 @@
     <MESSAGE value="Website improvements" />
     <MESSAGE value="Added support for hidden pages" />
     <MESSAGE value="Updated the composer lock file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated the composer lock file" />
+    <MESSAGE value="Theme updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="Theme updates" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -862,13 +864,6 @@
     </PATH>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Bootstrap.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="45" selection-start="341" selection-end="341" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="855">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/_Home.md">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="4" selection-start="256" selection-end="256" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="495">
@@ -1214,6 +1209,13 @@
     <entry file="file://$PROJECT_DIR$/data/_Home.md">
       <provider selected="true" editor-type-id="text-editor">
         <state line="30" column="24" selection-start="315" selection-end="315" vertical-scroll-proportion="0.6082949" vertical-offset="54" max-vertical-offset="705">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.htaccess">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="37" selection-start="1369" selection-end="1369" vertical-scroll-proportion="1.0428994" vertical-offset="0" max-vertical-offset="795">
           <folding />
         </state>
       </provider>

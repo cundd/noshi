@@ -1,0 +1,48 @@
+### Begin: Browser caching of ressource files ###
+
+# Enable long browser caching for JavaScript and CSS files.
+
+# This affects Frontend and Backend and increases performance.
+# You can also add other file extensions (like gif, png, jpg), if you want them to be longer cached, too.
+
+<FilesMatch "\.(js|css)$">
+  <IfModule mod_expires.c>
+    ExpiresActive on
+    ExpiresDefault "access plus 7 days"
+  </IfModule>
+  FileETag MTime Size
+</FilesMatch>
+
+### End: Browser caching of ressource files ###
+
+
+<IfModule mod_rewrite.c>
+
+# Enable URL rewriting
+RewriteEngine On
+
+# Change this path, if your TYPO3 installation is located in a subdirectory of the website root.
+#RewriteBase /
+
+
+# If the file/symlink/directory does not exist => Redirect to index.php.
+# For httpd.conf, you need to prefix each '%{REQUEST_FILENAME}' with '%{DOCUMENT_ROOT}'.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+
+# Main URL rewriting.
+# For httpd.conf, use this line instead of the next one:
+RewriteRule .* index.php [L]
+
+# Rewrite to Main-Domain
+
+#    RewriteCond %{HTTPS} !=on
+#    RewriteCond %{HTTP_HOST} !^www\..+$ [NC]
+#    RewriteCond %{HTTP_HOST} !=localhost [NC]
+#    RewriteCond %{HTTP_HOST} !=127.0.0.1
+#    RewriteRule ^ http://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+</IfModule>
+
+### End: Settings for mod_rewrite ###
