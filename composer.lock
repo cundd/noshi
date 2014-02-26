@@ -11,16 +11,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cundd/noshi-website.git",
-                "reference": "7851d170c767de977189c698dbcc7c321d3c685f"
+                "reference": "092ac207597135c69983018074bc11f0491668e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cundd/noshi-website/zipball/7851d170c767de977189c698dbcc7c321d3c685f",
-                "reference": "7851d170c767de977189c698dbcc7c321d3c685f",
+                "url": "https://api.github.com/repos/cundd/noshi-website/zipball/092ac207597135c69983018074bc11f0491668e5",
+                "reference": "092ac207597135c69983018074bc11f0491668e5",
                 "shasum": ""
             },
             "require": {
-                "cundd/noshi": "*"
+                "cundd/noshi": "*",
+                "zurb/foundation": "v5.1.1"
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
@@ -34,7 +35,7 @@
                 }
             ],
             "description": "Theme for the NoShi website",
-            "time": "2014-02-26 09:58:47"
+            "time": "2014-02-26 20:48:06"
         },
         {
             "name": "erusev/parsedown",
@@ -74,6 +75,33 @@
                 "parser"
             ],
             "time": "2014-02-24 22:48:28"
+        },
+        {
+            "name": "zurb/foundation",
+            "version": "v5.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zurb/foundation.git",
+                "reference": "564eb05ff07085931c80c7caba60dbb9ab2ea6c9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zurb/foundation/zipball/564eb05ff07085931c80c7caba60dbb9ab2ea6c9",
+                "reference": "564eb05ff07085931c80c7caba60dbb9ab2ea6c9",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The most advanced responsive front-end framework in the world.",
+            "homepage": "http://foundation.zurb.com",
+            "keywords": [
+                "foundation",
+                "scss"
+            ],
+            "time": "2014-02-06 23:50:38"
         }
     ],
     "packages-dev": [
