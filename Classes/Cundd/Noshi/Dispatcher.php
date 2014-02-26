@@ -44,7 +44,7 @@ class Dispatcher {
 	public function dispatch($uri, $method = 'GET') {
 		$this->uri = filter_var($uri, FILTER_SANITIZE_URL);
 
-		$methods = array(
+		$methods      = array(
 			'GET',
 			'HEAD',
 			'POST',
@@ -55,7 +55,7 @@ class Dispatcher {
 			'CONNECT',
 			'PATCH',
 		);
-		$method = strtoupper($method);
+		$method       = strtoupper($method);
 		$this->method = in_array($method, $methods) ? $method : 'GET';
 
 		$response = $this->getPage();
@@ -75,11 +75,11 @@ class Dispatcher {
 	 */
 	public function createTemplateResponse($response) {
 		$configuration = ConfigurationManager::getConfiguration();
-		$metaData = $this->getMetaData();
-		$template = $this->getTemplate();
+		$metaData      = $this->getMetaData();
+		$template      = $this->getTemplate();
 
 		// Replace the content
-		$template = str_replace('{content}', 		$response->getBody(), $template);
+		$template = str_replace('{content}', $response->getBody(), $template);
 
 		// Replace the resource path (even within the content)
 		$template = str_replace(
@@ -89,13 +89,13 @@ class Dispatcher {
 		);
 
 		// Replace the page title
-		$template = str_replace('{title}', 			$metaData['title'], $template);
+		$template = str_replace('{title}', $metaData['title'], $template);
 
 
 		// Build and replace the menu
 		if (strpos($template, '{menu}') !== FALSE) {
 			$uiElement = new Menu();
-			$template = str_replace('{menu}', 		$uiElement->render(), $template);
+			$template  = str_replace('{menu}', $uiElement->render(), $template);
 		}
 
 		return new Response(
@@ -107,11 +107,12 @@ class Dispatcher {
 
 	/**
 	 * Returns the template
+	 *
 	 * @return string
 	 */
 	public function getTemplate() {
 		$configuration = ConfigurationManager::getConfiguration();
-		$templatePath = $configuration->getThemePath() . $configuration->get('templatePath') . 'Page.html';
+		$templatePath  = $configuration->getThemePath() . $configuration->get('templatePath') . 'Page.html';
 		if (file_exists($templatePath)) {
 			return file_get_contents($templatePath);
 		}
@@ -124,7 +125,7 @@ class Dispatcher {
 	 * @return mixed
 	 */
 	public function getPage() {
-		$pageUri = $this->uri === '/' ? '/Home/' : $this->uri;
+		$pageUri  = $this->uri === '/' ? '/Home/' : $this->uri;
 		$response = $this->getResponseForUri($pageUri);
 		if (!$response) {
 			$response = $this->getNotFoundPage();
@@ -138,7 +139,7 @@ class Dispatcher {
 	 * @return mixed
 	 */
 	public function getNotFoundPage() {
-		$response = $this->getResponseForUri('NotFound');
+		$response = $this->getResponseForUri('/NotFound/');
 		if (!$response) {
 			$response = new Response(
 				'Not found',
@@ -156,18 +157,28 @@ class Dispatcher {
 	 */
 	public function getResponseForUri($uri) {
 		$configuration = ConfigurationManager::getConfiguration();
-		$dataPath = $configuration->get('basePath') . $configuration->get('dataPath');
+		$dataPath      = $configuration->get('basePath') . $configuration->get('dataPath');
 
-		$pageURI = $dataPath . substr($uri, 1);
-		$pageDataPath = substr($pageURI, 0, -1) . '.' . $configuration->get('dataSuffix');
+		$pageName = $uri;
+		if ($pageName[0] === '/') {
+			$pageName = substr($pageName, 1);
+		}
+		if (substr($pageName, -1) === '/') {
+			$pageName = substr($pageName, 0, -1);
+		}
+
+		$pageDataPath       = $dataPath . $pageName . '.' . $configuration->get('dataSuffix');
+		$hiddenPageDataPath = $dataPath . '_' . $pageName . '.' . $configuration->get('dataSuffix');
 
 		// Check if the node exists
 		if (!file_exists($pageDataPath)) {
-			return NULL;
+			if (!file_exists($hiddenPageDataPath)) {
+				return NULL;
+			}
+			$pageDataPath = $hiddenPageDataPath;
 		}
 
 		$rawPageData = file_get_contents($pageDataPath);
-
 		return new Response(
 			$this->parseMarkdown($rawPageData)
 		);
@@ -179,7 +190,7 @@ class Dispatcher {
 	 * @return array
 	 */
 	public function getMetaData() {
-		$pageUri = $this->uri === '/' ? '/Home/' : $this->uri;
+		$pageUri  = $this->uri === '/' ? '/Home/' : $this->uri;
 		$metaData = $this->getMetaDataForUri($pageUri);
 		return $metaData ? $metaData : ConfigurationManager::getConfiguration()->get('metaData');
 	}
@@ -192,9 +203,9 @@ class Dispatcher {
 	 */
 	public function getMetaDataForUri($uri) {
 		$configuration = ConfigurationManager::getConfiguration();
-		$dataPath = $configuration->get('basePath') . $configuration->get('dataPath');
+		$dataPath      = $configuration->get('basePath') . $configuration->get('dataPath');
 
-		$pageURI = $dataPath . substr($uri, 1);
+		$pageURI      = $dataPath . substr($uri, 1);
 		$metaDataPath = substr($pageURI, 0, -1) . '.json';
 
 		// Check if the node exists
@@ -208,13 +219,13 @@ class Dispatcher {
 
 	/**
 	 * Parse the given Markdown code
+	 *
 	 * @param $markdown
 	 * @return mixed|string
 	 */
 	protected function parseMarkdown($markdown) {
 		return Parsedown::instance()->parse($markdown);
 	}
-
 
 
 }

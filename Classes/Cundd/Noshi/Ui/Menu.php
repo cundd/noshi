@@ -43,6 +43,9 @@ class Menu extends AbstractUi {
 
 			while (FALSE !== ($file = readdir($handle))) {
 				if ($file != '.' && $file != '..') {
+					if ($file[0] === '_') {
+						continue;
+					}
 					$file = substr($file, 0, strrpos($file, '.'));
 					$pages[$file] = TRUE;
 				}
