@@ -2,7 +2,8 @@
     "name": "cundd/noshi",
     "description": "The no shi* CMS",
     "require": {
-        "erusev/parsedown": "dev-master"
+        "erusev/parsedown": "dev-master",
+        "cundd/noshi-website": "dev-master"
     },
 	"license": "MIT",
     "authors": [

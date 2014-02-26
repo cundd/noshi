@@ -78,18 +78,25 @@ class Dispatcher {
 		$metaData = $this->getMetaData();
 		$template = $this->getTemplate();
 
+		// Replace the content
 		$template = str_replace('{content}', 		$response->getBody(), $template);
-		$template = str_replace('{resourcePath}', 	$configuration->get('resourcePath'), $template);
 
+		// Replace the resource path (even within the content)
+		$template = str_replace(
+			'{resourcePath}',
+			$configuration->getBaseUrl() . $configuration->getThemeUri() . $configuration->get('resourcePath'),
+			$template
+		);
+
+		// Replace the page title
 		$template = str_replace('{title}', 			$metaData['title'], $template);
 
 
+		// Build and replace the menu
 		if (strpos($template, '{menu}') !== FALSE) {
 			$uiElement = new Menu();
 			$template = str_replace('{menu}', 		$uiElement->render(), $template);
 		}
-
-
 
 		return new Response(
 			$template,
@@ -103,11 +110,12 @@ class Dispatcher {
 	 * @return string
 	 */
 	public function getTemplate() {
-		$templatePath = ConfigurationManager::getConfiguration()->get('templatePath') . 'Page.html';
+		$configuration = ConfigurationManager::getConfiguration();
+		$templatePath = $configuration->getThemePath() . $configuration->get('templatePath') . 'Page.html';
 		if (file_exists($templatePath)) {
 			return file_get_contents($templatePath);
 		}
-		return '{content}';
+		return '<!-- Template not found -->' . PHP_EOL . '{content}';
 	}
 
 	/**

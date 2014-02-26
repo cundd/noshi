@@ -1,3 +1,5 @@
+![NoShi Logo][logo]
+
 NoShi
 =====
 
@@ -20,4 +22,8 @@ Start the development server
 
 	cd root/of/noshi/installation/;
 	php -S localhost:9000 -t .
-	
+
+[About](about/)
+
+
+[logo]: /Resources/Public/Graphics/noshi-logo.png

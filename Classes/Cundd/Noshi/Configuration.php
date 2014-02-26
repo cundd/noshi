@@ -10,6 +10,7 @@ namespace Cundd\Noshi;
 
 
 class Configuration implements \ArrayAccess {
+
 	/**
 	 * @var array
 	 */
@@ -17,21 +18,63 @@ class Configuration implements \ArrayAccess {
 		'dataPath'     => 'data/',
 		'dataSuffix'   => 'md',
 		'templatePath' => 'Resources/Private/Templates/',
-		'resourcePath' => '/Resources/Public/',
+		'resourcePath' => 'Resources/Public/',
 
 
-		'metaData' => array(
+		'metaData'     => array(
 			'title' => 'NoShi',
 		)
 	);
 
+	function __construct($configuration = array()) {
+		$this->configuration = array_merge($this->configuration, (array)$configuration);
+	}
+
 	/**
-	 * Returns the configuration
+	 * Returns the base URL
+	 *
+	 * @return string
+	 */
+	public function getBaseUrl() {
+		$baseUrl = $this->_get('baseUrl');
+		if (!$baseUrl) {
+			$baseUrl = ''
+				. isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http'
+				. '://'
+				. $_SERVER['HTTP_HOST']
+				. '/'
+			;
+		}
+		return $baseUrl;
+	}
+
+
+	/**
+	 * Returns the path to the configured theme
+	 *
+	 * @return string
+	 */
+	public function getThemePath() {
+		return $this->get('basePath') . 'vendor/' . $this->get('theme') . '/';
+	}
+
+	/**
+	 * Returns the URI of the path to the configured theme
+	 *
+	 * @return string
+	 */
+	public function getThemeUri() {
+		return 'vendor/' . $this->get('theme') . '/';
+	}
+
+
+	/**
+	 * Returns the configuration (without checking for an accessor method)
 	 *
 	 * @param string $key
 	 * @return mixed
 	 */
-	public function get($key){
+	protected function _get($key) {
 		if (isset($this->configuration[$key])) {
 			return $this->configuration[$key];
 		}
@@ -39,13 +82,29 @@ class Configuration implements \ArrayAccess {
 	}
 
 	/**
+	 * Returns the configuration
+	 *
+	 * If an accessor method (i.e.: "getMyKey") is available it will be called
+	 *
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function get($key) {
+		$accessorMethod = 'get' . ucfirst($key);
+		if (method_exists($this, $accessorMethod)) {
+			return $this->$accessorMethod();
+		}
+		return $this->_get($key);
+	}
+
+	/**
 	 * Set the configuration
 	 *
 	 * @param string $key
-	 * @param mixed $value
+	 * @param mixed  $value
 	 * @return $this
 	 */
-	public function set($key, $value){
+	public function set($key, $value) {
 		$this->configuration[$key] = $value;
 		return $this;
 	}

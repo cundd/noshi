@@ -22,7 +22,7 @@ class Bootstrap {
 		if (substr($basePath, -1) !== DIRECTORY_SEPARATOR) {
 			$basePath .= DIRECTORY_SEPARATOR;
 		}
-		ConfigurationManager::getConfiguration()->set('basePath', $basePath);
+		ConfigurationManager::initializeConfiguration($basePath);
 	}
 
 	/**

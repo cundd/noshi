@@ -3,20 +3,51 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "6b5ef5bcc94bc65cd16899687a5ac69a",
+    "hash": "58e464ea4d4b5871f5cd5f491a6046cb",
     "packages": [
+        {
+            "name": "cundd/noshi-website",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cundd/noshi-website.git",
+                "reference": "7851d170c767de977189c698dbcc7c321d3c685f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cundd/noshi-website/zipball/7851d170c767de977189c698dbcc7c321d3c685f",
+                "reference": "7851d170c767de977189c698dbcc7c321d3c685f",
+                "shasum": ""
+            },
+            "require": {
+                "cundd/noshi": "*"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Corn",
+                    "email": "info@cundd.net"
+                }
+            ],
+            "description": "Theme for the NoShi website",
+            "time": "2014-02-26 09:58:47"
+        },
         {
             "name": "erusev/parsedown",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-                "reference": "d0784d1006d1b55a4c9e5cd0960bfe469e3684b9"
+                "reference": "1734f6fc85fd5d9148b384c797e217c877d564dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/d0784d1006d1b55a4c9e5cd0960bfe469e3684b9",
-                "reference": "d0784d1006d1b55a4c9e5cd0960bfe469e3684b9",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/1734f6fc85fd5d9148b384c797e217c877d564dd",
+                "reference": "1734f6fc85fd5d9148b384c797e217c877d564dd",
                 "shasum": ""
             },
             "type": "library",
@@ -42,44 +73,19 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2014-02-17 19:29:57"
+            "time": "2014-02-24 22:48:28"
         }
     ],
     "packages-dev": [
-        {
-            "name": "zurb/foundation",
-            "version": "v5.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zurb/foundation.git",
-                "reference": "564eb05ff07085931c80c7caba60dbb9ab2ea6c9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zurb/foundation/zipball/564eb05ff07085931c80c7caba60dbb9ab2ea6c9",
-                "reference": "564eb05ff07085931c80c7caba60dbb9ab2ea6c9",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "The most advanced responsive front-end framework in the world.",
-            "homepage": "http://foundation.zurb.com",
-            "keywords": [
-                "foundation",
-                "scss"
-            ],
-            "time": "2014-02-06 23:50:38"
-        }
+
     ],
     "aliases": [
 
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "erusev/parsedown": 20
+        "erusev/parsedown": 20,
+        "cundd/noshi-website": 20
     },
     "platform": [
 
