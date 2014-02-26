@@ -25,8 +25,13 @@ Free from
 - Database (SQL and NoSQL)
 
 
-Start the development server
-----------------------------
+Installation
+------------
+
+    php composer.phar create-project -s dev cundd/noshi target/path/
+
+
+Start the development server:
 
 	cd root/of/noshi/installation/;
 	php -S localhost:9000 -t .
