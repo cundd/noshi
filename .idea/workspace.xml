@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="679b3da6-8e1d-422e-b9a3-feb8613c6aeb" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/UiInterface.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/View.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/AbstractUi.php" afterPath="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/AbstractUi.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php" afterPath="$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html" afterPath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/_Home.md" afterPath="$PROJECT_DIR$/data/_Home.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="noshi.iws" />
@@ -27,15 +30,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ConfigurationManager.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/ConfigurationManager.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="49" selection-start="722" selection-end="722" vertical-scroll-proportion="-15.291667" vertical-offset="98" max-vertical-offset="750">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="_type.scss" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vendor/zurb/foundation/scss/foundation/components/_type.scss">
           <provider selected="true" editor-type-id="text-editor">
@@ -48,8 +42,10 @@
       <file leaf-file-name="composer.json" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/composer.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="0" selection-start="329" selection-end="329" vertical-scroll-proportion="-10.625" vertical-offset="0" max-vertical-offset="345">
-              <folding />
+            <state line="17" column="0" selection-start="330" selection-end="330" vertical-scroll-proportion="-10.625" vertical-offset="0" max-vertical-offset="345">
+              <folding>
+                <marker date="1393529416000" expanded="true" signature="2:329" placeholder="{&quot;name&quot;: &quot;cundd/noshi-website&quot;...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -58,15 +54,6 @@
         <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss">
           <provider selected="true" editor-type-id="text-editor">
             <state line="76" column="18" selection-start="1279" selection-end="1279" vertical-scroll-proportion="-15.291667" vertical-offset="773" max-vertical-offset="1515">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_Home.md" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/_Home.md">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="69" column="0" selection-start="1316" selection-end="1316" vertical-scroll-proportion="-41.4" vertical-offset="0" max-vertical-offset="1125">
               <folding />
             </state>
           </provider>
@@ -90,6 +77,44 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Configuration.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Configuration.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="44" column="20" selection-start="857" selection-end="857" vertical-scroll-proportion="3.125" vertical-offset="660" max-vertical-offset="2715">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Dispatcher.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="93" column="0" selection-start="1709" selection-end="1709" vertical-scroll-proportion="-1.25" vertical-offset="1260" max-vertical-offset="3195">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="View.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/View.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="120" column="0" selection-start="2241" selection-end="2241" vertical-scroll-proportion="0.53333336" vertical-offset="1440" max-vertical-offset="2280">
+              <folding>
+                <element signature="e#6#86#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UiInterface.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/UiInterface.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="25" column="6" selection-start="318" selection-end="318" vertical-scroll-proportion="-12.5" vertical-offset="0" max-vertical-offset="465">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="composer.lock" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/composer.lock">
           <provider selected="true" editor-type-id="text-editor">
@@ -102,24 +127,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Page.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="0" selection-start="2200" selection-end="2200" vertical-scroll-proportion="1.6767372" vertical-offset="0" max-vertical-offset="1200">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_settings.scss" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vendor/zurb/foundation/scss/foundation/_settings.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="59" column="0" selection-start="1687" selection-end="1849" vertical-scroll-proportion="-36.875" vertical-offset="0" max-vertical-offset="18000">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindManager">
@@ -128,7 +135,7 @@
     </FindUsagesManager>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/vendor/cundd/noshi-website" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
@@ -137,7 +144,6 @@
         <option value="$PROJECT_DIR$/Resources/Private/.htaccess" />
         <option value="$PROJECT_DIR$/data/About.json" />
         <option value="$PROJECT_DIR$/data/About.md" />
-        <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/AbstractUi.php" />
         <option value="$PROJECT_DIR$/Resources/Private/Templates/Page.html" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Response.php" />
@@ -148,7 +154,6 @@
         <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.css" />
         <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/Menu.php" />
-        <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php" />
         <option value="$PROJECT_DIR$/vendor/zurb/foundation/scss/foundation/_settings.scss" />
         <option value="$PROJECT_DIR$/composer.lock" />
         <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/composer.json" />
@@ -156,6 +161,11 @@
         <option value="$PROJECT_DIR$/.htaccess" />
         <option value="$PROJECT_DIR$/data/_Home.md" />
         <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html" />
+        <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/UiInterface.php" />
+        <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/AbstractUi.php" />
+        <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/View.php" />
+        <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php" />
+        <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/View.php" />
       </list>
     </option>
   </component>
@@ -785,7 +795,11 @@
       <created>1393450306498</created>
       <updated>1393450306498</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Enhanced the documentation&#10;Added piwik to the template">
+      <created>1393529315631</created>
+      <updated>1393529315631</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -852,7 +866,8 @@
     <MESSAGE value="Updated the composer lock file" />
     <MESSAGE value="Theme updates" />
     <MESSAGE value="Added .htaccess" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added .htaccess" />
+    <MESSAGE value="Enhanced the documentation&#10;Added piwik to the template" />
+    <option name="LAST_COMMIT_MESSAGE" value="Enhanced the documentation&#10;Added piwik to the template" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -870,20 +885,6 @@
     </PATH>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/data/_Home.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="4" selection-start="256" selection-end="256" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="495">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="247" selection-end="247" vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="1500">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/About.md">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4" column="523" selection-start="1126" selection-end="1126" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="165">
@@ -1059,13 +1060,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/AbstractUi.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="31" selection-start="359" selection-end="359" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="510">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/ConfigurationManager.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="31" column="49" selection-start="722" selection-end="722" vertical-scroll-proportion="-15.291667" vertical-offset="98" max-vertical-offset="750">
@@ -1084,20 +1078,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="24" column="42" selection-start="382" selection-end="382" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="855">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Configuration.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="20" selection-start="857" selection-end="857" vertical-scroll-proportion="3.125" vertical-offset="660" max-vertical-offset="2715">
-          <folding>
-            <marker date="1393411313000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1393411313000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1393411313000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1393411313000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1393411313000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1393411313000" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1139,23 +1119,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="178" column="9" selection-start="3849" selection-end="3849" vertical-scroll-proportion="-22.458334" vertical-offset="2041" max-vertical-offset="3450">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/zurb/foundation/scss/foundation/_settings.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state line="59" column="0" selection-start="1687" selection-end="1849" vertical-scroll-proportion="-36.875" vertical-offset="0" max-vertical-offset="18000">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/Menu.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="35" selection-start="322" selection-end="322" vertical-scroll-proportion="-10.625" vertical-offset="0" max-vertical-offset="870">
           <folding />
         </state>
       </provider>
@@ -1186,8 +1152,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/composer.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="329" selection-end="329" vertical-scroll-proportion="-10.625" vertical-offset="0" max-vertical-offset="345">
-          <folding />
+        <state line="17" column="0" selection-start="330" selection-end="330" vertical-scroll-proportion="-10.625" vertical-offset="0" max-vertical-offset="345">
+          <folding>
+            <marker date="1393529416000" expanded="true" signature="2:329" placeholder="{&quot;name&quot;: &quot;cundd/noshi-website&quot;...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1219,10 +1187,54 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Configuration.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="20" selection-start="857" selection-end="857" vertical-scroll-proportion="3.125" vertical-offset="660" max-vertical-offset="2715">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="0" selection-start="2200" selection-end="2200" vertical-scroll-proportion="1.6767372" vertical-offset="0" max-vertical-offset="1200">
+        <state line="27" column="9" selection-start="873" selection-end="873" vertical-scroll-proportion="-16.875" vertical-offset="0" max-vertical-offset="1215">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/UiInterface.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="6" selection-start="318" selection-end="318" vertical-scroll-proportion="-12.5" vertical-offset="0" max-vertical-offset="465">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/AbstractUi.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="0" selection-start="291" selection-end="291" vertical-scroll-proportion="0.35555556" vertical-offset="0" max-vertical-offset="675">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/Menu.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="23" selection-start="178" selection-end="178" vertical-scroll-proportion="3.125" vertical-offset="195" max-vertical-offset="870">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="93" column="0" selection-start="1709" selection-end="1709" vertical-scroll-proportion="-1.25" vertical-offset="1260" max-vertical-offset="3195">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/View.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="120" column="0" selection-start="2241" selection-end="2241" vertical-scroll-proportion="0.53333336" vertical-offset="1440" max-vertical-offset="2280">
+          <folding>
+            <element signature="e#6#86#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

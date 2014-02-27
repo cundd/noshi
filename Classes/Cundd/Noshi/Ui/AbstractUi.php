@@ -13,17 +13,24 @@ namespace Cundd\Noshi\Ui;
  *
  * @package Cundd\Noshi\Ui
  */
-abstract class AbstractUi {
+abstract class AbstractUi implements UiInterface {
 	/**
-	 * Renders the element
-	 *
-	 * @return string
+	 * @var UiInterface
 	 */
-	abstract public function render();
+	protected $context;
+
+	/**
+	 * Sets the context
+	 *
+	 * @param \Cundd\Noshi\Ui\UiInterface $context
+	 * @return $this
+	 */
+	public function setContext($context) {
+		$this->context = $context;
+		return $this;
+	}
 
 	function __toString() {
 		return $this->render();
 	}
-
-
-} 
+}

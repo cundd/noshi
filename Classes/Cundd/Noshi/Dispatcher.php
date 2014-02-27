@@ -10,6 +10,7 @@ namespace Cundd\Noshi;
 
 
 use Cundd\Noshi\Ui\Menu;
+use Cundd\Noshi\Ui\View;
 use Parsedown;
 
 class Dispatcher {
@@ -75,31 +76,18 @@ class Dispatcher {
 	 */
 	public function createTemplateResponse($response) {
 		$configuration = ConfigurationManager::getConfiguration();
-		$metaData      = $this->getMetaData();
-		$template      = $this->getTemplate();
 
-		// Replace the content
-		$template = str_replace('{content}', $response->getBody(), $template);
+		$view = new View();
+		$view->setTemplatePath($this->getTemplatePath());
+		$view->assignMultiple(array(
+			'meta' => $this->getMetaData(),
+			'content' => $response->getBody(),
+			'response' => $response,
+			'resourcePath' => $configuration->getBaseUrl() . $configuration->getThemeUri() . $configuration->get('resourcePath'),
 
-		// Replace the resource path (even within the content)
-		$template = str_replace(
-			'{resourcePath}',
-			$configuration->getBaseUrl() . $configuration->getThemeUri() . $configuration->get('resourcePath'),
-			$template
-		);
-
-		// Replace the page title
-		$template = str_replace('{title}', $metaData['title'], $template);
-
-
-		// Build and replace the menu
-		if (strpos($template, '{menu}') !== FALSE) {
-			$uiElement = new Menu();
-			$template  = str_replace('{menu}', $uiElement->render(), $template);
-		}
-
+		));
 		return new Response(
-			$template,
+			$view->render(),
 			$response->getStatusCode(),
 			$response->getStatusText()
 		);
@@ -110,13 +98,9 @@ class Dispatcher {
 	 *
 	 * @return string
 	 */
-	public function getTemplate() {
+	public function getTemplatePath() {
 		$configuration = ConfigurationManager::getConfiguration();
-		$templatePath  = $configuration->getThemePath() . $configuration->get('templatePath') . 'Page.html';
-		if (file_exists($templatePath)) {
-			return file_get_contents($templatePath);
-		}
-		return '<!-- Template not found -->' . PHP_EOL . '{content}';
+		return $configuration->getThemePath() . $configuration->get('templatePath') . 'Page.html';
 	}
 
 	/**
