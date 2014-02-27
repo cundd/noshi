@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="679b3da6-8e1d-422e-b9a3-feb8613c6aeb" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.htaccess" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html" afterPath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/_Home.md" afterPath="$PROJECT_DIR$/data/_Home.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="noshi.iws" />
@@ -62,10 +63,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".htaccess" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="_Home.md" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/data/_Home.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="69" column="0" selection-start="1316" selection-end="1316" vertical-scroll-proportion="-41.4" vertical-offset="0" max-vertical-offset="1125">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".htaccess" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.htaccess">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="37" selection-start="1369" selection-end="1369" vertical-scroll-proportion="1.0428994" vertical-offset="0" max-vertical-offset="795">
+            <state line="47" column="37" selection-start="1369" selection-end="1369" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="795">
               <folding />
             </state>
           </provider>
@@ -92,19 +102,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Page.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Page.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="44" column="9" selection-start="1122" selection-end="1122" vertical-scroll-proportion="-27.5" vertical-offset="0" max-vertical-offset="930">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Dispatcher.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="178" column="9" selection-start="3849" selection-end="3849" vertical-scroll-proportion="-22.458334" vertical-offset="2041" max-vertical-offset="3450">
+            <state line="74" column="0" selection-start="2200" selection-end="2200" vertical-scroll-proportion="1.6767372" vertical-offset="0" max-vertical-offset="1200">
               <folding />
             </state>
           </provider>
@@ -127,7 +128,7 @@
     </FindUsagesManager>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/vendor/cundd/noshi-website" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
@@ -149,12 +150,12 @@
         <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/Menu.php" />
         <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php" />
         <option value="$PROJECT_DIR$/vendor/zurb/foundation/scss/foundation/_settings.scss" />
-        <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html" />
         <option value="$PROJECT_DIR$/composer.lock" />
         <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/composer.json" />
         <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss" />
-        <option value="$PROJECT_DIR$/data/_Home.md" />
         <option value="$PROJECT_DIR$/.htaccess" />
+        <option value="$PROJECT_DIR$/data/_Home.md" />
+        <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html" />
       </list>
     </option>
   </component>
@@ -780,7 +781,11 @@
       <created>1393449181050</created>
       <updated>1393449181050</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added .htaccess">
+      <created>1393450306498</created>
+      <updated>1393450306498</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -846,7 +851,8 @@
     <MESSAGE value="Added support for hidden pages" />
     <MESSAGE value="Updated the composer lock file" />
     <MESSAGE value="Theme updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="Theme updates" />
+    <MESSAGE value="Added .htaccess" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added .htaccess" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1154,13 +1160,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="9" selection-start="1122" selection-end="1122" vertical-scroll-proportion="-27.5" vertical-offset="0" max-vertical-offset="930">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state line="42" column="5" selection-start="589" selection-end="589" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1500">
@@ -1206,16 +1205,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/_Home.md">
+    <entry file="file://$PROJECT_DIR$/.htaccess">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="24" selection-start="315" selection-end="315" vertical-scroll-proportion="0.6082949" vertical-offset="54" max-vertical-offset="705">
+        <state line="47" column="37" selection-start="1369" selection-end="1369" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="795">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.htaccess">
+    <entry file="file://$PROJECT_DIR$/data/_Home.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="37" selection-start="1369" selection-end="1369" vertical-scroll-proportion="1.0428994" vertical-offset="0" max-vertical-offset="795">
+        <state line="69" column="0" selection-start="1316" selection-end="1316" vertical-scroll-proportion="-41.4" vertical-offset="0" max-vertical-offset="1125">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="0" selection-start="2200" selection-end="2200" vertical-scroll-proportion="1.6767372" vertical-offset="0" max-vertical-offset="1200">
           <folding />
         </state>
       </provider>
