@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="679b3da6-8e1d-422e-b9a3-feb8613c6aeb" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/About.md" afterPath="$PROJECT_DIR$/data/About.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.css.map" afterPath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.css.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.css" afterPath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss" afterPath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="noshi.iws" />
@@ -38,7 +40,7 @@
       <file leaf-file-name="main.scss" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="173" column="4" selection-start="3678" selection-end="3764" vertical-scroll-proportion="-36.833332" vertical-offset="1711" max-vertical-offset="2760">
+            <state line="96" column="30" selection-start="2634" selection-end="2634" vertical-scroll-proportion="-19.958334" vertical-offset="961" max-vertical-offset="2895">
               <folding />
             </state>
           </provider>
@@ -95,7 +97,7 @@
       <file leaf-file-name="About.md" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/data/About.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="82" selection-start="95" selection-end="95" vertical-scroll-proportion="0.04411765" vertical-offset="0" max-vertical-offset="1020">
+            <state line="7" column="123" selection-start="1341" selection-end="1341" vertical-scroll-proportion="0.10294118" vertical-offset="0" max-vertical-offset="1020">
               <folding />
             </state>
           </provider>
@@ -155,11 +157,11 @@
         <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/AbstractUi.php" />
         <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/View.php" />
         <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php" />
-        <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss" />
         <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html" />
         <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/View.php" />
         <option value="$PROJECT_DIR$/data/_Home.md" />
         <option value="$PROJECT_DIR$/data/About.md" />
+        <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss" />
       </list>
     </option>
   </component>
@@ -823,7 +825,11 @@
       <created>1393612408183</created>
       <updated>1393612408183</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Changed the about page">
+      <created>1393612637983</created>
+      <updated>1393612637983</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -893,7 +899,8 @@
     <MESSAGE value="Enhanced the documentation&#10;Added piwik to the template" />
     <MESSAGE value="Refactored the template rendering" />
     <MESSAGE value="Enhanced the theme&#10;Enhanced the view rendering" />
-    <option name="LAST_COMMIT_MESSAGE" value="Enhanced the theme&#10;Enhanced the view rendering" />
+    <MESSAGE value="Changed the about page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed the about page" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1037,13 +1044,6 @@
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="16" selection-start="16" selection-end="16" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="90" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/About.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="20" selection-start="19" selection-end="19" vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="120">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/ConfigurationManager.php">
@@ -1217,13 +1217,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="173" column="4" selection-start="3678" selection-end="3764" vertical-scroll-proportion="-36.833332" vertical-offset="1711" max-vertical-offset="2760">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Configuration.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="44" column="20" selection-start="857" selection-end="857" vertical-scroll-proportion="3.125" vertical-offset="660" max-vertical-offset="2715">
@@ -1254,6 +1247,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="96" column="30" selection-start="2634" selection-end="2634" vertical-scroll-proportion="-19.958334" vertical-offset="961" max-vertical-offset="2895">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/About.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="20" selection-start="19" selection-end="19" vertical-scroll-proportion="0.014506769" vertical-offset="0" max-vertical-offset="1034">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/data/_Home.md">
       <provider selected="true" editor-type-id="text-editor">
         <state line="44" column="35" selection-start="555" selection-end="555" vertical-scroll-proportion="0.30300096" vertical-offset="347" max-vertical-offset="1410">
@@ -1263,7 +1270,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/data/About.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="82" selection-start="95" selection-end="95" vertical-scroll-proportion="0.04411765" vertical-offset="0" max-vertical-offset="1020">
+        <state line="7" column="123" selection-start="1341" selection-end="1341" vertical-scroll-proportion="0.10294118" vertical-offset="0" max-vertical-offset="1020">
           <folding />
         </state>
       </provider>
