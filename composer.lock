@@ -11,16 +11,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cundd/noshi-website.git",
-                "reference": "092ac207597135c69983018074bc11f0491668e5"
+                "reference": "5269469dcd44e452d07da87f89267d394a50f8d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cundd/noshi-website/zipball/092ac207597135c69983018074bc11f0491668e5",
-                "reference": "092ac207597135c69983018074bc11f0491668e5",
+                "url": "https://api.github.com/repos/cundd/noshi-website/zipball/5269469dcd44e452d07da87f89267d394a50f8d9",
+                "reference": "5269469dcd44e452d07da87f89267d394a50f8d9",
                 "shasum": ""
             },
             "require": {
-                "cundd/noshi": "*",
+                "cundd/noshi": "*"
+            },
+            "require-dev": {
                 "zurb/foundation": "v5.1.1"
             },
             "type": "library",
@@ -35,7 +37,7 @@
                 }
             ],
             "description": "Theme for the NoShi website",
-            "time": "2014-02-26 20:48:06"
+            "time": "2014-02-27 20:09:52"
         },
         {
             "name": "erusev/parsedown",
@@ -43,12 +45,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-                "reference": "1734f6fc85fd5d9148b384c797e217c877d564dd"
+                "reference": "886c6204400cd590aa2ad94353052da5ee6bf4ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/1734f6fc85fd5d9148b384c797e217c877d564dd",
-                "reference": "1734f6fc85fd5d9148b384c797e217c877d564dd",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/886c6204400cd590aa2ad94353052da5ee6bf4ea",
+                "reference": "886c6204400cd590aa2ad94353052da5ee6bf4ea",
                 "shasum": ""
             },
             "type": "library",
@@ -74,34 +76,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2014-02-24 22:48:28"
-        },
-        {
-            "name": "zurb/foundation",
-            "version": "v5.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zurb/foundation.git",
-                "reference": "564eb05ff07085931c80c7caba60dbb9ab2ea6c9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zurb/foundation/zipball/564eb05ff07085931c80c7caba60dbb9ab2ea6c9",
-                "reference": "564eb05ff07085931c80c7caba60dbb9ab2ea6c9",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "The most advanced responsive front-end framework in the world.",
-            "homepage": "http://foundation.zurb.com",
-            "keywords": [
-                "foundation",
-                "scss"
-            ],
-            "time": "2014-02-06 23:50:38"
+            "time": "2014-02-27 12:14:14"
         }
     ],
     "packages-dev": [

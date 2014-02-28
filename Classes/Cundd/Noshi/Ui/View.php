@@ -102,8 +102,14 @@ class View extends AbstractUi implements UiInterface {
 
 			/** @var UiInterface $newView */
 			$newView = new $viewClass;
-			$newView->setContext($this);
-			return $newView->render();
+			if ($newView instanceof UiInterface) {
+				$newView->setContext($this);
+				return $newView->render();
+			}
+			try {
+				return (string)$newView;
+			} catch (\Exception $exception) {}
+			
 		}
 		return $this->resolveExpressionKeyPath($expression);
 	}

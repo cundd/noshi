@@ -78,6 +78,7 @@ class Dispatcher {
 		$configuration = ConfigurationManager::getConfiguration();
 
 		$view = new View();
+		$view->setContext($this);
 		$view->setTemplatePath($this->getTemplatePath());
 		$view->assignMultiple(array(
 			'meta' => $this->getMetaData(),

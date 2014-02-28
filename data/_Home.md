@@ -56,14 +56,31 @@ Themes
 ------
 
 The default theme `noshi-website` is stored under `vendor/cundd/noshi-website/`.
-The page template is saved in `vendor/cundd/noshi-website/Resources/Private/Templates/Page.html` and the themes resources under `vendor/cundd/noshi-website/Resources/Public/`.
+The page template is saved in `Resources/Private/Templates/Page.html` and the themes resources under `Resources/Public/`, both relative to the themes path.
 
 The following variables inside the template file will be replaced:
 
 - `{ content }` The current page's content
-- `{ title }` The current page's title (can be read from the page's meta file; i.e.: `About.json`)
 - `{ resourcePath }` The path to the public resources
-- `{ menu }` The navigation menu
+- `{ meta.title }` The current page's title (can be read from the page's meta file; i.e.: `About.json`)
+- `{ Cundd\Noshi\Ui\Menu }` The navigation menu (a simple plugin)
+
+
+Plugins
+-------
+
+### What is a plugin?
+Everything
+
+### Really?
+Okay, actually every class' instance that can be transformed to a string
+
+### Creating a plugin
+Simply create a PHP class, that composer can autoload and require it in your template or the content, in the format `{ Namespace\ClassName }`. NoShi will then unfold an instance of the class and transform it to a string.
+
+If the class implements `\Cundd\Noshi\Ui\UiInterface` to method `setContext()` will be invoked before rendering.
+`setContext()` receives the parent view as it's argument. The parent view's context as an example is the core Dispatcher.
+
 
 
 [logo]: /Resources/Public/Graphics/noshi-logo.png
