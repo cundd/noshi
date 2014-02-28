@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="679b3da6-8e1d-422e-b9a3-feb8613c6aeb" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/UiInterface.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/View.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/AbstractUi.php" afterPath="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/AbstractUi.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php" afterPath="$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php" />
+    <list default="true" id="679b3da6-8e1d-422e-b9a3-feb8613c6aeb" name="Default" comment="Changed the template">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html" afterPath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/View.php" afterPath="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/View.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/_Home.md" afterPath="$PROJECT_DIR$/data/_Home.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.css.map" afterPath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.css.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.css" afterPath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss" afterPath="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="noshi.iws" />
@@ -39,21 +41,46 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="composer.json" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/composer.json">
+      <file leaf-file-name="main.scss" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="0" selection-start="330" selection-end="330" vertical-scroll-proportion="-10.625" vertical-offset="0" max-vertical-offset="345">
-              <folding>
-                <marker date="1393529416000" expanded="true" signature="2:329" placeholder="{&quot;name&quot;: &quot;cundd/noshi-website&quot;...}" />
-              </folding>
+            <state line="173" column="4" selection-start="3678" selection-end="3764" vertical-scroll-proportion="-36.833332" vertical-offset="1711" max-vertical-offset="2760">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.scss" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss">
+      <file leaf-file-name="Page.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="76" column="18" selection-start="1279" selection-end="1279" vertical-scroll-proportion="-15.291667" vertical-offset="773" max-vertical-offset="1515">
+            <state line="34" column="17" selection-start="1049" selection-end="1049" vertical-scroll-proportion="-3.3037975" vertical-offset="249" max-vertical-offset="1215">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_functions.scss" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vendor/zurb/foundation/scss/foundation/_functions.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1530">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_Home.md" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/data/_Home.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="79" column="85" selection-start="1520" selection-end="1520" vertical-scroll-proportion="0.8112294" vertical-offset="347" max-vertical-offset="1410">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_settings.scss" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vendor/zurb/foundation/scss/foundation/_settings.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="155" column="0" selection-start="5189" selection-end="5249" vertical-scroll-proportion="-7.02" vertical-offset="1974" max-vertical-offset="18000">
               <folding />
             </state>
           </provider>
@@ -63,16 +90,10 @@
         <entry file="file://$PROJECT_DIR$/.htaccess">
           <provider selected="true" editor-type-id="text-editor">
             <state line="47" column="37" selection-start="1369" selection-end="1369" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="795">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="composer.json" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/composer.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="43" selection-start="169" selection-end="169" vertical-scroll-proportion="-3.125" vertical-offset="0" max-vertical-offset="390">
-              <folding />
+              <folding>
+                <marker date="1393450289000" expanded="true" signature="282:446" placeholder="&lt;FilesMatch &quot;\.(js|css)$&quot;&gt;" />
+                <marker date="1393450289000" expanded="true" signature="498:1330" placeholder="&lt;IfModule mod_rewrite.c&gt;" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -86,19 +107,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Dispatcher.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="93" column="0" selection-start="1709" selection-end="1709" vertical-scroll-proportion="-1.25" vertical-offset="1260" max-vertical-offset="3195">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="View.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="View.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/View.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="120" column="0" selection-start="2241" selection-end="2241" vertical-scroll-proportion="0.53333336" vertical-offset="1440" max-vertical-offset="2280">
+            <state line="76" column="41" selection-start="1202" selection-end="1202" vertical-scroll-proportion="-18.708334" vertical-offset="691" max-vertical-offset="2415">
               <folding>
                 <element signature="e#6#86#0" expanded="true" />
               </folding>
@@ -112,18 +124,6 @@
             <state line="25" column="6" selection-start="318" selection-end="318" vertical-scroll-proportion="-12.5" vertical-offset="0" max-vertical-offset="465">
               <folding />
             </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="composer.lock" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/composer.lock">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="14" selection-start="1314" selection-end="1314" vertical-scroll-proportion="-19.444445" vertical-offset="0" max-vertical-offset="1950">
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-            <state />
           </provider>
         </entry>
       </file>
@@ -157,15 +157,15 @@
         <option value="$PROJECT_DIR$/vendor/zurb/foundation/scss/foundation/_settings.scss" />
         <option value="$PROJECT_DIR$/composer.lock" />
         <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/composer.json" />
-        <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss" />
         <option value="$PROJECT_DIR$/.htaccess" />
-        <option value="$PROJECT_DIR$/data/_Home.md" />
-        <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html" />
         <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/UiInterface.php" />
         <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/AbstractUi.php" />
         <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/View.php" />
         <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php" />
+        <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss" />
+        <option value="$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html" />
         <option value="$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/View.php" />
+        <option value="$PROJECT_DIR$/data/_Home.md" />
       </list>
     </option>
   </component>
@@ -376,6 +376,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="components" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="noshi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="noshi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vendor" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="erusev" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="parsedown" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -799,7 +821,11 @@
       <created>1393529315631</created>
       <updated>1393529315631</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Refactored the template rendering">
+      <created>1393531792238</created>
+      <updated>1393531792238</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -827,7 +853,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3305709" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3305709" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -867,7 +893,8 @@
     <MESSAGE value="Theme updates" />
     <MESSAGE value="Added .htaccess" />
     <MESSAGE value="Enhanced the documentation&#10;Added piwik to the template" />
-    <option name="LAST_COMMIT_MESSAGE" value="Enhanced the documentation&#10;Added piwik to the template" />
+    <MESSAGE value="Refactored the template rendering" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactored the template rendering" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -885,39 +912,6 @@
     </PATH>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/data/About.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="523" selection-start="1126" selection-end="1126" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="165">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/About.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="120">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="0" selection-start="1545" selection-end="1545" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3255">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="16" selection-start="16" selection-end="16" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="90" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="378" selection-end="378" vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="735">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/Menu.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="25" selection-start="291" selection-end="291" vertical-scroll-proportion="0.0" vertical-offset="300" max-vertical-offset="900">
@@ -1084,16 +1078,6 @@
     <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4512" column="0" selection-start="139091" selection-end="139091" vertical-scroll-proportion="12.885167" vertical-offset="54215" max-vertical-offset="67815">
-          <folding>
-            <element signature="e#50164#50490#1" expanded="false" />
-            <element signature="e#50803#51129#1" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/zurb/foundation/scss/foundation.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="30" selection-start="154" selection-end="154" vertical-scroll-proportion="-3.125" vertical-offset="0" max-vertical-offset="690">
           <folding />
         </state>
       </provider>
@@ -1115,13 +1099,6 @@
     <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Library/foundation-5.1.1/css/foundation.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1450" column="10" selection-start="28953" selection-end="28961" vertical-scroll-proportion="-0.18574297" vertical-offset="21935" max-vertical-offset="78450">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/zurb/foundation/scss/foundation/_settings.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="0" selection-start="1687" selection-end="1849" vertical-scroll-proportion="-36.875" vertical-offset="0" max-vertical-offset="18000">
           <folding />
         </state>
       </provider>
@@ -1154,7 +1131,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="0" selection-start="330" selection-end="330" vertical-scroll-proportion="-10.625" vertical-offset="0" max-vertical-offset="345">
           <folding>
-            <marker date="1393529416000" expanded="true" signature="2:329" placeholder="{&quot;name&quot;: &quot;cundd/noshi-website&quot;...}" />
+            <marker date="1393529416000" expanded="true" signature="-1:-1" placeholder="{&quot;name&quot;: &quot;cundd/noshi-website&quot;...}" />
           </folding>
         </state>
       </provider>
@@ -1166,38 +1143,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="18" selection-start="1279" selection-end="1279" vertical-scroll-proportion="-15.291667" vertical-offset="773" max-vertical-offset="1515">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.htaccess">
       <provider selected="true" editor-type-id="text-editor">
         <state line="47" column="37" selection-start="1369" selection-end="1369" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="795">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/_Home.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="0" selection-start="1316" selection-end="1316" vertical-scroll-proportion="-41.4" vertical-offset="0" max-vertical-offset="1125">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Configuration.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="20" selection-start="857" selection-end="857" vertical-scroll-proportion="3.125" vertical-offset="660" max-vertical-offset="2715">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="9" selection-start="873" selection-end="873" vertical-scroll-proportion="-16.875" vertical-offset="0" max-vertical-offset="1215">
-          <folding />
+          <folding>
+            <marker date="1393450289000" expanded="true" signature="282:446" placeholder="&lt;FilesMatch &quot;\.(js|css)$&quot;&gt;" />
+            <marker date="1393450289000" expanded="true" signature="498:1330" placeholder="&lt;IfModule mod_rewrite.c&gt;" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1222,19 +1174,98 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php">
+    <entry file="file://$PROJECT_DIR$/vendor/zurb/foundation/scss/foundation.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="0" selection-start="1709" selection-end="1709" vertical-scroll-proportion="-1.25" vertical-offset="1260" max-vertical-offset="3195">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="78450">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/zurb/foundation/scss/normalize.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6240">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/zurb/foundation/scss/foundation/components/_grid.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3945">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/erusev/parsedown/Parsedown.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="45" selection-start="687" selection-end="687" vertical-scroll-proportion="0.4787234" vertical-offset="0" max-vertical-offset="20190">
+          <folding>
+            <element signature="e#7#8#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/zurb/foundation/scss/foundation.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="32" selection-start="787" selection-end="787" vertical-scroll-proportion="0.31914893" vertical-offset="0" max-vertical-offset="1034">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/zurb/foundation/scss/foundation/_functions.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1530">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/zurb/foundation/scss/foundation/_settings.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="155" column="0" selection-start="5189" selection-end="5249" vertical-scroll-proportion="-7.02" vertical-offset="1974" max-vertical-offset="18000">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Public/Stylesheets/main.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="173" column="4" selection-start="3678" selection-end="3764" vertical-scroll-proportion="-36.833332" vertical-offset="1711" max-vertical-offset="2760">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Configuration.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="20" selection-start="857" selection-end="857" vertical-scroll-proportion="3.125" vertical-offset="660" max-vertical-offset="2715">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/cundd/noshi-website/Resources/Private/Templates/Page.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="17" selection-start="1049" selection-end="1049" vertical-scroll-proportion="-3.3037975" vertical-offset="249" max-vertical-offset="1215">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Ui/View.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="120" column="0" selection-start="2241" selection-end="2241" vertical-scroll-proportion="0.53333336" vertical-offset="1440" max-vertical-offset="2280">
+        <state line="76" column="41" selection-start="1202" selection-end="1202" vertical-scroll-proportion="-18.708334" vertical-offset="691" max-vertical-offset="2415">
           <folding>
             <element signature="e#6#86#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classes/Cundd/Noshi/Dispatcher.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="84" column="25" selection-start="1450" selection-end="1450" vertical-scroll-proportion="0.37717602" vertical-offset="765" max-vertical-offset="3210">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/_Home.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="79" column="85" selection-start="1520" selection-end="1520" vertical-scroll-proportion="0.8112294" vertical-offset="347" max-vertical-offset="1410">
+          <folding />
         </state>
       </provider>
     </entry>

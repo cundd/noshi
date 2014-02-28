@@ -83,6 +83,7 @@ class View extends AbstractUi implements UiInterface {
 		}
 
 		$expressions = $matches[1];
+		$expressions = array_unique($expressions);
 		foreach ($expressions as $expression) {
 			$renderedExpression = $this->renderExpression($expression);
 			$template = str_replace('{' . $expression . '}', $renderedExpression, $template);
@@ -109,8 +110,10 @@ class View extends AbstractUi implements UiInterface {
 			try {
 				return (string)$newView;
 			} catch (\Exception $exception) {}
-			
+		} else if (substr($expression, 0, 2) === '//') { // Handle expressions like "{//please.output.me}"
+
 		}
+
 		return $this->resolveExpressionKeyPath($expression);
 	}
 
