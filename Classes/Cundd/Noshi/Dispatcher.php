@@ -144,7 +144,7 @@ class Dispatcher {
 		$configuration = ConfigurationManager::getConfiguration();
 		$dataPath      = $configuration->get('basePath') . $configuration->get('dataPath');
 
-		$pageName = $uri;
+		$pageName = urldecode($uri);
 		if ($pageName[0] === '/') {
 			$pageName = substr($pageName, 1);
 		}
