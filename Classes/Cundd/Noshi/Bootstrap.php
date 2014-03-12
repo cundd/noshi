@@ -19,6 +19,7 @@ class Bootstrap {
 	protected $dispatcher;
 
 	function __construct($basePath) {
+
 		if (substr($basePath, -1) !== DIRECTORY_SEPARATOR) {
 			$basePath .= DIRECTORY_SEPARATOR;
 		}

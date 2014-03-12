@@ -8,10 +8,15 @@
 
 namespace Cundd\Noshi\Ui;
 
-
 use Cundd\Noshi\ConfigurationManager;
+use Cundd\Noshi\Domain\Repository\PageRepository;
 
 class Menu extends AbstractUi {
+	/**
+	 * @var PageRepository
+	 */
+	protected $pageRepository;
+
 	/**
 	 * Renders the element
 	 *
@@ -81,10 +86,15 @@ class Menu extends AbstractUi {
 						continue;
 					}
 
-					$pageData = array(
-						'id' => $pageIdentifier,
-						'title' => $pageIdentifier,
+					$page = $this->getPageRepository()->findByIdentifier($pageIdentifier);
+					$pageData = array_merge(
+						array(
+							'id' => $pageIdentifier,
+							'title' => $pageIdentifier,
+						),
+						$page ? $page->getMeta() : array()
 					);
+
 
 					// Check if it is a directory
 					if ($isFolder) {
@@ -98,5 +108,14 @@ class Menu extends AbstractUi {
 			closedir($handle);
 		}
 		return $pages;
+	}
+
+	/**
+	 * Returns the page repository
+	 *
+	 * @return PageRepository
+	 */
+	public function getPageRepository() {
+		return $this->pageRepository ? $this->pageRepository : $this->pageRepository = new PageRepository();
 	}
 }

@@ -9,6 +9,7 @@
 namespace Cundd\Noshi;
 
 
+use Cundd\Noshi\Domain\Repository\PageRepository;
 use Cundd\Noshi\Ui\Menu;
 use Cundd\Noshi\Ui\View;
 use Parsedown;
@@ -141,31 +142,21 @@ class Dispatcher {
 	 * @return Response|NULL
 	 */
 	public function getResponseForUri($uri) {
-		$configuration = ConfigurationManager::getConfiguration();
-		$dataPath      = $configuration->get('basePath') . $configuration->get('dataPath');
-
-		$pageName = urldecode($uri);
-		if ($pageName[0] === '/') {
-			$pageName = substr($pageName, 1);
+		$pageIdentifier = urldecode($uri);
+		if ($pageIdentifier[0] === '/') {
+			$pageIdentifier = substr($pageIdentifier, 1);
 		}
-		if (substr($pageName, -1) === '/') {
-			$pageName = substr($pageName, 0, -1);
+		if (substr($pageIdentifier, -1) === '/') {
+			$pageIdentifier = substr($pageIdentifier, 0, -1);
 		}
 
-		$pageDataPath       = $dataPath . $pageName . '.' . $configuration->get('dataSuffix');
-		$hiddenPageDataPath = $dataPath . '_' . $pageName . '.' . $configuration->get('dataSuffix');
-
-		// Check if the node exists
-		if (!file_exists($pageDataPath)) {
-			if (!file_exists($hiddenPageDataPath)) {
-				return NULL;
-			}
-			$pageDataPath = $hiddenPageDataPath;
+		$pageRepository = new PageRepository();
+		$page = $pageRepository->findByIdentifier($pageIdentifier);
+		if (!$page) {
+			return NULL;
 		}
-
-		$rawPageData = file_get_contents($pageDataPath);
 		return new Response(
-			$this->parseMarkdown($rawPageData)
+			$this->parseMarkdown($page->getRawContent())
 		);
 	}
 
