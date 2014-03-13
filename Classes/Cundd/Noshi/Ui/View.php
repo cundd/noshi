@@ -102,6 +102,9 @@ class View extends AbstractUi implements UiInterface {
 			$viewClass = '\\' . $expression;
 
 			/** @var UiInterface $newView */
+			if (!class_exists($viewClass)) {
+				return '<!-- view class ' . $viewClass . ' not found -->';
+			}
 			$newView = new $viewClass;
 			if ($newView instanceof UiInterface) {
 				$newView->setContext($this);
