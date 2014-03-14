@@ -9,6 +9,8 @@
 namespace Cundd\Noshi;
 
 
+use Cundd\Noshi\Exception\SecurityException;
+
 class Configuration implements \ArrayAccess {
 
 	/**
@@ -41,13 +43,56 @@ class Configuration implements \ArrayAccess {
 			$baseUrl = ''
 				. isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http'
 				. '://'
-				. $_SERVER['HTTP_HOST']
+				. $this->getHost()
 				. '/'
 			;
 		}
 		return $baseUrl;
 	}
 
+	/**
+	 * Returns the sanitized hostname
+	 *
+	 * @throws Exception\SecurityException if the host could not be detected
+	 * @return string
+	 */
+	public function getHost() {
+		$host = '';
+
+		if (isset($_SERVER['SERVER_NAME'])) {
+			$host = $_SERVER['SERVER_NAME'];
+			if (!$this->_validateHost($host)) {
+				$host = '';
+			}
+
+			// Add the port
+			if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT']) {
+				$port = $_SERVER['SERVER_PORT'];
+				if (ctype_digit($port)) {
+					$host .= ':' . $port;
+				}
+			}
+		}
+		if (!$host && isset($_SERVER['HTTP_HOST'])) {
+			$host = $_SERVER['HTTP_HOST'];
+			if (!$this->_validateHost($host)) {
+				$host = '';
+			}
+		}
+		if (!$host) throw new SecurityException('Host could not be detected', 1394796366);
+		return $host;
+	}
+
+	/**
+	 * Returns if the given host is valid
+	 *
+	 * @param string $host
+	 * @return boolean
+	 */
+	protected function _validateHost($host) {
+		// Remove any dot ('.') and colon (':', allowed because of the port)
+		return ctype_alnum(str_replace(array('.', ':'), '', $host));
+	}
 
 	/**
 	 * Returns the path to the configured theme
@@ -178,4 +223,4 @@ class Configuration implements \ArrayAccess {
 	}
 
 
-} 
+}

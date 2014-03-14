@@ -60,13 +60,23 @@ class Dispatcher {
 		$method       = strtoupper($method);
 		$this->method = in_array($method, $methods) ? $method : 'GET';
 
-		$response = $this->getPage();
-		if (!$this->raw) {
-			$response = $this->createTemplateResponse($response);
-		}
+		try {
+			// Get the response
+			$response = $this->getPage();
 
-		echo $response;
-		return $response;
+			if (!$this->raw) {
+				$response = $this->createTemplateResponse($response);
+			}
+
+			// Output the response
+			echo $response;
+			return $response;
+		} catch (\Exception $exception) {
+			$fileHandle = fopen('php://stderr', 'w');
+			fwrite($fileHandle, (string)$exception);
+			echo new Response('An error occurred', 500);
+		}
+		return '';
 	}
 
 	/**
