@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "58e464ea4d4b5871f5cd5f491a6046cb",
+    "hash": "7e16daa3b542cfedae96276b16993a45",
     "packages": [
         {
             "name": "cundd/noshi-website",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cundd/noshi-website.git",
-                "reference": "b92552c987af37d0e1b2e23f99ef7ed4470fc5cb"
+                "reference": "5c9c30736473b3b48856f8f1d789f6f85b9e8548"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cundd/noshi-website/zipball/b92552c987af37d0e1b2e23f99ef7ed4470fc5cb",
-                "reference": "b92552c987af37d0e1b2e23f99ef7ed4470fc5cb",
+                "url": "https://api.github.com/repos/cundd/noshi-website/zipball/5c9c30736473b3b48856f8f1d789f6f85b9e8548",
+                "reference": "5c9c30736473b3b48856f8f1d789f6f85b9e8548",
                 "shasum": ""
             },
             "require": {
@@ -26,7 +26,11 @@
                 "zurb/foundation": "v5.1.1"
             },
             "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload": {
+                "psr-4": {
+                    "Cundd\\NoshiWebsite\\": "Classes/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -37,7 +41,11 @@
                 }
             ],
             "description": "Theme for the NoShi website",
-            "time": "2014-03-11 21:29:48"
+            "support": {
+                "source": "https://github.com/cundd/noshi-website/tree/master",
+                "issues": "https://github.com/cundd/noshi-website/issues"
+            },
+            "time": "2014-03-16 16:44:05"
         },
         {
             "name": "erusev/parsedown",

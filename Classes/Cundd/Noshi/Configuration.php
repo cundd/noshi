@@ -109,7 +109,15 @@ class Configuration implements \ArrayAccess {
 	 * @return string
 	 */
 	public function getThemeUri() {
-		return 'vendor/' . $this->get('theme') . '/';
+		return $this->getBaseUrl() . 'vendor/' . $this->get('theme') . '/';
+	}
+
+	/**
+	 * Returns the URI of the resource directory
+	 * @return string
+	 */
+	public function getResourceDirectoryUri() {
+		return $this->getThemeUri() . $this->get('resourcePath');
 	}
 
 

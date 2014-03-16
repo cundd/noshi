@@ -23,6 +23,13 @@ class Dispatcher {
 	protected $uri = '';
 
 	/**
+	 * Original request URI
+	 *
+	 * @var string
+	 */
+	protected $originalUri = '';
+
+	/**
 	 * Request method
 	 *
 	 * @var string
@@ -51,7 +58,8 @@ class Dispatcher {
 	 * @return Response
 	 */
 	public function dispatch($uri, $method = 'GET') {
-		$this->uri = filter_var($uri, FILTER_SANITIZE_URL);
+		$this->originalUri = filter_var($uri, FILTER_SANITIZE_URL);
+		$this->uri = $this->getAliasForUri($this->originalUri);
 
 		$methods      = array(
 			'GET',
@@ -83,7 +91,6 @@ class Dispatcher {
 	 * @return Response
 	 */
 	public function createTemplateResponse($response) {
-		$configuration = ConfigurationManager::getConfiguration();
 		$page = $this->getPage();
 
 		$view = new View();
@@ -93,7 +100,7 @@ class Dispatcher {
 			'meta' => $page ? $page->getMeta() : array(),
 			'content' => $response->getBody(),
 			'response' => $response,
-			'resourcePath' => $configuration->getBaseUrl() . $configuration->getThemeUri() . $configuration->get('resourcePath'),
+			'resourcePath' => ConfigurationManager::getConfiguration()->getResourceDirectoryUri(),
 
 		));
 		return new Response(
@@ -187,6 +194,20 @@ class Dispatcher {
 
 		$pageRepository = new PageRepository();
 		return $pageRepository->findByIdentifier($pageIdentifier);
+	}
+
+	/**
+	 * Returns the alias for the given URI, or the original URI if no alias is defined
+	 *
+	 * At the current stage this method doesn't do much. It simply returns "/Home/" if the current URI is "/"
+	 *
+	 * @param string $uri
+	 * @return string
+	 */
+	public function getAliasForUri($uri) {
+		$routingConfiguration = ConfigurationManager::getConfiguration()->get('routing');
+		$aliasConfiguration = isset($routingConfiguration['alias']) ? $routingConfiguration['alias'] : array();
+		return isset($aliasConfiguration[$uri]) ? $aliasConfiguration[$uri] : $uri;
 	}
 
 	/**

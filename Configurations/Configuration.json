@@ -1,3 +1,9 @@
 {
-	"theme": "cundd/noshi-website"
+	"theme": "cundd/noshi-website",
+	"routing": {
+		"alias": {
+			"/": "/home/"
+		}
+	}
+
 }

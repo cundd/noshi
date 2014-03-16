@@ -16,5 +16,11 @@
         "psr-0": { 
             "Cundd\\Noshi\\": "Classes/" 
         }
-    }
+    },
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/cundd/noshi-website.git"
+		}
+	]
 }
