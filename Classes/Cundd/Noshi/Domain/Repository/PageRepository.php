@@ -64,7 +64,6 @@ class PageRepository implements PageRepositoryInterface {
 	 */
 	public function getPageNameForPageIdentifier($identifier) {
 		$pageName = urldecode($identifier);
-
 		if ($pageName[0] === '.' || strpos($pageName, '/.') !== FALSE) {
 			throw new InvalidPageIdentifierException('Invalid page identifier');
 		}
@@ -75,10 +74,6 @@ class PageRepository implements PageRepositoryInterface {
 		if (substr($pageName, -1) === '/') {
 			$pageName = substr($pageName, 0, -1);
 		}
-
-
-
-		DebugUtility::debug($identifier);
 		return $pageName;
 	}
 
