@@ -9,8 +9,8 @@
 namespace Cundd\Noshi;
 
 
+use Cundd\Noshi\Domain\Model\Page;
 use Cundd\Noshi\Domain\Repository\PageRepository;
-use Cundd\Noshi\Ui\Menu;
 use Cundd\Noshi\Ui\View;
 use Parsedown;
 
@@ -37,6 +37,13 @@ class Dispatcher {
 	protected $raw = FALSE;
 
 	/**
+	 * Page object for the current URI
+	 *
+	 * @var Page
+	 */
+	protected $page = NULL;
+
+	/**
 	 * Dispatch the given request URI
 	 *
 	 * @param string $uri
@@ -60,7 +67,7 @@ class Dispatcher {
 		$method       = strtoupper($method);
 		$this->method = in_array($method, $methods) ? $method : 'GET';
 
-		$response = $this->getPage();
+		$response = $this->getResponse();
 		if (!$this->raw) {
 			$response = $this->createTemplateResponse($response);
 		}
@@ -77,12 +84,13 @@ class Dispatcher {
 	 */
 	public function createTemplateResponse($response) {
 		$configuration = ConfigurationManager::getConfiguration();
+		$page = $this->getPage();
 
 		$view = new View();
 		$view->setContext($this);
 		$view->setTemplatePath($this->getTemplatePath());
 		$view->assignMultiple(array(
-			'meta' => $this->getMetaData(),
+			'meta' => $page ? $page->getMeta() : array(),
 			'content' => $response->getBody(),
 			'response' => $response,
 			'resourcePath' => $configuration->getBaseUrl() . $configuration->getThemeUri() . $configuration->get('resourcePath'),
@@ -106,17 +114,15 @@ class Dispatcher {
 	}
 
 	/**
-	 * Returns the page data
+	 * Returns the Page object for the current URI
 	 *
-	 * @return mixed
+	 * @return Page
 	 */
 	public function getPage() {
-		$pageUri  = $this->uri === '/' ? '/Home/' : $this->uri;
-		$response = $this->getResponseForUri($pageUri);
-		if (!$response) {
-			$response = $this->getNotFoundPage();
+		if (!$this->page) {
+			$this->page = $this->getPageForUri($this->uri);
 		}
-		return $response;
+		return $this->page;
 	}
 
 	/**
@@ -125,14 +131,27 @@ class Dispatcher {
 	 * @return mixed
 	 */
 	public function getNotFoundPage() {
-		$response = $this->getResponseForUri('/NotFound/');
-		if (!$response) {
-			$response = new Response(
-				'Not found',
-				404
-			);
+		return $this->getPageForUri('/NotFound/');
+	}
+
+	/**
+	 * Returns the response for the current page URI
+	 *
+	 * If the current page URI was not found, the URI "/NotFound/" will be checked
+	 *
+	 * @return Response|NULL
+	 */
+	public function getResponse() {
+		$statusCode = 200;
+		$page = $this->getPage();
+		if (!$page) {
+			$statusCode = 404;
+			$page = $this->getNotFoundPage();
 		}
-		return $response;
+		return new Response(
+			$page ? $this->parseMarkdown($page->getRawContent()) : 'Not found',
+			$statusCode
+		);
 	}
 
 	/**
@@ -141,17 +160,8 @@ class Dispatcher {
 	 * @param string $uri
 	 * @return Response|NULL
 	 */
-	public function getResponseForUri($uri) {
-		$pageIdentifier = urldecode($uri);
-		if ($pageIdentifier[0] === '/') {
-			$pageIdentifier = substr($pageIdentifier, 1);
-		}
-		if (substr($pageIdentifier, -1) === '/') {
-			$pageIdentifier = substr($pageIdentifier, 0, -1);
-		}
-
-		$pageRepository = new PageRepository();
-		$page = $pageRepository->findByIdentifier($pageIdentifier);
+	public function buildResponseForUri($uri) {
+		$page = $this->getPageForUri($uri);
 		if (!$page) {
 			return NULL;
 		}
@@ -161,36 +171,22 @@ class Dispatcher {
 	}
 
 	/**
-	 * Returns the meta data for the page URI or an empty array if no data was found
-	 *
-	 * @return array
-	 */
-	public function getMetaData() {
-		$pageUri  = $this->uri === '/' ? '/Home/' : $this->uri;
-		$metaData = $this->getMetaDataForUri($pageUri);
-		return $metaData ? $metaData : ConfigurationManager::getConfiguration()->get('metaData');
-	}
-
-	/**
-	 * Returns the meta data for the page URI or an empty array if no data was found
+	 * Returns the Page for the page URI or NULL if no data was found
 	 *
 	 * @param string $uri
-	 * @return array
+	 * @return Page
 	 */
-	public function getMetaDataForUri($uri) {
-		$configuration = ConfigurationManager::getConfiguration();
-		$dataPath      = $configuration->get('basePath') . $configuration->get('dataPath');
-
-		$pageURI      = $dataPath . substr($uri, 1);
-		$metaDataPath = substr($pageURI, 0, -1) . '.json';
-
-		// Check if the node exists
-		if (!file_exists($metaDataPath)) {
-			return array();
+	public function getPageForUri($uri) {
+		$pageIdentifier = urldecode($uri);
+		if ($pageIdentifier[0] === '/') {
+			$pageIdentifier = substr($pageIdentifier, 1);
+		}
+		if (substr($pageIdentifier, -1) === '/') {
+			$pageIdentifier = substr($pageIdentifier, 0, -1);
 		}
 
-		$rawMetaData = file_get_contents($metaDataPath);
-		return json_decode($rawMetaData, TRUE);
+		$pageRepository = new PageRepository();
+		return $pageRepository->findByIdentifier($pageIdentifier);
 	}
 
 	/**

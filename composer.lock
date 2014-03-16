@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cundd/noshi-website.git",
-                "reference": "5269469dcd44e452d07da87f89267d394a50f8d9"
+                "reference": "b92552c987af37d0e1b2e23f99ef7ed4470fc5cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cundd/noshi-website/zipball/5269469dcd44e452d07da87f89267d394a50f8d9",
-                "reference": "5269469dcd44e452d07da87f89267d394a50f8d9",
+                "url": "https://api.github.com/repos/cundd/noshi-website/zipball/b92552c987af37d0e1b2e23f99ef7ed4470fc5cb",
+                "reference": "b92552c987af37d0e1b2e23f99ef7ed4470fc5cb",
                 "shasum": ""
             },
             "require": {
@@ -37,7 +37,7 @@
                 }
             ],
             "description": "Theme for the NoShi website",
-            "time": "2014-02-27 20:09:52"
+            "time": "2014-03-11 21:29:48"
         },
         {
             "name": "erusev/parsedown",
@@ -45,12 +45,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-                "reference": "886c6204400cd590aa2ad94353052da5ee6bf4ea"
+                "reference": "7ef45894a7264ba5946d34caa61e7f0d83ed9dc0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/886c6204400cd590aa2ad94353052da5ee6bf4ea",
-                "reference": "886c6204400cd590aa2ad94353052da5ee6bf4ea",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/7ef45894a7264ba5946d34caa61e7f0d83ed9dc0",
+                "reference": "7ef45894a7264ba5946d34caa61e7f0d83ed9dc0",
                 "shasum": ""
             },
             "type": "library",
@@ -76,7 +76,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2014-02-27 12:14:14"
+            "time": "2014-02-28 12:05:10"
         }
     ],
     "packages-dev": [

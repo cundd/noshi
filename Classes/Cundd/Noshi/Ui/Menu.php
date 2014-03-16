@@ -8,7 +8,6 @@
 
 namespace Cundd\Noshi\Ui;
 
-use Cundd\Noshi\ConfigurationManager;
 use Cundd\Noshi\Domain\Repository\PageRepository;
 
 class Menu extends AbstractUi {
@@ -23,7 +22,7 @@ class Menu extends AbstractUi {
 	 * @return string
 	 */
 	public function render() {
-		$pages = $this->getPages();
+		$pages = $this->getPageTree();
 		return $this->renderPages($pages);
 	}
 
@@ -53,61 +52,8 @@ class Menu extends AbstractUi {
 	 *
 	 * @return array<string>
 	 */
-	public function getPages() {
-		$configuration = ConfigurationManager::getConfiguration();
-		$dataPath = $configuration->get('basePath') . $configuration->get('dataPath');
-		return $this->getPagesForPath($dataPath);
-	}
-
-	/**
-	 * Returns all available pages for the given path
-	 *
-	 * @param string $path
-	 * @param string $uriBase
-	 * @return array
-	 */
-	public function getPagesForPath($path, $uriBase = '') {
-		$pages = array();
-		if ($handle = opendir($path)) {
-
-			while (FALSE !== ($file = readdir($handle))) {
-				if ($file != '.' && $file != '..') {
-					$pageIdentifier = substr($file, 0, strrpos($file, '.'));
-					$pageIdentifier = $pageIdentifier ? $pageIdentifier : $file;
-					$uri = ($uriBase ? $uriBase . '/' : '') . urlencode($pageIdentifier);
-					$isFolder = strpos($file, '.') === FALSE;
-
-					// Skip hidden items
-					if ($file[0] === '_') {
-						continue;
-					}
-
-					if (isset($pages[$uri]['children'])) {
-						continue;
-					}
-
-					$page = $this->getPageRepository()->findByIdentifier($pageIdentifier);
-					$pageData = array_merge(
-						array(
-							'id' => $pageIdentifier,
-							'title' => $pageIdentifier,
-						),
-						$page ? $page->getMeta() : array()
-					);
-
-
-					// Check if it is a directory
-					if ($isFolder) {
-						$pageData['children'] = $this->getPagesForPath($path . $file . DIRECTORY_SEPARATOR, $uri);
-					} else {
-						$pageData['uri'] = DIRECTORY_SEPARATOR . $uri . DIRECTORY_SEPARATOR;
-					}
-					$pages[$uri] = $pageData;
-				}
-			}
-			closedir($handle);
-		}
-		return $pages;
+	public function getPageTree() {
+		return $this->getPageRepository()->getPageTree();
 	}
 
 	/**
