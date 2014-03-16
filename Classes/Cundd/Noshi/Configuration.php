@@ -12,6 +12,10 @@ namespace Cundd\Noshi;
 use Cundd\Noshi\Exception\SecurityException;
 
 class Configuration implements \ArrayAccess {
+	/**
+	 * @var bool
+	 */
+	protected $_useVendorDirectory = TRUE;
 
 	/**
 	 * @var array
@@ -30,6 +34,7 @@ class Configuration implements \ArrayAccess {
 
 	function __construct($configuration = array()) {
 		$this->configuration = array_merge($this->configuration, (array)$configuration);
+		$this->_useVendorDirectory = file_exists($this->getThemePath());
 	}
 
 	/**
@@ -100,7 +105,9 @@ class Configuration implements \ArrayAccess {
 	 * @return string
 	 */
 	public function getThemePath() {
-		return $this->get('basePath') . 'vendor/' . $this->get('theme') . '/';
+		return $this->get('basePath') .
+			($this->_useVendorDirectory ? 'vendor/' . $this->get('theme') : '')
+			. '/';
 	}
 
 	/**
@@ -109,7 +116,9 @@ class Configuration implements \ArrayAccess {
 	 * @return string
 	 */
 	public function getThemeUri() {
-		return $this->getBaseUrl() . 'vendor/' . $this->get('theme') . '/';
+		return $this->getBaseUrl() .
+			($this->_useVendorDirectory ? 'vendor/' . $this->get('theme') : '')
+			. '/';
 	}
 
 	/**
