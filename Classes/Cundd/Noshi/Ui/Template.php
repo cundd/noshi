@@ -1,0 +1,149 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: daniel
+ * Date: 16.03.14
+ * Time: 18:46
+ */
+
+namespace Cundd\Noshi\Ui;
+
+/**
+ * A simple template
+ *
+ * @package Cundd\Noshi\Ui
+ */
+class Template extends AbstractUi {
+	/**
+	 * Data
+	 *
+	 * @var array
+	 */
+	protected $data = array();
+
+	/**
+	 * Raw template data to be parsed
+	 *
+	 * @var string
+	 */
+	protected $template = '';
+
+	/**
+	 * Assign value for variable key
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 * @return $this
+	 */
+	public function assign($key, $value) {
+		$this->data[$key] = $value;
+		return $this;
+	}
+
+	/**
+	 * Assign multiple values
+	 *
+	 * @param array $values
+	 * @return $this
+	 */
+	public function assignMultiple($values) {
+		$this->data = array_merge($this->data, (array) $values);
+	}
+
+	/**
+	 * Renders the template
+	 *
+	 * @return string
+	 */
+	public function render() {
+		$template = $this->getTemplate();
+
+		// Find the expressions
+		$matches = array();
+		if (!preg_match_all('!\{([\w\.\\\]*)\}!', $template, $matches)) {
+			return $template;
+		}
+
+		$expressions = $matches[1];
+		$expressions = array_unique($expressions);
+		foreach ($expressions as $expression) {
+			$renderedExpression = $this->renderExpression($expression);
+			$template = str_replace('{' . $expression . '}', $renderedExpression, $template);
+		}
+		return $template;
+	}
+
+	/**
+	 * Renders the given expression
+	 *
+	 * @param string $expression
+	 * @return string
+	 */
+	public function renderExpression($expression) {
+		if (strpos($expression, '\\') !== FALSE) {
+			$viewClass = '\\' . $expression;
+
+			/** @var UiInterface $newView */
+			if (!class_exists($viewClass)) {
+				return '<!-- view class ' . $viewClass . ' not found -->';
+			}
+			$newView = new $viewClass;
+			if ($newView instanceof UiInterface) {
+				$newView->setContext($this);
+				return $newView->render();
+			}
+			try {
+				return (string)$newView;
+			} catch (\Exception $exception) {}
+		} else if (substr($expression, 0, 2) === '//') { // Handle expressions like "{//please.output.me}"
+
+		}
+
+		return $this->resolveExpressionKeyPath($expression);
+	}
+
+	/**
+	 * Returns the assigned variable value
+	 *
+	 * @param string $keyPath
+	 * @return string
+	 */
+	public function resolveExpressionKeyPath($keyPath) {
+		if (isset($this->data[$keyPath])) {
+			return $this->data[$keyPath];
+		}
+
+		$keyPathParts = explode('.', $keyPath);
+		$currentObject = $this->data;
+		foreach ($keyPathParts as $key) {
+			if (is_array($currentObject) && isset($currentObject[$key])) {
+				$currentObject = $currentObject[$key];
+			} else if (is_object($currentObject)) {
+				$currentObject = property_exists($currentObject, $key) ? $currentObject->$key : '';
+			} else {
+				return '';
+			}
+		}
+		return $currentObject;
+	}
+
+	/**
+	 * Returns the raw template
+	 *
+	 * @return string
+	 */
+	public function getTemplate() {
+		return $this->template;
+	}
+
+	/**
+	 * Sets the raw template
+	 *
+	 * @param string $template
+	 * @return $this
+	 */
+	public function setTemplate($template) {
+		$this->template = $template;
+		return $this;
+	}
+}

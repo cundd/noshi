@@ -10,7 +10,9 @@ namespace Cundd\Noshi\Domain\Repository;
 
 
 use Cundd\Noshi\ConfigurationManager;
+use Cundd\Noshi\Domain\Exception\InvalidPageIdentifierException;
 use Cundd\Noshi\Domain\Model\Page;
+use Cundd\Noshi\Utilities\DebugUtility;
 
 class PageRepository implements PageRepositoryInterface {
 	/**
@@ -37,7 +39,6 @@ class PageRepository implements PageRepositoryInterface {
 		$configuration = ConfigurationManager::getConfiguration();
 		$dataPath      = $configuration->get('basePath') . $configuration->get('dataPath');
 
-
 		$pageName           = $this->getPageNameForPageIdentifier($identifier);
 		$pageDataPath       = $dataPath . $pageName . '.' . $configuration->get('dataSuffix');
 		$hiddenPageDataPath = $dataPath . '_' . $pageName . '.' . $configuration->get('dataSuffix');
@@ -58,16 +59,26 @@ class PageRepository implements PageRepositoryInterface {
 	 * Returns the page file name for the given page identifier
 	 *
 	 * @param string $identifier
+	 * @throws \Cundd\Noshi\Domain\Exception\InvalidPageIdentifierException if the given page identifier is invalid
 	 * @return string
 	 */
 	public function getPageNameForPageIdentifier($identifier) {
 		$pageName = urldecode($identifier);
+
+		if ($pageName[0] === '.' || strpos($pageName, '/.') !== FALSE) {
+			throw new InvalidPageIdentifierException('Invalid page identifier');
+		}
+
 		if ($pageName[0] === '/') {
 			$pageName = substr($pageName, 1);
 		}
 		if (substr($pageName, -1) === '/') {
 			$pageName = substr($pageName, 0, -1);
 		}
+
+
+
+		DebugUtility::debug($identifier);
 		return $pageName;
 	}
 
@@ -138,8 +149,13 @@ class PageRepository implements PageRepositoryInterface {
 					$uri = ($uriBase ? $uriBase . '/' : '') . urlencode($pageIdentifier);
 					$isFolder = strpos($file, '.') === FALSE;
 
-					// Skip hidden items
+					// Skip hidden pages
 					if ($file[0] === '_') {
+						continue;
+					}
+
+					// Skip hidden items
+					if ($file[0] === '.') {
 						continue;
 					}
 
