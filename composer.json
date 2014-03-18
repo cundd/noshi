@@ -2,8 +2,7 @@
     "name": "cundd/noshi",
     "description": "The no shi* CMS",
     "require": {
-        "erusev/parsedown": "dev-master",
-        "cundd/noshi-website": "dev-master"
+        "erusev/parsedown": "dev-master"
     },
 	"license": "MIT",
     "authors": [
@@ -16,11 +15,5 @@
         "psr-0": { 
             "Cundd\\Noshi\\": "Classes/" 
         }
-    },
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "https://github.com/cundd/noshi-website.git"
-		}
-	]
+    }
 }

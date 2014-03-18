@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "7e16daa3b542cfedae96276b16993a45",
+    "hash": "65854a5ad82be2a302ea944c938bbb2b",
     "packages": [
         {
             "name": "cundd/noshi-website",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/cundd/noshi-website.git",
-                "reference": "5c9c30736473b3b48856f8f1d789f6f85b9e8548"
+                "reference": "a2c63fbe0c9990329ef157f2dc42348c3aac6365"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cundd/noshi-website/zipball/5c9c30736473b3b48856f8f1d789f6f85b9e8548",
-                "reference": "5c9c30736473b3b48856f8f1d789f6f85b9e8548",
+                "url": "https://api.github.com/repos/cundd/noshi-website/zipball/a2c63fbe0c9990329ef157f2dc42348c3aac6365",
+                "reference": "a2c63fbe0c9990329ef157f2dc42348c3aac6365",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 "source": "https://github.com/cundd/noshi-website/tree/master",
                 "issues": "https://github.com/cundd/noshi-website/issues"
             },
-            "time": "2014-03-16 16:44:05"
+            "time": "2014-03-16 18:33:09"
         },
         {
             "name": "erusev/parsedown",
@@ -88,7 +88,33 @@
         }
     ],
     "packages-dev": [
-
+        {
+            "name": "zurb/foundation",
+            "version": "v5.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zurb/foundation.git",
+                "reference": "564eb05ff07085931c80c7caba60dbb9ab2ea6c9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zurb/foundation/zipball/564eb05ff07085931c80c7caba60dbb9ab2ea6c9",
+                "reference": "564eb05ff07085931c80c7caba60dbb9ab2ea6c9",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The most advanced responsive front-end framework in the world.",
+            "homepage": "http://foundation.zurb.com",
+            "keywords": [
+                "foundation",
+                "scss"
+            ],
+            "time": "2014-02-06 23:50:38"
+        }
     ],
     "aliases": [
 
