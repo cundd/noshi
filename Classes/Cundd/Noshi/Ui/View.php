@@ -48,6 +48,6 @@ class View extends Template implements UiInterface {
 		if (file_exists($this->templatePath)) {
 			return file_get_contents($this->templatePath);
 		}
-		return '<!-- Template not found -->' . PHP_EOL . '{content}';
+		return '<!-- Template file ' . $this->templatePath . ' not found -->' . PHP_EOL . '{content}';
 	}
 }
