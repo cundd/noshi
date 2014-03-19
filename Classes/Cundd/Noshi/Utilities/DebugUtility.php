@@ -17,16 +17,14 @@ class DebugUtility {
 	 */
 	static public function debug($variable){
 		echo PHP_EOL;
-		echo '<pre>';
+		echo '<pre class="noshi-debug"><code>';
 
 		$variables = func_get_args();
 		foreach ($variables as $variable) {
 			var_dump($variable);
 			echo PHP_EOL;
 		}
-
-
-		echo '</pre>';
+		echo '</code></pre>';
 		echo PHP_EOL;
 	}
 } 

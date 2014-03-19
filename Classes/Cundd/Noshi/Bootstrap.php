@@ -9,6 +9,8 @@
 namespace Cundd\Noshi;
 
 
+use Cundd\Noshi\Utilities\Profiler;
+
 class Bootstrap {
 
 	/**
@@ -19,11 +21,11 @@ class Bootstrap {
 	protected $dispatcher;
 
 	function __construct($basePath) {
-
 		if (substr($basePath, -1) !== DIRECTORY_SEPARATOR) {
 			$basePath .= DIRECTORY_SEPARATOR;
 		}
 		ConfigurationManager::initializeConfiguration($basePath);
+		Profiler::start();
 	}
 
 	/**

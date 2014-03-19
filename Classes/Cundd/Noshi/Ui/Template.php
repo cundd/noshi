@@ -7,6 +7,7 @@
  */
 
 namespace Cundd\Noshi\Ui;
+use Cundd\Noshi\Utilities\ObjectUtility;
 
 /**
  * A simple template
@@ -112,19 +113,7 @@ class Template extends AbstractUi {
 		if (isset($this->data[$keyPath])) {
 			return $this->data[$keyPath];
 		}
-
-		$keyPathParts = explode('.', $keyPath);
-		$currentObject = $this->data;
-		foreach ($keyPathParts as $key) {
-			if (is_array($currentObject) && isset($currentObject[$key])) {
-				$currentObject = $currentObject[$key];
-			} else if (is_object($currentObject)) {
-				$currentObject = property_exists($currentObject, $key) ? $currentObject->$key : '';
-			} else {
-				return '';
-			}
-		}
-		return $currentObject;
+		return ObjectUtility::valueForKeyPathOfObject($keyPath, $this->data);
 	}
 
 	/**
