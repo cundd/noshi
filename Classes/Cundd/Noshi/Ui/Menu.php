@@ -8,7 +8,9 @@
 
 namespace Cundd\Noshi\Ui;
 
+use Cundd\Noshi\Domain\Model\Page;
 use Cundd\Noshi\Domain\Repository\PageRepository;
+use Cundd\Noshi\Utilities\DebugUtility;
 
 class Menu extends AbstractUi {
 	/**
@@ -32,14 +34,24 @@ class Menu extends AbstractUi {
 	 */
 	public function renderPages($pages) {
 		$output = '<ul>';
-		foreach ($pages as $page) {
-			$title = $page['title'];
-			$uri = isset($page['uri']) ? $page['uri'] : '#';
+		foreach ($pages as $pageData) {
+			$uri = '#';
+			$title = '';
+			if (isset($pageData['page']) && $pageData['page']) { // Page object
+				/** @var Page $page */
+				$page = $pageData['page'];
+				$uri = $page->getUri();
+				$title = $page->getTitle();
+				DebugUtility::debug($title, 'Page');
+			} else { // Directory array
+				$title = $pageData['title'];
+				DebugUtility::debug($title, 'Directory');
+			}
 
 			$output .= '<li>';
 			$output .= '<a href="' . $uri . '">' . $title . '</a>';
-			if (isset($page['children']) && $page['children']) {
-				$output .= $this->renderPages($page['children']);
+			if (isset($pageData['children']) && $pageData['children']) {
+				$output .= $this->renderPages($pageData['children']);
 			}
 			$output .= '</li>';
 		}

@@ -29,6 +29,8 @@ class PageRepository implements PageRepositoryInterface {
 	 */
 	protected $allPages = array();
 
+	const DEFAULT_SORTING = 9000;
+
 	/**
 	 * Find the page with tie given identifier
 	 *
@@ -52,7 +54,7 @@ class PageRepository implements PageRepositoryInterface {
 		}
 
 		$rawPageData = file_get_contents($pageDataPath);
-		return new Page($rawPageData, $this->buildMetaDataForPageIdentifier($identifier));
+		return new Page($identifier, $rawPageData, $this->buildMetaDataForPageIdentifier($identifier));
 	}
 
 	/**
@@ -90,9 +92,7 @@ class PageRepository implements PageRepositoryInterface {
 		$metaDataPath  = $dataPath . $pageName . '.json';
 
 		// Check if the node exists
-		$metaData = array(
-			'title' => $pageName
-		);
+		$metaData = array();
 
 		if (file_exists($metaDataPath)) {
 			$rawMetaData = file_get_contents($metaDataPath);
@@ -120,8 +120,8 @@ class PageRepository implements PageRepositoryInterface {
 	 */
 	public function getPageTree() {
 		if (!$this->pageTree) {
-			$configuration = ConfigurationManager::getConfiguration();
-			$dataPath = $configuration->get('basePath') . $configuration->get('dataPath');
+			$configuration  = ConfigurationManager::getConfiguration();
+			$dataPath       = $configuration->get('basePath') . $configuration->get('dataPath');
 			$this->pageTree = $this->getPagesForPath($dataPath);
 		}
 		return $this->pageTree;
@@ -135,78 +135,127 @@ class PageRepository implements PageRepositoryInterface {
 	 * @return array
 	 */
 	public function getPagesForPath($path, $uriBase = '') {
-		$pages = array();
-		$tempAllPagesWithSorting = array();
+		$pages              = array();
+		$pagesSortingMap    = array();
+		$pagesIdentifierMap = array();
 		if ($handle = opendir($path)) {
 
-			$dataSuffix = '.' . ConfigurationManager::getConfiguration()->get('dataSuffix');
+			$dataSuffix       = '.' . ConfigurationManager::getConfiguration()->get('dataSuffix');
 			$dataSuffixLength = strlen($dataSuffix);
 
 			while (FALSE !== ($file = readdir($handle))) {
 				// Skip the current file if the first character is a dot
 				if ($file[0] === '.') continue;
 
+				// Skip hidden pages
+				if ($file[0] === '_') continue;
+
 				$isFolder = strpos($file, '.') === FALSE;
-				$isPage = substr($file, -$dataSuffixLength) === $dataSuffix;
+				$isPage   = substr($file, -$dataSuffixLength) === $dataSuffix;
 
-				if ($isFolder || $isPage) {
-					$pageIdentifier = substr($file, 0, strrpos($file, '.'));
+				$relativePageIdentifier = substr($file, 0, strrpos($file, '.'));
+				$pageIdentifier         = ($uriBase ? $uriBase . '/' : '') . ($relativePageIdentifier ? $relativePageIdentifier : $file);
 
-					$pageIdentifier = $pageIdentifier ? $pageIdentifier : $file;
-					$uri = ($uriBase ? $uriBase . '/' : '') . urlencode($pageIdentifier);
-
-					// Skip hidden pages
-					if ($file[0] === '_') {
-						continue;
-					}
-
-					if (isset($pages[$uri]['children'])) {
-						continue;
-					}
-
+				if ($isPage) {
 					/** @var Page $page */
 					$page = $this->findByIdentifier($pageIdentifier);
+					$sorting           = $page->getSorting();
+					$sortingDescriptor = sprintf('%05d-%s', $sorting, $pageIdentifier);
 
-					$sorting = ($page ? $page->getSorting() : 'auto');
-
-					// Add the page to the list pages
-					$tempAllPagesWithSorting[$sorting] = array(
-						'id' => $pageIdentifier,
-						'page' => $page,
-						'sorting' => $sorting,
-					);
-
-					// Build the page data
+					/*
+					 * Build the page data merged with previous definitions
+					 * Page definition is more important than the Directory definition
+					 */
 					$pageData = array_merge(
+						(isset($pagesIdentifierMap[$pageIdentifier]) ? $pagesIdentifierMap[$pageIdentifier] : array()),
 						array(
-							'id' => $pageIdentifier,
-							'title' => $pageIdentifier,
-						),
-						$page ? $page->getMeta() : array()
+							'id'                 => $pageIdentifier,
+							'page'               => $page,
+							'sorting'            => $sorting,
+							'sorting_descriptor' => $sortingDescriptor
+						)
 					);
+					unset($pagesSortingMap[sprintf('%05d-%s', self::DEFAULT_SORTING, $pageIdentifier)]);
+					$pagesSortingMap[$sortingDescriptor] = $pageData;
+					$pagesIdentifierMap[$pageIdentifier] = $pageData;
+				} else if ($isFolder) {
+					$oldPageData = (isset($pagesIdentifierMap[$pageIdentifier]) ? $pagesIdentifierMap[$pageIdentifier] : array());
 
-					// Check if it is a directory
-					if ($isFolder) {
-						$pageData['children'] = $this->getPagesForPath($path . $file . DIRECTORY_SEPARATOR, $uri);
-					} else {
-						$pageData['uri'] = DIRECTORY_SEPARATOR . $uri . DIRECTORY_SEPARATOR;
-					}
-					$pages[$sorting] = $pageData;
+					$sorting           = $oldPageData ? $oldPageData['sorting'] : self::DEFAULT_SORTING;
+					$sortingDescriptor = sprintf('%05d-%s', $sorting, $pageIdentifier);
+
+					/*
+					 * Build the page data merged with previous definitions
+					 * Page definition is more important than the Directory definition
+					 */
+					$pageData = array_merge(
+						(isset($pagesIdentifierMap[$pageIdentifier]) ? $pagesIdentifierMap[$pageIdentifier] : array()),
+						array(
+							'id'                 => $pageIdentifier,
+							'page'               => NULL,
+							'title'              => $pageIdentifier,
+							'sorting'            => $sorting,
+							'sorting_descriptor' => $sortingDescriptor,
+							'children'           => $this->getPagesForPath($path . $file . DIRECTORY_SEPARATOR, $pageIdentifier),
+						)
+					);
+					$pagesSortingMap[$sortingDescriptor] = $pageData;
+					$pagesIdentifierMap[$pageIdentifier] = $pageData;
 				}
+
+//				if ($isFolder || $isPage) {
+//
+//
+//
+//
+//					if (isset($pages[$uri]['children'])) {
+//						continue;
+//					}
+//
+//					/** @var Page $page */
+//					$page = $this->findByIdentifier($pageIdentifier);
+//
+//					$sorting = ($page ? $page->getSorting() : 'auto');
+//
+//					// Add the page to the list pages
+//					$tempAllPagesWithSorting[$sorting] = array(
+//						'id' => $pageIdentifier,
+//						'page' => $page,
+//						'sorting' => $sorting,
+//					);
+//
+//					// Build the page data
+//					$pageData = array_merge(
+//						array(
+//							'id' => $pageIdentifier,
+//							'title' => $pageIdentifier,
+//						),
+//						$page ? $page->getMeta() : array()
+//					);
+//
+//					// Check if it is a directory
+//					if ($isFolder) {
+//						$pageData['children'] = $this->getPagesForPath($path . $file . DIRECTORY_SEPARATOR, $uri);
+//					} else {
+//						$pageData['uri'] = DIRECTORY_SEPARATOR . $uri . DIRECTORY_SEPARATOR;
+//					}
+//					$pages[$sorting] = $pageData;
+//				}
 			}
 			closedir($handle);
 		}
 
 		// Add the page to the list pages
-		ksort($tempAllPagesWithSorting, SORT_NUMERIC);
+		ksort($pagesSortingMap, SORT_NUMERIC);
 
-		$tempAllPages = array();
-		foreach ($tempAllPagesWithSorting as $pageWithSorting) {
-			$tempAllPages[$pageWithSorting['id']] = $pageWithSorting['page'];
+		$tempPages = array();
+		foreach ($pagesSortingMap as $pageWithSorting) {
+			$tempPages[$pageWithSorting['id']] = $pageWithSorting['page'];
 		}
-		$this->allPages = array_merge($this->allPages, $tempAllPages);
+		$this->allPages = array_merge($this->allPages, $tempPages);
 
 		ksort($pages, SORT_NUMERIC);
-		return $pages;
+		return $pagesSortingMap;
+		return $pagesSortingMap;
 	}
 } 
