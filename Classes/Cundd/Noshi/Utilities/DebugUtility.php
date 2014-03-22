@@ -21,9 +21,6 @@ class DebugUtility {
 
 		echo PHP_EOL;
 		echo '<pre class="noshi-debug"><code>';
-
-		var_dump($caller);
-
 		$variables = func_get_args();
 		foreach ($variables as $variable) {
 			var_dump($variable);

@@ -13,6 +13,7 @@ use Cundd\Noshi\ConfigurationManager;
 use Cundd\Noshi\Domain\Exception\InvalidPageIdentifierException;
 use Cundd\Noshi\Domain\Model\Page;
 use Cundd\Noshi\Utilities\DebugUtility;
+use Cundd\Noshi\Utilities\ObjectUtility;
 
 class PageRepository implements PageRepositoryInterface {
 	/**
@@ -82,6 +83,9 @@ class PageRepository implements PageRepositoryInterface {
 	/**
 	 * Returns the meta data for the given page identifier
 	 *
+	 * The meta data is read from the global configuration and the page's config file (i.e. 'PageName.json'), whilst the
+	 * page config takes precedence.
+	 *
 	 * @param string $identifier
 	 * @return array
 	 */
@@ -91,9 +95,12 @@ class PageRepository implements PageRepositoryInterface {
 		$pageName      = $this->getPageNameForPageIdentifier($identifier);
 		$metaDataPath  = $dataPath . $pageName . '.json';
 
-		// Check if the node exists
-		$metaData = array();
+//		DebugUtility::debug($identifier);
 
+		// Read the global configuration
+		$metaData = ObjectUtility::valueForKeyPathOfObject("page.$identifier.meta", $configuration, array());
+
+		// Check if the node exists
 		if (file_exists($metaDataPath)) {
 			$rawMetaData = file_get_contents($metaDataPath);
 			$metaData    = array_merge($metaData, (array)json_decode($rawMetaData, TRUE));
@@ -202,45 +209,6 @@ class PageRepository implements PageRepositoryInterface {
 					$pagesSortingMap[$sortingDescriptor] = $pageData;
 					$pagesIdentifierMap[$pageIdentifier] = $pageData;
 				}
-
-//				if ($isFolder || $isPage) {
-//
-//
-//
-//
-//					if (isset($pages[$uri]['children'])) {
-//						continue;
-//					}
-//
-//					/** @var Page $page */
-//					$page = $this->findByIdentifier($pageIdentifier);
-//
-//					$sorting = ($page ? $page->getSorting() : 'auto');
-//
-//					// Add the page to the list pages
-//					$tempAllPagesWithSorting[$sorting] = array(
-//						'id' => $pageIdentifier,
-//						'page' => $page,
-//						'sorting' => $sorting,
-//					);
-//
-//					// Build the page data
-//					$pageData = array_merge(
-//						array(
-//							'id' => $pageIdentifier,
-//							'title' => $pageIdentifier,
-//						),
-//						$page ? $page->getMeta() : array()
-//					);
-//
-//					// Check if it is a directory
-//					if ($isFolder) {
-//						$pageData['children'] = $this->getPagesForPath($path . $file . DIRECTORY_SEPARATOR, $uri);
-//					} else {
-//						$pageData['uri'] = DIRECTORY_SEPARATOR . $uri . DIRECTORY_SEPARATOR;
-//					}
-//					$pages[$sorting] = $pageData;
-//				}
 			}
 			closedir($handle);
 		}
@@ -255,7 +223,6 @@ class PageRepository implements PageRepositoryInterface {
 		$this->allPages = array_merge($this->allPages, $tempPages);
 
 		ksort($pages, SORT_NUMERIC);
-		return $pagesSortingMap;
 		return $pagesSortingMap;
 	}
 } 
