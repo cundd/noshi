@@ -4,6 +4,7 @@
     "require": {
         "erusev/parsedown": "dev-master"
     },
+	"bin": ["bin/noshi", "bin/noshi-server"],
 	"license": "MIT",
     "authors": [
         {
