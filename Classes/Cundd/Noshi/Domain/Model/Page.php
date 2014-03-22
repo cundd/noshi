@@ -16,6 +16,8 @@ use Cundd\Noshi\Utilities\ObjectUtility;
  * @package Cundd\Noshi\Domain\Model
  */
 class Page {
+	const DEFAULT_SORTING = 9000;
+
 	/**
 	 * @var string
 	 */
@@ -33,7 +35,7 @@ class Page {
 	 *
 	 * @var string
 	 */
-	protected $rawContent = '';
+	protected $rawContent = NULL;
 
 	/**
 	 * Sorting position in a menu
@@ -41,6 +43,13 @@ class Page {
 	 * @var int
 	 */
 	protected $sorting;
+
+	/**
+	 * Defines if the Page is a directory
+	 *
+	 * @var bool
+	 */
+	protected $isDirectory = FALSE;
 
 	/**
 	 * Page URI
@@ -56,6 +65,8 @@ class Page {
 	}
 
 	/**
+	 * Sets the page's unique identifier
+	 *
 	 * @param string $identifier
 	 * @return $this
 	 */
@@ -65,6 +76,8 @@ class Page {
 	}
 
 	/**
+	 * Returns the page's unique identifier
+	 *
 	 * @return string
 	 */
 	public function getIdentifier() {
@@ -72,6 +85,8 @@ class Page {
 	}
 
 	/**
+	 * Sets the meta data
+	 *
 	 * @param array $meta
 	 * @return $this
 	 */
@@ -81,6 +96,8 @@ class Page {
 	}
 
 	/**
+	 * Returns the meta data
+	 *
 	 * @return array
 	 */
 	public function getMeta() {
@@ -88,6 +105,8 @@ class Page {
 	}
 
 	/**
+	 * Sets the raw content
+	 *
 	 * @param string $rawContent
 	 * @return $this
 	 */
@@ -97,6 +116,8 @@ class Page {
 	}
 
 	/**
+	 * Returns the raw content
+	 *
 	 * @return string
 	 */
 	public function getRawContent() {
@@ -104,6 +125,8 @@ class Page {
 	}
 
 	/**
+	 * Sets the sorting position in a menu
+	 *
 	 * @param int $sorting
 	 * @return $this
 	 */
@@ -112,15 +135,17 @@ class Page {
 		return $this;
 	}
 
+
+
 	/**
+	 * Returns the sorting position in a menu
 	 * @return int
 	 */
 	public function getSorting() {
-		static $automaticSortingIndex = 100;
 		if (!$this->sorting) {
 			$sorting = ObjectUtility::valueForKeyPathOfObject('meta.sorting', $this);
 			if (!$sorting) {
-				$sorting = ++$automaticSortingIndex;
+				$sorting = self::DEFAULT_SORTING;
 			}
 			$this->sorting = $sorting;
 		}
@@ -134,11 +159,15 @@ class Page {
 	 */
 	public function getUri() {
 		if (!$this->uri) {
-			$uriParts = explode(DIRECTORY_SEPARATOR, $this->getIdentifier());
-			array_walk($uriParts, function(&$uriPart) {
-				$uriPart = urlencode($uriPart);
-			});
-			$this->uri = DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $uriParts) . DIRECTORY_SEPARATOR;
+			if ($this->isVirtual()) {
+				$this->uri = '#';
+			} else {
+				$uriParts = explode(DIRECTORY_SEPARATOR, $this->getIdentifier());
+				array_walk($uriParts, function(&$uriPart) {
+					$uriPart = urlencode($uriPart);
+				});
+				$this->uri = DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $uriParts) . DIRECTORY_SEPARATOR;
+			}
 		}
 		return $this->uri;
 	}
@@ -159,6 +188,39 @@ class Page {
 		}
 		return $title;
 	}
+
+	/**
+	 * Sets if the Page is a directory
+	 *
+	 * @param boolean $isDirectory
+	 * @return $this
+	 */
+	public function setIsDirectory($isDirectory) {
+		$this->isDirectory = $isDirectory;
+		return $this;
+	}
+
+	/**
+	 * Returns if the Page is a directory
+	 *
+	 * @return boolean
+	 */
+	public function getIsDirectory() {
+		return $this->isDirectory;
+	}
+
+	/**
+	 * Returns if the Page isn't a real Page
+	 *
+	 * A directory without an associated content file (i.e. "About/" exists but "About.md" do not) is virtual.
+	 *
+	 * @return boolean
+	 */
+	public function isVirtual() {
+		return $this->getRawContent() === NULL;
+	}
+
+
 
 
 

@@ -39,6 +39,7 @@ class PageRepository implements PageRepositoryInterface {
 	 * @return Page
 	 */
 	public function findByIdentifier($identifier) {
+		$rawPageData = NULL;
 		$configuration = ConfigurationManager::getConfiguration();
 		$dataPath      = $configuration->get('basePath') . $configuration->get('dataPath');
 
@@ -47,15 +48,19 @@ class PageRepository implements PageRepositoryInterface {
 		$hiddenPageDataPath = $dataPath . '_' . $pageName . '.' . $configuration->get('dataSuffix');
 
 		// Check if the node exists
-		if (!file_exists($pageDataPath)) {
-			if (!file_exists($hiddenPageDataPath)) {
-				return NULL;
-			}
+		if (file_exists($pageDataPath)) {
+			$rawPageData = file_get_contents($pageDataPath);
+		} else if (file_exists($hiddenPageDataPath)) {
 			$pageDataPath = $hiddenPageDataPath;
+			$rawPageData = file_get_contents($pageDataPath);
 		}
 
-		$rawPageData = file_get_contents($pageDataPath);
-		return new Page($identifier, $rawPageData, $this->buildMetaDataForPageIdentifier($identifier));
+
+		$page = new Page($identifier, $rawPageData, $this->buildMetaDataForPageIdentifier($identifier));
+//		if (!$rawPageData) {
+//			$page->setIsDirectory()
+//		}
+		return $page;
 	}
 
 	/**
@@ -95,10 +100,8 @@ class PageRepository implements PageRepositoryInterface {
 		$pageName      = $this->getPageNameForPageIdentifier($identifier);
 		$metaDataPath  = $dataPath . $pageName . '.json';
 
-//		DebugUtility::debug($identifier);
-
 		// Read the global configuration
-		$metaData = ObjectUtility::valueForKeyPathOfObject("page.$identifier.meta", $configuration, array());
+		$metaData = ObjectUtility::valueForKeyPathOfObject("pages.$identifier.meta", $configuration, array());
 
 		// Check if the node exists
 		if (file_exists($metaDataPath)) {
@@ -157,58 +160,44 @@ class PageRepository implements PageRepositoryInterface {
 				// Skip hidden pages
 				if ($file[0] === '_') continue;
 
+
 				$isFolder = strpos($file, '.') === FALSE;
 				$isPage   = substr($file, -$dataSuffixLength) === $dataSuffix;
+
+				if (!($isFolder || $isPage)) continue;
 
 				$relativePageIdentifier = substr($file, 0, strrpos($file, '.'));
 				$pageIdentifier         = ($uriBase ? $uriBase . '/' : '') . ($relativePageIdentifier ? $relativePageIdentifier : $file);
 
-				if ($isPage) {
-					/** @var Page $page */
-					$page = $this->findByIdentifier($pageIdentifier);
-					$sorting           = $page->getSorting();
-					$sortingDescriptor = sprintf('%05d-%s', $sorting, $pageIdentifier);
+				/** @var Page $page */
+				$page = $this->findByIdentifier($pageIdentifier);
+				$page->setIsDirectory($isFolder);
+				$sorting           = $page->getSorting();
+				$sortingDescriptor = sprintf('%05d-%s', $sorting, $pageIdentifier);
 
-					/*
-					 * Build the page data merged with previous definitions
-					 * Page definition is more important than the Directory definition
-					 */
-					$pageData = array_merge(
-						(isset($pagesIdentifierMap[$pageIdentifier]) ? $pagesIdentifierMap[$pageIdentifier] : array()),
-						array(
-							'id'                 => $pageIdentifier,
-							'page'               => $page,
-							'sorting'            => $sorting,
-							'sorting_descriptor' => $sortingDescriptor
-						)
-					);
-					unset($pagesSortingMap[sprintf('%05d-%s', self::DEFAULT_SORTING, $pageIdentifier)]);
-					$pagesSortingMap[$sortingDescriptor] = $pageData;
-					$pagesIdentifierMap[$pageIdentifier] = $pageData;
-				} else if ($isFolder) {
-					$oldPageData = (isset($pagesIdentifierMap[$pageIdentifier]) ? $pagesIdentifierMap[$pageIdentifier] : array());
+				/*
+				 * Build the page data merged with previous definitions
+				 * Page definition is more important than the Directory definition
+				 */
+				$pageData = array_merge(
+					(isset($pagesIdentifierMap[$pageIdentifier]) ? $pagesIdentifierMap[$pageIdentifier] : array()),
+					array(
+						'id'                 => $pageIdentifier,
+						'page'               => $page,
+						'sorting'            => $sorting,
+						'sorting_descriptor' => $sortingDescriptor
+					)
+				);
 
-					$sorting           = $oldPageData ? $oldPageData['sorting'] : self::DEFAULT_SORTING;
-					$sortingDescriptor = sprintf('%05d-%s', $sorting, $pageIdentifier);
-
-					/*
-					 * Build the page data merged with previous definitions
-					 * Page definition is more important than the Directory definition
-					 */
-					$pageData = array_merge(
-						(isset($pagesIdentifierMap[$pageIdentifier]) ? $pagesIdentifierMap[$pageIdentifier] : array()),
-						array(
-							'id'                 => $pageIdentifier,
-							'page'               => NULL,
-							'title'              => $pageIdentifier,
-							'sorting'            => $sorting,
-							'sorting_descriptor' => $sortingDescriptor,
-							'children'           => $this->getPagesForPath($path . $file . DIRECTORY_SEPARATOR, $pageIdentifier),
-						)
-					);
-					$pagesSortingMap[$sortingDescriptor] = $pageData;
-					$pagesIdentifierMap[$pageIdentifier] = $pageData;
+				/*
+				 * If the current page is a folder get the children
+				 */
+				if ($isFolder) {
+					$pageData['children'] = $this->getPagesForPath($path . $file . DIRECTORY_SEPARATOR, $pageIdentifier);
 				}
+
+				$pagesSortingMap[$sortingDescriptor] = $pageData;
+				$pagesIdentifierMap[$pageIdentifier] = $pageData;
 			}
 			closedir($handle);
 		}
