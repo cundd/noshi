@@ -43,17 +43,16 @@ class ObjectUtility {
 
 				// Current value is an object
 				case is_object($currentValue):
-
-				case method_exists($currentValue, $accessorMethod):
-					$currentValue = $currentValue->$accessorMethod();
-					break;
-
-				case property_exists($currentValue, $key) && isset($currentValue->$key):
-					$publicProperties = get_object_vars($currentValue);
-					if (in_array($key, $publicProperties)) {
+					if (method_exists($currentValue, $accessorMethod)) { // Getter method
+						$currentValue = $currentValue->$accessorMethod();
+					} else if (method_exists($currentValue, 'get')) { // General "get" method
+						$currentValue = $currentValue->get($key);
+					} else if (in_array($key, get_object_vars($currentValue))) { // Direct access
 						$currentValue = $currentValue->$key;
-						break;
+					} else {
+						$currentValue = NULL;
 					}
+					break;
 
 				default:
 					$currentValue = NULL;

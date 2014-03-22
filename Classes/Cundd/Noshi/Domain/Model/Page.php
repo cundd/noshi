@@ -159,7 +159,7 @@ class Page {
 	 */
 	public function getUri() {
 		if (!$this->uri) {
-			if ($this->isVirtual()) {
+			if ($this->getIsVirtual()) {
 				$this->uri = '#';
 			} else {
 				$uriParts = explode(DIRECTORY_SEPARATOR, $this->getIdentifier());
@@ -216,7 +216,7 @@ class Page {
 	 *
 	 * @return boolean
 	 */
-	public function isVirtual() {
+	public function getIsVirtual() {
 		return $this->getRawContent() === NULL;
 	}
 

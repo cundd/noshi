@@ -39,9 +39,11 @@ class Bootstrap {
 
 	/**
 	 * Invokes the CLI dispatcher
+	 *
+	 * @param array $arguments
 	 */
-	public function runCli() {
-		$commandController = new \Cundd\Noshi\Command\NoshiCommandController($argv);
+	public function runCli($arguments) {
+		$commandController = new \Cundd\Noshi\Command\NoshiCommandController($arguments);
 		$commandController->dispatch();
 	}
 

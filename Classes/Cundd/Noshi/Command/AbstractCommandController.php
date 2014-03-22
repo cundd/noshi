@@ -57,21 +57,32 @@ abstract class AbstractCommandController {
 	 */
 	protected $command = '';
 
+	/**
+	 * Path to the script
+	 *
+	 * @var string
+	 */
+	protected $scriptPath = '';
+
 	function __construct($arguments) {
 		$this->rawArguments = $arguments;
-
 	}
 
 	/**
 	 * Invokes the correct command
 	 */
 	public function dispatch() {
-		$arguments = $this->rawArguments;
-		$this->command = array_shift($arguments);
-		$this->arguments = $this->parseArguments($arguments);
+		$arguments        = $this->rawArguments;
+		$this->scriptPath = array_shift($arguments);
+		$this->command    = array_shift($arguments);
+		$this->arguments  = $this->parseArguments($arguments);
+
+		if (!$this->command) {
+			$this->outputError('No command given');
+			$this->command = 'help';
+		}
 
 		$commandName = $this->command . 'Command';
-
 		if (is_callable(array($this, $commandName))) {
 			$exitCode = call_user_func_array(array($this, $commandName), $this->arguments);
 		} else {
@@ -87,7 +98,7 @@ abstract class AbstractCommandController {
 	 */
 	public function parseArguments($arguments) {
 		$parsedArguments = array();
-		$argumentsCount = count($arguments);
+		$argumentsCount  = count($arguments);
 		for ($i = 0; $i < $argumentsCount; $i++) {
 			$currentArgument = $arguments[$i];
 			switch (TRUE) {
@@ -107,6 +118,80 @@ abstract class AbstractCommandController {
 		return $parsedArguments;
 	}
 
+	/**
+	 * Prints the given data in a table
+	 *
+	 * @param array  $data Table data to display
+	 * @param string $delimiter Delimiter for table cells
+	 */
+	public function outputTable($data, $delimiter = '|') {
+		$output = '';
+		$firstRow = reset($data);
+		$columnWidths = array();
+
+		$columnCount = count($firstRow);
+		$headerRow = array_keys($firstRow);
+
+		if (!(is_integer(reset($headerRow)) && is_integer(end($headerRow)))) {
+			// Add the header row to the data to detect the longest string
+			array_unshift($data, $headerRow);
+		} else {
+			$headerRow = array();
+		}
+
+		// Collect the column widths
+		for ($columnIndex = 0; $columnIndex < $columnCount; $columnIndex++) {
+			$columnWidths[$columnIndex] = max(array_map(function($row) use($columnIndex) {
+				$row = array_values($row);
+				return (isset($row[$columnIndex]) ? strlen($row[$columnIndex]) : 0);
+			}, $data));
+		}
+
+		/*
+		 * Print the header if it is defined
+		 */
+		if ($headerRow) {
+			// Remove the header row to the data after detecting the longest string
+			array_shift($data);
+
+			// Add the header
+			$output .= $delimiter . ' ';
+			foreach ($headerRow as $columnIndex => $cell) {
+				$output .= ''
+					. str_pad($cell, $columnWidths[$columnIndex])
+					. ' ' . $delimiter . ' ';
+			}
+			$output .= PHP_EOL;
+
+			// Add the line below the header
+			$output .= $delimiter . ' ';
+			foreach ($headerRow as $columnIndex => $cell) {
+				$output .= ''
+					. str_repeat('-', $columnWidths[$columnIndex])
+					. ' ' . $delimiter . ' ';
+			}
+			$output .= PHP_EOL;
+		}
+
+		/*
+		 * Print the table
+		 */
+		foreach ($data as $row) {
+			$row = array_values($row);
+
+			$output .= $delimiter . ' ';
+			foreach ($row as $columnIndex => $cell) {
+				if (is_bool($cell)) {
+					$cell = $cell ? 'TRUE' : 'FALSE';
+				}
+				$output .= ''
+					. str_pad($cell, $columnWidths[$columnIndex])
+					. ' ' . $delimiter . ' ';
+			}
+			$output .= PHP_EOL;
+		}
+		$this->output($output);
+	}
 
 	/**
 	 * Prints the given message to the console and adds a newline at the end
@@ -136,11 +221,69 @@ abstract class AbstractCommandController {
 		if (is_scalar($error)) {
 			$message .= $error;
 		} else if (is_object($error) && $error instanceof \Exception) {
-			$message .= '#' . $error->getCode() . ': ' .$error->getMessage();
+			$message .= '#' . $error->getCode() . ': ' . $error->getMessage();
 		}
 		$message .= PHP_EOL;
 		$message .= self::ESCAPE . self::NORMAL;
 		fwrite(STDERR, $message);
+	}
+
+	/**
+	 * Displays this message
+	 */
+	public function helpCommand() {
+		$availableCommands = $this->getAvailableCommands();
+		$longestCommandNameLength = max(array_map(function($item) {
+			return strlen($item);
+		}, array_keys($availableCommands)));
+
+		$longestCommandNameLength += 4;
+		foreach ($availableCommands as $command => $help) {
+			$line = ''
+				. self::ESCAPE . self::GREEN
+				. str_pad($command, $longestCommandNameLength)
+				. self::ESCAPE . self::NORMAL
+				. $help
+			;
+			$this->outputLine($line);
+		}
+	}
+
+	/**
+	 * Returns the available commands
+	 *
+	 * @return array
+	 */
+	public function getAvailableCommands() {
+		$commands = array();
+		$classReflection = new \ReflectionClass(get_class($this));
+		$methods = $classReflection->getMethods(\ReflectionMethod::IS_PUBLIC);
+		/** @var \ReflectionMethod $method */
+		foreach ($methods as $method) {
+			$methodDescription = array();
+			$methodName = $method->name;
+			$docComment = $method->getDocComment();
+			$docCommentLines = explode(PHP_EOL, $docComment);
+
+			if (substr($methodName, -7) !== 'Command') continue;
+
+			foreach ($docCommentLines as $currentLine) {
+				$currentLine = trim($currentLine);
+				if (substr($currentLine, 0, 2) === '/*') continue;
+
+				if (substr($currentLine, 0, 1) === '*') {
+					$currentLine = substr($currentLine, 1);
+				}
+
+				$currentLine = trim($currentLine);
+				if (!$currentLine) continue;
+				if ($currentLine[0] === '@') continue;
+				if ($currentLine === '/') continue;
+				$methodDescription[] = trim($currentLine);
+			}
+			$commands[substr($methodName, 0, -7)] = implode(' ', $methodDescription);
+		}
+		return $commands;
 	}
 
 
