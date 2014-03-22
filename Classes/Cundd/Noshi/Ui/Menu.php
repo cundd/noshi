@@ -42,10 +42,8 @@ class Menu extends AbstractUi {
 				$page = $pageData['page'];
 				$uri = $page->getUri();
 				$title = $page->getTitle();
-				DebugUtility::debug($title, 'Page');
 			} else { // Directory array
 				$title = $pageData['title'];
-				DebugUtility::debug($title, 'Directory');
 			}
 
 			$output .= '<li>';

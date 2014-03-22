@@ -17,15 +17,19 @@ class ObjectUtility {
 	/**
 	 * Returns the value for the key path of the given object
 	 *
-	 * @param string $keyPath
-	 * @param object|array $object
+	 * @param string       $keyPath Key path of the property to fetch
+	 * @param object|array $object  Source to fetch the data from
+	 * @param mixed        $default An optional default value to return if the path could not be resolved. If a callback is passed, it's return value is used
 	 * @return mixed
 	 */
-	static public function valueForKeyPathOfObject($keyPath, $object) {
+	static public function valueForKeyPathOfObject($keyPath, $object, $default = NULL) {
+		$i = 0;
 		$keyPathParts = explode('.', $keyPath);
+		$keyPathPartsLength = count($keyPathParts);
 		$currentValue = $object;
 
-		foreach ($keyPathParts as $key) {
+		for ($i = 0; $i < $keyPathPartsLength; $i++) {
+			$key = $keyPathParts[$i];
 			$accessorMethod = 'get' . ucfirst($key);
 
 			switch (TRUE) {
@@ -49,12 +53,18 @@ class ObjectUtility {
 					}
 
 				default:
-				#	DebugUtility::debug('blöd', $key, gettype($currentValue), $currentValue);
 					$currentValue = NULL;
 			}
 
-			#DebugUtility::debug($currentValue, $key);
 			if ($currentValue === NULL) break;
+		}
+
+		if ($i !== $keyPathPartsLength && func_num_args() > 2) {
+			if (is_object($default) && ($default instanceof \Closure)) {
+				$currentValue = $default();
+			} else {
+				$currentValue = $default;
+			}
 		}
 		return $currentValue;
 	}
