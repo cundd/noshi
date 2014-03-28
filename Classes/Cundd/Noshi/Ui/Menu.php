@@ -37,17 +37,26 @@ class Menu extends AbstractUi {
 		foreach ($pages as $pageData) {
 			$uri = '#';
 			$title = '';
+			$target = '';
 			if (isset($pageData['page']) && $pageData['page']) { // Page object
 				/** @var Page $page */
 				$page = $pageData['page'];
 				$uri = $page->getUri();
 				$title = $page->getTitle();
+
+				$target = $page->getIsExternalLink() ? '_blank' : '';
 			} else { // Directory array
 				$title = $pageData['title'];
 			}
 
 			$output .= '<li>';
-			$output .= '<a href="' . $uri . '">' . $title . '</a>';
+			$output .= '<a href="' . $uri . '"';
+
+			if ($target) {
+				$output .= ' target="' . $target . '"';
+			}
+
+			$output .= '>' . $title . '</a>';
 			if (isset($pageData['children']) && $pageData['children']) {
 				$output .= $this->renderPages($pageData['children']);
 			}

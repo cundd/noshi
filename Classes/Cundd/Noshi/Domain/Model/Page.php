@@ -159,7 +159,12 @@ class Page {
 	 */
 	public function getUri() {
 		if (!$this->uri) {
-			if ($this->getIsVirtual()) {
+			if ($this->getIsExternalLink()) {
+				$this->uri = ObjectUtility::valueForKeyPathOfObject('meta.url', $this);
+				if (strpos($this->uri, '://') === FALSE) {
+					$this->uri = 'http://' . $this->uri;
+				}
+			} else if ($this->getIsVirtual()) {
 				$this->uri = '#';
 			} else {
 				$uriParts = explode(DIRECTORY_SEPARATOR, $this->getIdentifier());
@@ -218,6 +223,15 @@ class Page {
 	 */
 	public function getIsVirtual() {
 		return $this->getRawContent() === NULL;
+	}
+
+	/**
+	 * Returns if the Page is an external link
+	 *
+	 * @return bool
+	 */
+	public function getIsExternalLink() {
+		return ObjectUtility::valueForKeyPathOfObject('meta.url', $this) ? TRUE : FALSE;
 	}
 
 

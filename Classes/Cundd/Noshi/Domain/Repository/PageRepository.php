@@ -39,7 +39,7 @@ class PageRepository implements PageRepositoryInterface {
 	 * @return Page
 	 */
 	public function findByIdentifier($identifier) {
-		$rawPageData = NULL;
+		$rawPageData   = NULL;
 		$configuration = ConfigurationManager::getConfiguration();
 		$dataPath      = $configuration->get('basePath') . $configuration->get('dataPath');
 
@@ -52,7 +52,7 @@ class PageRepository implements PageRepositoryInterface {
 			$rawPageData = file_get_contents($pageDataPath);
 		} else if (file_exists($hiddenPageDataPath)) {
 			$pageDataPath = $hiddenPageDataPath;
-			$rawPageData = file_get_contents($pageDataPath);
+			$rawPageData  = file_get_contents($pageDataPath);
 		}
 
 
@@ -163,8 +163,9 @@ class PageRepository implements PageRepositoryInterface {
 
 				$isFolder = strpos($file, '.') === FALSE;
 				$isPage   = substr($file, -$dataSuffixLength) === $dataSuffix;
+				$isConfig = substr($file, -5) === '.json';
 
-				if (!($isFolder || $isPage)) continue;
+				if (!($isFolder || $isPage || $isConfig)) continue;
 
 				$relativePageIdentifier = substr($file, 0, strrpos($file, '.'));
 				$pageIdentifier         = ($uriBase ? $uriBase . '/' : '') . ($relativePageIdentifier ? $relativePageIdentifier : $file);
