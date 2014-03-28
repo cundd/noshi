@@ -8,6 +8,7 @@
 
 namespace Cundd\Noshi\Ui;
 
+use Cundd\Noshi\Dispatcher;
 use Cundd\Noshi\Domain\Model\Page;
 use Cundd\Noshi\Domain\Repository\PageRepository;
 use Cundd\Noshi\Utilities\DebugUtility;
@@ -34,10 +35,13 @@ class Menu extends AbstractUi {
 	 */
 	public function renderPages($pages) {
 		$output = '<ul>';
+		$currentPage = Dispatcher::getSharedDispatcher()->getPage();
+
 		foreach ($pages as $pageData) {
 			$uri = '#';
 			$title = '';
 			$target = '';
+			$class = '';
 			if (isset($pageData['page']) && $pageData['page']) { // Page object
 				/** @var Page $page */
 				$page = $pageData['page'];
@@ -45,11 +49,14 @@ class Menu extends AbstractUi {
 				$title = $page->getTitle();
 
 				$target = $page->getIsExternalLink() ? '_blank' : '';
+				if ($page === $currentPage || $page->getIdentifier() === $currentPage->getIdentifier()) {
+					$class = 'active';
+				}
 			} else { // Directory array
 				$title = $pageData['title'];
 			}
 
-			$output .= '<li>';
+			$output .= '<li' . ($class ? ' class="' . $class . '"' : '') . '>';
 			$output .= '<a href="' . $uri . '"';
 
 			if ($target) {
