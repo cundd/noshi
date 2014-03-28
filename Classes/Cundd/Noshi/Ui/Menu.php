@@ -49,8 +49,10 @@ class Menu extends AbstractUi {
 				$title = $page->getTitle();
 
 				$target = $page->getIsExternalLink() ? '_blank' : '';
-				if ($page === $currentPage || $page->getIdentifier() === $currentPage->getIdentifier()) {
-					$class = 'active';
+				if ($currentPage) {
+					if ($page === $currentPage || $page->getIdentifier() === $currentPage->getIdentifier()) {
+						$class = 'active';
+					}
 				}
 			} else { // Directory array
 				$title = $pageData['title'];

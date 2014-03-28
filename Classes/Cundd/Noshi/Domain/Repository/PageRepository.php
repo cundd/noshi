@@ -49,7 +49,15 @@ class PageRepository implements PageRepositoryInterface {
 
 		$pageName           = $this->getPageNameForPageIdentifier($identifier);
 		$pageDataPath       = $dataPath . $pageName . '.' . $configuration->get('dataSuffix');
-		$hiddenPageDataPath = $dataPath . '_' . $pageName . '.' . $configuration->get('dataSuffix');
+		$directoryDataPath  = $dataPath . $pageName;
+		$metaDataPath       = $dataPath . $pageName . '.json';
+
+		$lastSlashPosition = strrpos($pageName, '/');
+
+		$hiddenPageDataPath = $dataPath . substr($pageName, 0, $lastSlashPosition)
+			. '_' . substr($pageName, $lastSlashPosition)
+			. '.' . $configuration->get('dataSuffix')
+		;
 
 		// Check if the node exists
 		if (file_exists($pageDataPath)) {
@@ -57,10 +65,11 @@ class PageRepository implements PageRepositoryInterface {
 		} else if (file_exists($hiddenPageDataPath)) {
 			$pageDataPath = $hiddenPageDataPath;
 			$rawPageData  = file_get_contents($pageDataPath);
+		} else if (!(file_exists($directoryDataPath) || file_exists($metaDataPath))) {
+			return NULL;
 		}
 
-
-		$page = new Page($identifier, $rawPageData, $this->buildMetaDataForPageIdentifier($identifier));
+		$page                        = new Page($identifier, $rawPageData, $this->buildMetaDataForPageIdentifier($identifier));
 		$this->allPages[$identifier] = $page;
 		return $page;
 	}

@@ -12,6 +12,7 @@ namespace Cundd\Noshi;
 use Cundd\Noshi\Domain\Model\Page;
 use Cundd\Noshi\Domain\Repository\PageRepository;
 use Cundd\Noshi\Ui\View;
+use Cundd\Noshi\Utilities\DebugUtility;
 use Parsedown;
 
 class Dispatcher {
