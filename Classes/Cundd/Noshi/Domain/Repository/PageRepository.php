@@ -26,7 +26,7 @@ class PageRepository implements PageRepositoryInterface {
 	/**
 	 * All pages
 	 *
-	 * @var array
+	 * @var array<Pages>
 	 */
 	protected $allPages = array();
 
@@ -39,6 +39,10 @@ class PageRepository implements PageRepositoryInterface {
 	 * @return Page
 	 */
 	public function findByIdentifier($identifier) {
+		if (isset($this->allPages[$identifier])) {
+			return $this->allPages[$identifier];
+		}
+
 		$rawPageData   = NULL;
 		$configuration = ConfigurationManager::getConfiguration();
 		$dataPath      = $configuration->get('basePath') . $configuration->get('dataPath');
@@ -57,9 +61,7 @@ class PageRepository implements PageRepositoryInterface {
 
 
 		$page = new Page($identifier, $rawPageData, $this->buildMetaDataForPageIdentifier($identifier));
-//		if (!$rawPageData) {
-//			$page->setIsDirectory()
-//		}
+		$this->allPages[$identifier] = $page;
 		return $page;
 	}
 
@@ -210,7 +212,8 @@ class PageRepository implements PageRepositoryInterface {
 		foreach ($pagesSortingMap as $pageWithSorting) {
 			$tempPages[$pageWithSorting['id']] = $pageWithSorting['page'];
 		}
-		$this->allPages = array_merge($this->allPages, $tempPages);
+
+		$this->allPages = array_merge($this->allPages, $tempAllPages);
 
 		ksort($pages, SORT_NUMERIC);
 		return $pagesSortingMap;
