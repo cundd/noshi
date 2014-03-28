@@ -51,6 +51,13 @@ class Dispatcher {
 	protected $page = NULL;
 
 	/**
+	 * Shared Dispatcher instance
+	 *
+	 * @var Dispatcher
+	 */
+	static protected $sharedDispatcher = NULL;
+
+	/**
 	 * Dispatch the given request URI
 	 *
 	 * @param string $uri
@@ -230,5 +237,16 @@ class Dispatcher {
 		return Parsedown::instance()->parse($markdown);
 	}
 
+	/**
+	 * Returns the shared dispatcher instance
+	 *
+	 * @return Dispatcher
+	 */
+	static public function getSharedDispatcher() {
+		if (!static::$sharedDispatcher) {
+			static::$sharedDispatcher = new static();
+		}
+		return static::$sharedDispatcher;
+	}
 
 }

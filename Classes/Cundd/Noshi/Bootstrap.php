@@ -34,7 +34,7 @@ class Bootstrap {
 	public function run() {
 		$uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : (isset($_GET['u']) ? $_GET['u'] : '');
 		$method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
-		$this->getDispatcher()->dispatch($uri, $method);
+		Dispatcher::getSharedDispatcher()->dispatch($uri, $method);
 	}
 
 	/**
@@ -45,18 +45,6 @@ class Bootstrap {
 	public function runCli($arguments) {
 		$commandController = new \Cundd\Noshi\Command\NoshiCommandController($arguments);
 		$commandController->dispatch();
-	}
-
-	/**
-	 * Returns teh dispatcher
-	 *
-	 * @return \Cundd\Noshi\Dispatcher
-	 */
-	public function getDispatcher() {
-		if (!$this->dispatcher) {
-			$this->dispatcher = new Dispatcher();
-		}
-		return $this->dispatcher;
 	}
 
 
