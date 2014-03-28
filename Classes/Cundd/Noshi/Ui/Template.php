@@ -61,7 +61,7 @@ class Template extends AbstractUi {
 
 		// Find the expressions
 		$matches = array();
-		if (!preg_match_all('!\{([\w\.\\\]*)\}!', $template, $matches)) {
+		if (!preg_match_all('!\{([\w\.\\\ \/]*)\}!', $template, $matches)) {
 			return $template;
 		}
 
@@ -82,15 +82,19 @@ class Template extends AbstractUi {
 	 */
 	public function renderExpression($expression) {
 		if (strpos($expression, '\\') !== FALSE) {
-			$viewClass = '\\' . $expression;
+			$expressionParts = explode(' ', $expression);
+			$viewClass = '\\' . array_shift($expressionParts);
 
 			/** @var UiInterface $newView */
 			if (!class_exists($viewClass)) {
 				return '<!-- view class ' . $viewClass . ' not found -->';
 			}
-			$newView = new $viewClass;
+			$newView = new $viewClass();
 			if ($newView instanceof UiInterface) {
 				$newView->setContext($this);
+				if ($expressionParts) {
+					return call_user_func_array(array($newView, 'render'), $expressionParts);
+				}
 				return $newView->render();
 			}
 			try {

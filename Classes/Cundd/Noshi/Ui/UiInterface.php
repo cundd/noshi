@@ -17,9 +17,11 @@ interface UiInterface {
 	/**
 	 * Render the UI element
 	 *
+	 * This is not a real interface method because implementations can expect different number of arguments
+	 *
 	 * @return string
 	 */
-	public function render();
+	// public function render();
 
 	/**
 	 * Sets the context
