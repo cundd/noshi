@@ -159,11 +159,8 @@ class Page {
 	 */
 	public function getUri() {
 		if (!$this->uri) {
-			if ($this->getIsExternalLink()) {
-				$this->uri = ObjectUtility::valueForKeyPathOfObject('meta.url', $this);
-				if (strpos($this->uri, '://') === FALSE) {
-					$this->uri = 'http://' . $this->uri;
-				}
+			if (($url = $this->_getUrlFromMeta())) {
+				$this->uri = $url;
 			} else if ($this->getIsVirtual()) {
 				$this->uri = '#';
 			} else {
@@ -175,6 +172,28 @@ class Page {
 			}
 		}
 		return $this->uri;
+	}
+
+	/**
+	 * Returns the URL read from the meta data or NULL if it is not set
+	 *
+	 * @return string
+	 */
+	protected function _getUrlFromMeta() {
+		$url = ObjectUtility::valueForKeyPathOfObject('meta.url', $this);
+		if (!$url) {
+			return NULL;
+		}
+		if (substr($url, 0, 11) === '/Resources/') {
+			return $url;
+		}
+		if (substr($url, 0, 10) === 'Resources/') {
+			return $url;
+		}
+		if (strpos($url, '://') === FALSE) {
+			$url = 'http://' . $url;
+		}
+		return $url;
 	}
 
 	/**
