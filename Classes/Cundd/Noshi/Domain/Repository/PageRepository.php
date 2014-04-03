@@ -222,7 +222,7 @@ class PageRepository implements PageRepositoryInterface {
 			$tempPages[$pageWithSorting['id']] = $pageWithSorting['page'];
 		}
 
-		$this->allPages = array_merge($this->allPages, $tempAllPages);
+		$this->allPages = array_merge($this->allPages, $tempPages);
 
 		ksort($pages, SORT_NUMERIC);
 		return $pagesSortingMap;
