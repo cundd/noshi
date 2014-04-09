@@ -11,18 +11,18 @@ Features
 
 - Markdown equipped
 - File based
-- Open Source
+- Open Source (MIT License)
 
 
 Free from
 ---------
 
-- Templating engine
 - Application framework
 - Backend login
 - Web Services
 - Shop integration
 - Database (SQL and NoSQL)
+- Templating engine (< 0.2%)
 
 
 Installation
@@ -30,17 +30,57 @@ Installation
 
     composer create-project -s dev cundd/noshi-boilerplate target/path/
 
-
-Start the development server:
+Start the development server (on PHP 5.4 and higher):
 
 	cd root/of/noshi/installation/;
 	./server.sh
 
 
+Configuration
+-------------
+
+The main configuration file can be found in `Configurations/Configuration.json`. It is the control center of your installation, but you may doesn't even have to touch. Nevertheless it is the place to make advanced configurations in your NoShi website.
+
+	{
+		"theme": "cundd/noshi-boilerplate",
+		"routing": {
+			"alias": {
+				"/": "/Home/",
+				"/Source/": "/Target/"
+			}
+		},
+		"pages": {
+			"MyPage": {
+				"meta": {
+					"title": "My Page",
+					"sorting": 40
+				}
+			},
+			...
+		}
+	}
+
+- `theme` defines the theme to use (`cundd/noshi-boilerplate` says: "search the resources in `root/of/noshi/installation/Resources/`")
+- `routing`
+	- `alias` define aliases of source URLs that will be translated to the targets
+
+
 Authoring
 ---------
 
-Added markdown files to the `data` directory
+### About URLs, page and files
+
+| URL               | Page identifier   | Markdown file     | Meta file         |
+| :---------------- | :---------------- | :---------------- | :---------------- |
+| About             | About             | About.md          | About.json        |
+| About/            | About             | About.md          | About.json        |
+| Hidden/           | Hidden            | _Hidden.md        | Hidden.json       |
+| Folder/Item/      | Folder/Item       | Folder/Item.md    | Folder/Item.json  |
+
+
+### Adding a page
+
+To add a page in NoShi you only have to add a Markdown file to the `data` directory:
 
 	cd root/of/noshi/installation/;
 	cd data;
@@ -50,7 +90,67 @@ Added markdown files to the `data` directory
 	
 	# Create a 'hidden' page (without a menu item):
 	touch _Details.md
+
+
+### Adding page meta data
+
+There are two different ways to add meta data to a page.
+
+You either add a JSON file with the same identifier as the page. 
+
+Example `MyPage.json` for `MyPage`:
+
+	{
+		"title": "My page",
+		"sorting": 19
+	}
 	
+Example `MyFolder/MyPage.json` for `MyFolder/MyPage`:
+
+	{
+		"title": "My page in a folder",
+		"sorting": 35
+	}
+
+Alternatively you add meta data in the main configuration file `Configurations/Configuration.json`.
+
+Example `MyPage`:
+
+	{
+		...
+		"pages": {
+			"MyPage": {
+				"meta": {
+					"title": "My page",
+					"sorting": 19
+				}
+			},
+			...
+		}
+	}
+
+Example `MyFolder/MyPage.json` for `MyFolder/MyPage`:
+
+	{
+		...
+		"pages": {
+			"MyFolder/MyPage": {
+				"meta": {
+					"title": "My page in a folder",
+					"sorting": 35
+				}
+			},
+			...
+		}
+	}
+
+
+### Used page meta data
+
+- `title` Overwrite the pages title
+- `sorting` Sorting of menu items
+- `url` Link to an external URL (you can create a meta JSON file without an Markdown file)
+
 
 Themes
 ------
