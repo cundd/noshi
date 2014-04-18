@@ -52,7 +52,6 @@ nb-configuration.xml
 *.pydevproject
 .project
 .metadata
-bin/**
 tmp/**
 tmp/**/*
 *.tmp
