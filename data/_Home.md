@@ -35,7 +35,7 @@ Start the development server (on PHP 5.4 and higher):
 	cd root/of/noshi/installation/;
 	./server.sh
 
-or run NoShi on heroku: (noshi.herokuapp.com)[http://noshi.herokuapp.com/]
+or run NoShi on heroku: [noshi.herokuapp.com](http://noshi.herokuapp.com/)
 
 
 Configuration
