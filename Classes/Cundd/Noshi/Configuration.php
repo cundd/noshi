@@ -71,7 +71,7 @@ class Configuration implements \ArrayAccess {
 			}
 
 			// Add the port
-			if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT']) {
+			if ($host && isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT']) {
 				$port = $_SERVER['SERVER_PORT'];
 				if (ctype_digit($port)) {
 					$host .= ':' . $port;

@@ -115,6 +115,7 @@ class Dispatcher {
 		$view->setContext($this);
 		$view->setTemplatePath($this->getTemplatePath());
 		$view->assignMultiple(array(
+			'page' => $page,
 			'meta' => $page ? $page->getMeta() : array(),
 			'content' => $response->getBody(),
 			'response' => $response,
