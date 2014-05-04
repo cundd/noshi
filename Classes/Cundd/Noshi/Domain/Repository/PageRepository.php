@@ -69,7 +69,7 @@ class PageRepository implements PageRepositoryInterface {
 			return NULL;
 		}
 
-		$page                        = new Page($identifier, $rawPageData, $this->buildMetaDataForPageIdentifier($identifier));
+		$page                        = new Page($identifier, $rawPageData, $this->buildMetaDataForPageIdentifier($identifier, $pageDataPath));
 		$this->allPages[$identifier] = $page;
 		return $page;
 	}
@@ -103,9 +103,10 @@ class PageRepository implements PageRepositoryInterface {
 	 * page config takes precedence.
 	 *
 	 * @param string $identifier
+	 * @param string $pageDataPath Determined path to the page contents
 	 * @return array
 	 */
-	public function buildMetaDataForPageIdentifier($identifier) {
+	public function buildMetaDataForPageIdentifier($identifier, $pageDataPath = NULL) {
 		$configuration = ConfigurationManager::getConfiguration();
 		$dataPath      = $configuration->get('basePath') . $configuration->get('dataPath');
 		$pageName      = $this->getPageNameForPageIdentifier($identifier);
@@ -118,6 +119,10 @@ class PageRepository implements PageRepositoryInterface {
 		if (file_exists($metaDataPath)) {
 			$rawMetaData = file_get_contents($metaDataPath);
 			$metaData    = array_merge($metaData, (array)json_decode($rawMetaData, TRUE));
+		}
+
+		if ($pageDataPath) {
+			$metaData['date'] = date('c', filemtime($pageDataPath));
 		}
 		return $metaData;
 	}
