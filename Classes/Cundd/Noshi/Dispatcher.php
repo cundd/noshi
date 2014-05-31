@@ -11,9 +11,8 @@ namespace Cundd\Noshi;
 
 use Cundd\Noshi\Domain\Model\Page;
 use Cundd\Noshi\Domain\Repository\PageRepository;
+use Cundd\Noshi\Helpers\MarkdownFactory;
 use Cundd\Noshi\Ui\View;
-use Cundd\Noshi\Utilities\DebugUtility;
-use Parsedown;
 
 class Dispatcher {
 	/**
@@ -175,7 +174,7 @@ class Dispatcher {
 			$page = $this->getNotFoundPage();
 		}
 		return new Response(
-			$page ? $this->parseMarkdown($page->getRawContent()) : 'Not found',
+			$page ? $page->getContent() : 'Not found',
 			$statusCode
 		);
 	}
@@ -191,9 +190,7 @@ class Dispatcher {
 		if (!$page) {
 			return NULL;
 		}
-		return new Response(
-			$this->parseMarkdown($page->getRawContent())
-		);
+		return new Response($page->getContent());
 	}
 
 	/**
@@ -234,9 +231,10 @@ class Dispatcher {
 	 *
 	 * @param $markdown
 	 * @return mixed|string
+	 * @deprecated since 1.0.0 use \Cundd\Noshi\Helpers\MarkdownFactory::getMarkdownRenderer()->transform($markdown)
 	 */
 	protected function parseMarkdown($markdown) {
-		return Parsedown::instance()->parse($markdown);
+		return MarkdownFactory::getMarkdownRenderer()->transform($markdown);
 	}
 
 	/**

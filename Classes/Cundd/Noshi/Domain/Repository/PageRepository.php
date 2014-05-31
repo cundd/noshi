@@ -121,7 +121,7 @@ class PageRepository implements PageRepositoryInterface {
 			$metaData    = array_merge($metaData, (array)json_decode($rawMetaData, TRUE));
 		}
 
-		if ($pageDataPath) {
+		if ($pageDataPath && file_exists($pageDataPath)) {
 			$metaData['date'] = date('c', filemtime($pageDataPath));
 		}
 		return $metaData;
