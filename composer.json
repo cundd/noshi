@@ -1,6 +1,7 @@
 {
     "name": "cundd/noshi",
     "description": "The no shi* CMS",
+    "version": "1.0.0",
     "require": {
         "erusev/parsedown": "dev-master"
     },
