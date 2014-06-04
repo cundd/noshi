@@ -155,8 +155,7 @@ Example `MyFolder/MyPage.json` for `MyFolder/MyPage`:
 Themes
 ------
 
-The default theme `noshi-website` is stored under `vendor/cundd/noshi-website/`.
-The page template is saved in `Resources/Private/Templates/Page.html` and the themes resources under `Resources/Public/`,
+The boilerplate's template file is saved in `Resources/Private/Templates/Page.html` and the themes resources under `Resources/Public/`,
 both relative to the themes path.
 
 The following variables inside the template file will be replaced:
