@@ -7,6 +7,7 @@
  */
 
 namespace Cundd\Noshi\Ui;
+use Cundd\Noshi\Ui\Exception\InvalidExpressionException;
 use Cundd\Noshi\Utilities\ObjectUtility;
 
 /**
@@ -54,6 +55,7 @@ class Template extends AbstractUi {
 	/**
 	 * Renders the template
 	 *
+	 * @throws Exception\InvalidExpressionException if the rendered expression can not be converted to a string
 	 * @return string
 	 */
 	public function render() {
@@ -69,6 +71,9 @@ class Template extends AbstractUi {
 		$expressions = array_unique($expressions);
 		foreach ($expressions as $expression) {
 			$renderedExpression = $this->renderExpression($expression);
+			if (is_object($renderedExpression) && !method_exists($renderedExpression, '__toString')) {
+				throw new InvalidExpressionException('Could not convert object of class ' . get_class($renderedExpression) . ' for expression ' . $expression . ' to string', 1401543101);
+			}
 			$template = str_replace('{' . $expression . '}', $renderedExpression, $template);
 		}
 		return $template;

@@ -7,6 +7,7 @@
  */
 
 namespace Cundd\Noshi\Domain\Model;
+use Cundd\Noshi\Helpers\MarkdownFactory;
 use Cundd\Noshi\Utilities\DebugUtility;
 use Cundd\Noshi\Utilities\ObjectUtility;
 
@@ -36,6 +37,13 @@ class Page {
 	 * @var string
 	 */
 	protected $rawContent = NULL;
+
+	/**
+	 * Parsed content
+	 *
+	 * @var string
+	 */
+	protected $parsedContent = '';
 
 	/**
 	 * Sorting position in a menu
@@ -112,6 +120,7 @@ class Page {
 	 */
 	public function setRawContent($rawContent) {
 		$this->rawContent = $rawContent;
+		$this->parsedContent = NULL;
 		return $this;
 	}
 
@@ -125,6 +134,17 @@ class Page {
 	}
 
 	/**
+	 * Returns the parsed content
+	 * @return string
+	 */
+	public function getContent() {
+		if (!$this->parsedContent) {
+			$this->parsedContent = MarkdownFactory::getMarkdownRenderer()->transform($this->getRawContent());
+		}
+		return $this->parsedContent;
+	}
+
+	/**
 	 * Sets the sorting position in a menu
 	 *
 	 * @param int $sorting
@@ -134,8 +154,6 @@ class Page {
 		$this->sorting = $sorting;
 		return $this;
 	}
-
-
 
 	/**
 	 * Returns the sorting position in a menu
