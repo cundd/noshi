@@ -95,8 +95,8 @@ class Configuration implements \ArrayAccess {
 	 * @return boolean
 	 */
 	protected function _validateHost($host) {
-		// Remove any dot ('.') and colon (':', allowed because of the port)
-		return ctype_alnum(str_replace(array('.', ':'), '', $host));
+		// Remove any dash ('-'), dot ('.') and colon (':', allowed because of the port)
+		return ctype_alnum(str_replace(array('-', '.', ':'), '', $host));
 	}
 
 	/**
