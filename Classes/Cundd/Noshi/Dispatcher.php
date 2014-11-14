@@ -62,10 +62,11 @@ class Dispatcher {
 	 *
 	 * @param string $uri
 	 * @param string $method
+	 * @param array  $arguments
 	 * @return Response
 	 */
-	public function dispatch($uri, $method = 'GET') {
-		$this->originalUri = filter_var($uri, FILTER_SANITIZE_URL);
+	public function dispatch($uri, $method = 'GET', $arguments = array()) {
+		$this->originalUri = $uri;
 		$this->uri = $this->getAliasForUri($this->originalUri);
 
 		$methods      = array(
