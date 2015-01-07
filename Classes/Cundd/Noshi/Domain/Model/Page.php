@@ -8,7 +8,6 @@
 
 namespace Cundd\Noshi\Domain\Model;
 use Cundd\Noshi\Helpers\MarkdownFactory;
-use Cundd\Noshi\Utilities\DebugUtility;
 use Cundd\Noshi\Utilities\ObjectUtility;
 
 /**
@@ -18,6 +17,11 @@ use Cundd\Noshi\Utilities\ObjectUtility;
  */
 class Page {
 	const DEFAULT_SORTING = 9000;
+
+	/**
+	 * Character to replace whitespaces in the URI
+	 */
+	const URI_WHITESPACE_REPLACE = '_';
 
 	/**
 	 * @var string
@@ -227,6 +231,7 @@ class Page {
 			if ($slashPosition !== FALSE) {
 				$title = substr($title, $slashPosition + 1);
 			}
+			$title = str_replace(self::URI_WHITESPACE_REPLACE, ' ', $title);
 		}
 		return $title;
 	}
@@ -270,10 +275,4 @@ class Page {
 	public function getIsExternalLink() {
 		return ObjectUtility::valueForKeyPathOfObject('meta.url', $this) ? TRUE : FALSE;
 	}
-
-
-
-
-
-
-} 
+}
