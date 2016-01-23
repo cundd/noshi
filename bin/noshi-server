@@ -1,5 +1,6 @@
 #!/bin/sh
 
+: ${PHP_BINARY="php"}
 HOST=$1
 PORT=$2
 
@@ -9,4 +10,4 @@ fi
 if [[ "$PORT" == "" ]]; then
     PORT=9000
 fi
-php -S $HOST:$PORT -t .
+$PHP_BINARY -S $HOST:$PORT -t .
