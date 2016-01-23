@@ -8,7 +8,7 @@
 
 namespace Cundd\Noshi;
 
-
+use Cundd\Noshi\Domain\Model\Page;
 use Cundd\Noshi\Utilities\Profiler;
 
 class Bootstrap {
@@ -53,6 +53,8 @@ class Bootstrap {
 		} else if (isset($_GET['u'])) {
 			$uri = $_GET['u'];
 		}
+
+		$uri    = str_replace(' ', Page::URI_WHITESPACE_REPLACE, $uri);
 		$uri    = filter_var($uri, FILTER_SANITIZE_URL);
 		$method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
 

@@ -12,7 +12,6 @@ namespace Cundd\Noshi\Domain\Repository;
 use Cundd\Noshi\ConfigurationManager;
 use Cundd\Noshi\Domain\Exception\InvalidPageIdentifierException;
 use Cundd\Noshi\Domain\Model\Page;
-use Cundd\Noshi\Utilities\DebugUtility;
 use Cundd\Noshi\Utilities\ObjectUtility;
 
 class PageRepository implements PageRepositoryInterface {
@@ -47,20 +46,26 @@ class PageRepository implements PageRepositoryInterface {
 		$configuration = ConfigurationManager::getConfiguration();
 		$dataPath      = $configuration->get('basePath') . $configuration->get('dataPath');
 
-		$pageName           = $this->getPageNameForPageIdentifier($identifier);
-		$pageDataPath       = $dataPath . $pageName . '.' . $configuration->get('dataSuffix');
-		$directoryDataPath  = $dataPath . $pageName;
-		$metaDataPath       = $dataPath . $pageName . '.json';
+		$pageName          = $this->getPageNameForPageIdentifier($identifier);
+		$pageDataPath      = $dataPath . $pageName . '.' . $configuration->get('dataSuffix');
+		$directoryDataPath = $dataPath . $pageName;
+		$metaDataPath      = $dataPath . $pageName . '.json';
 
 		$lastSlashPosition = strrpos($pageName, '/');
 
 		$hiddenPageDataPath = $dataPath . substr($pageName, 0, $lastSlashPosition)
 			. '_' . substr($pageName, $lastSlashPosition)
-			. '.' . $configuration->get('dataSuffix')
-		;
+			. '.' . $configuration->get('dataSuffix');
+
+		$whiteSpacePageDataPath = $dataPath . str_replace(Page::URI_WHITESPACE_REPLACE, ' ', $pageName)
+			. '.'
+			. $configuration->get('dataSuffix');
 
 		// Check if the node exists
 		if (file_exists($pageDataPath)) {
+			$rawPageData = file_get_contents($pageDataPath);
+		} else if (file_exists($whiteSpacePageDataPath)) {
+			$pageDataPath = $whiteSpacePageDataPath;
 			$rawPageData = file_get_contents($pageDataPath);
 		} else if (file_exists($hiddenPageDataPath)) {
 			$pageDataPath = $hiddenPageDataPath;
@@ -184,7 +189,11 @@ class PageRepository implements PageRepositoryInterface {
 
 				if (!($isFolder || $isPage || $isConfig)) continue;
 
-				$relativePageIdentifier = substr($file, 0, strrpos($file, '.'));
+				$relativePageIdentifier = str_replace(
+					' ',
+					Page::URI_WHITESPACE_REPLACE,
+					substr($file, 0, strrpos($file, '.'))
+				);
 				$pageIdentifier         = ($uriBase ? $uriBase . '/' : '') . ($relativePageIdentifier ? $relativePageIdentifier : $file);
 
 				/** @var Page $page */
