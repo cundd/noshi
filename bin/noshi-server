@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 : ${PHP_BINARY="php"}
 HOST=$1
@@ -10,4 +10,6 @@ fi
 if [[ "$PORT" == "" ]]; then
     PORT=9000
 fi
+
+echo "Start server on $HOST:$PORT";
 $PHP_BINARY -S $HOST:$PORT -t .
