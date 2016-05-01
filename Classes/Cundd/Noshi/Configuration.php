@@ -64,7 +64,7 @@ class Configuration implements \ArrayAccess {
 	public function getHost() {
 		$host = '';
 
-		if (isset($_SERVER['SERVER_NAME'])) {
+		if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] !== '0.0.0.0') {
 			$host = $_SERVER['SERVER_NAME'];
 			if (!$this->_validateHost($host)) {
 				$host = '';
@@ -78,6 +78,7 @@ class Configuration implements \ArrayAccess {
 				}
 			}
 		}
+
 		if (!$host && isset($_SERVER['HTTP_HOST'])) {
 			$host = $_SERVER['HTTP_HOST'];
 			if (!$this->_validateHost($host)) {
