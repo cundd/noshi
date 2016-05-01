@@ -46,7 +46,7 @@ class Configuration implements \ArrayAccess {
 		$baseUrl = $this->_get('baseUrl');
 		if (!$baseUrl) {
 			$baseUrl = ''
-				. isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http'
+				. (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http')
 				. '://'
 				. $this->getHost()
 				. '/'
