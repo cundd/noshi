@@ -70,6 +70,4 @@ class Bootstrap {
 		$commandController = new \Cundd\Noshi\Command\NoshiCommandController($arguments);
 		$commandController->dispatch();
 	}
-
-
 }

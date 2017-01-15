@@ -170,6 +170,12 @@ class PageRepository implements PageRepositoryInterface {
 		$pages              = array();
 		$pagesSortingMap    = array();
 		$pagesIdentifierMap = array();
+		if (!file_exists($path)) {
+		    throw new \InvalidArgumentException("Page path '$path' does not exist");
+        }
+        if (!is_readable($path)) {
+		    throw new \InvalidArgumentException("Page path '$path' is not readable");
+        }
 		if ($handle = opendir($path)) {
 
 			$dataSuffix       = '.' . ConfigurationManager::getConfiguration()->get('dataSuffix');
