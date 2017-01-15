@@ -203,7 +203,7 @@ class PageRepository implements PageRepositoryInterface {
 				$pageIdentifier         = ($uriBase ? $uriBase . '/' : '') . ($relativePageIdentifier ? $relativePageIdentifier : $file);
 
 				/** @var Page $page */
-				$page = $this->findByIdentifier($pageIdentifier);
+                $page = $this->findByIdentifier($pageIdentifier);
 				$page->setIsDirectory($isFolder);
 				$sorting           = $page->getSorting();
 				$sortingDescriptor = sprintf('%05d-%s', $sorting, $pageIdentifier);

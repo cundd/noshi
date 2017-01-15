@@ -33,9 +33,36 @@ class Configuration implements \ArrayAccess {
 	);
 
 	function __construct($configuration = array()) {
-		$this->configuration = array_merge($this->configuration, (array)$configuration);
+        $this->configuration = array_merge(
+            $this->configuration,
+            $this->prepareConfigurationArray((array)$configuration)
+        );
 		$this->_useVendorDirectory = file_exists($this->getThemePath());
 	}
+
+    /**
+     * Prepare the configuration values
+     *
+     * Append a slash at the end of directory configurations
+     *
+     * @param array $configuration
+     * @return array
+     */
+    private function prepareConfigurationArray(array $configuration)
+    {
+        $pathConfiguration = array(
+            'dataPath',
+            'templatePath',
+            'resourcePath',
+        );
+        foreach ($pathConfiguration as $key) {
+            if (isset($configuration[$key])) {
+                $configuration[$key] = rtrim($configuration[$key], '/') . '/';
+            }
+        }
+
+        return $configuration;
+    }
 
 	/**
 	 * Returns the base URL
@@ -238,7 +265,7 @@ class Configuration implements \ArrayAccess {
 		if (substr($name, 0, 3) === 'get') {
 			return $this->get(lcfirst(substr($name, 3)));
 		}
+
+		return null;
 	}
-
-
 }
