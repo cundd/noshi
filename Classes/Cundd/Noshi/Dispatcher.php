@@ -201,13 +201,7 @@ class Dispatcher {
 	 * @return Page
 	 */
 	public function getPageForUri($uri) {
-		$pageIdentifier = urldecode($uri);
-		if ($pageIdentifier[0] === '/') {
-			$pageIdentifier = substr($pageIdentifier, 1);
-		}
-		if (substr($pageIdentifier, -1) === '/') {
-			$pageIdentifier = substr($pageIdentifier, 0, -1);
-		}
+        $pageIdentifier = trim(urldecode($uri),'/');
 
 		$pageRepository = new PageRepository();
 		return $pageRepository->findByIdentifier($pageIdentifier);
