@@ -14,6 +14,8 @@ namespace Cundd\Noshi\Helpers\Markdown;
  * @package Cundd\Noshi\Helpers\Markdown
  */
 class ParsedownRenderer extends \Parsedown implements RenderInterface {
+    use AnchorTrait;
+
 	/**
 	 * Transforms the given raw Markdown text
 	 *
@@ -21,7 +23,7 @@ class ParsedownRenderer extends \Parsedown implements RenderInterface {
 	 * @return string
 	 */
 	public function transform($markdown) {
-		return $this->text($markdown);
+		return $this->addHeadlineIds($this->text($markdown));
 	}
 
 } 
