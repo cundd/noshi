@@ -1,49 +1,47 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: daniel
- * Date: 19/02/14
- * Time: 20:12
- */
 
 namespace Cundd\Noshi;
 
 use Cundd\Noshi\Domain\Model\Page;
 use Cundd\Noshi\Utilities\Profiler;
 
-class Bootstrap {
+class Bootstrap
+{
 
-	/**
-	 * Dispatcher instance
-	 *
-	 * @var Dispatcher
-	 */
-	protected $dispatcher;
+    /**
+     * Dispatcher instance
+     *
+     * @var Dispatcher
+     */
+    protected $dispatcher;
 
-	function __construct($basePath) {
-		if (substr($basePath, -1) !== DIRECTORY_SEPARATOR) {
-			$basePath .= DIRECTORY_SEPARATOR;
-		}
-		ConfigurationManager::initializeConfiguration($basePath);
-		Profiler::start();
-	}
+    function __construct($basePath)
+    {
+        if (substr($basePath, -1) !== DIRECTORY_SEPARATOR) {
+            $basePath .= DIRECTORY_SEPARATOR;
+        }
+        ConfigurationManager::initializeConfiguration($basePath);
+        Profiler::start();
+    }
 
-	/**
-	 * Invokes the dispatcher
-	 */
-	public function run() {
+    /**
+     * Invokes the dispatcher
+     */
+    public function run()
+    {
         Dispatcher::getSharedDispatcher()->dispatch($this->getUri(), $this->getMethod(), $this->getArguments());
-	}
+    }
 
-	/**
-	 * Invokes the CLI dispatcher
-	 *
-	 * @param array $arguments
-	 */
-	public function runCli($arguments) {
-		$commandController = new \Cundd\Noshi\Command\NoshiCommandController($arguments);
-		$commandController->dispatch();
-	}
+    /**
+     * Invokes the CLI dispatcher
+     *
+     * @param array $arguments
+     */
+    public function runCli($arguments)
+    {
+        $commandController = new \Cundd\Noshi\Command\NoshiCommandController($arguments);
+        $commandController->dispatch();
+    }
 
     /**
      * @return array
@@ -74,12 +72,12 @@ class Bootstrap {
             $uri = $uriParts[0];
         } elseif (isset($_GET['u'])) {
             $uri = $_GET['u'];
-        }else {
+        } else {
             return '';
         }
 
-        $uri    = str_replace(' ', Page::URI_WHITESPACE_REPLACE, $uri);
-        $uri    = filter_var($uri, FILTER_SANITIZE_URL);
+        $uri = str_replace(' ', Page::URI_WHITESPACE_REPLACE, $uri);
+        $uri = filter_var($uri, FILTER_SANITIZE_URL);
 
         return $uri;
     }

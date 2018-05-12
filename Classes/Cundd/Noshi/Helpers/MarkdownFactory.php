@@ -1,12 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: daniel
- * Date: 31.05.14
- * Time: 15:03
- */
 
 namespace Cundd\Noshi\Helpers;
+
 use Cundd\Noshi\Helpers\Markdown\MichelfRenderer;
 use Cundd\Noshi\Helpers\Markdown\ParsedownRenderer;
 use Cundd\Noshi\Helpers\Markdown\RenderInterface;
@@ -16,25 +11,28 @@ use Cundd\Noshi\Helpers\Markdown\RenderInterface;
  *
  * @package Cundd\Noshi\Helpers
  */
-class MarkdownFactory {
-	/**
-	 * @var RenderInterface
-	 */
-	static protected $markdownRendererInstance;
+class MarkdownFactory
+{
+    /**
+     * @var RenderInterface
+     */
+    static protected $markdownRendererInstance;
 
-	/**
-	 * Returns a Markdown Parser instance
-	 *
-	 * @return RenderInterface
-	 */
-	static public function getMarkdownRenderer() {
-		if (!self::$markdownRendererInstance) {
-			if (class_exists('\\Michelf\\Markdown')) {
-				self::$markdownRendererInstance = new MichelfRenderer();
-			} else {
-				self::$markdownRendererInstance = new ParsedownRenderer();
-			}
-		}
-		return self::$markdownRendererInstance;
-	}
+    /**
+     * Returns a Markdown Parser instance
+     *
+     * @return RenderInterface
+     */
+    static public function getMarkdownRenderer()
+    {
+        if (!self::$markdownRendererInstance) {
+            if (class_exists('\\Michelf\\Markdown')) {
+                self::$markdownRendererInstance = new MichelfRenderer();
+            } else {
+                self::$markdownRendererInstance = new ParsedownRenderer();
+            }
+        }
+
+        return self::$markdownRendererInstance;
+    }
 } 

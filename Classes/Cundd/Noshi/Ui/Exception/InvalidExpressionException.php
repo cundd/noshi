@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: daniel
- * Date: 31.05.14
- * Time: 15:29
- */
 
 namespace Cundd\Noshi\Ui\Exception;
 
@@ -13,6 +7,7 @@ namespace Cundd\Noshi\Ui\Exception;
  *
  * @package Cundd\Noshi\Ui\Exception
  */
-class InvalidExpressionException extends \Exception {
+class InvalidExpressionException extends \Exception
+{
 
 } 

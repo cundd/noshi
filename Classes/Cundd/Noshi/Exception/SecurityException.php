@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: daniel
- * Date: 19/02/14
- * Time: 20:12
- */
 
 /**
  * @author COD
@@ -19,5 +13,6 @@ namespace Cundd\Noshi\Exception;
  *
  * @package Cundd\Noshi\Exception
  */
-class SecurityException extends \RuntimeException {
+class SecurityException extends \RuntimeException
+{
 }

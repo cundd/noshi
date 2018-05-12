@@ -5,8 +5,11 @@
     "require": {
         "erusev/parsedown": "dev-master"
     },
-	"bin": ["bin/noshi", "bin/noshi-server"],
-	"license": "MIT",
+    "bin": [
+        "bin/noshi",
+        "bin/noshi-server"
+    ],
+    "license": "MIT",
     "authors": [
         {
             "name": "Daniel Corn",
@@ -14,8 +17,8 @@
         }
     ],
     "autoload": {
-        "psr-0": { 
-            "Cundd\\Noshi\\": "Classes/" 
+        "psr-0": {
+            "Cundd\\Noshi\\": "Classes/"
         }
     }
 }

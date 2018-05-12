@@ -12,4 +12,4 @@ if [[ "$PORT" == "" ]]; then
 fi
 
 echo "Start server on $HOST:$PORT";
-$PHP_BINARY -S $HOST:$PORT -t .
+${PHP_BINARY} -S ${HOST}:${PORT} -t .
