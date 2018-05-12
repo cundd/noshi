@@ -1,16 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: daniel
- * Date: 19/02/14
- * Time: 20:42
- */
 
 namespace Cundd\Noshi;
 
 
 use Cundd\Noshi\Exception\SecurityException;
 
+/**
+ * Configuration container
+ *
+ * @method string getTemplatePath()
+ */
 class Configuration implements \ArrayAccess {
 	/**
 	 * @var bool
