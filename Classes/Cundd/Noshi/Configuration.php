@@ -8,6 +8,8 @@ use Cundd\Noshi\Exception\SecurityException;
 /**
  * Configuration container
  *
+ * @method string getBasePath()
+ * @method string getDataPath()
  * @method string getTemplatePath()
  */
 class Configuration implements \ArrayAccess
