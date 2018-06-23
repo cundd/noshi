@@ -83,6 +83,11 @@ class Configuration implements \ArrayAccess
                 . '/';
         }
 
+        $requestBasePath = $this->getRequestBasePath();
+        if ($requestBasePath) {
+            return $baseUrl . $requestBasePath;
+        }
+
         return $baseUrl;
     }
 
@@ -168,6 +173,34 @@ class Configuration implements \ArrayAccess
     public function getResourceDirectoryUri()
     {
         return $this->getThemeUri() . $this->get('resourcePath');
+    }
+
+    /**
+     * Returns the name of the subdirectory the project is installed in
+     *
+     * @return string
+     */
+    public function getRequestBasePath()
+    {
+        $trimmedBasePath = trim($this->_get('requestBasePath'), '/');
+
+        if (!$trimmedBasePath) {
+            return '/';
+        }
+
+        return '/'
+            . $trimmedBasePath
+            . '/';
+    }
+
+    /**
+     * Returns if the website is in Development Mode
+     *
+     * @return bool
+     */
+    public function isDevelopmentMode()
+    {
+        return (bool)$this->get('developmentMode');
     }
 
 

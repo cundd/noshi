@@ -63,7 +63,7 @@ class Dispatcher
     public function dispatch($uri, $method = 'GET', $arguments = [])
     {
         $this->originalUri = $uri;
-        $this->uri = $this->getAliasForUri($this->originalUri);
+        $this->uri = $this->prepareUri($uri);
 
         $methods = [
             'GET',
@@ -94,7 +94,11 @@ class Dispatcher
         } catch (\Exception $exception) {
             $fileHandle = fopen('php://stderr', 'w');
             fwrite($fileHandle, (string)$exception);
-            echo new Response('An error occurred', 500);
+            if (ConfigurationManager::getConfiguration()->isDevelopmentMode()) {
+                echo new Response('An error occurred: ' . $exception, 500);
+            } else {
+                echo new Response('An error occurred', 500);
+            }
         }
 
         return '';
@@ -113,14 +117,15 @@ class Dispatcher
         $view = new View();
         $view->setContext($this);
         $view->setTemplatePath($this->getTemplatePath());
+        $configuration = ConfigurationManager::getConfiguration();
         $view->assignMultiple(
             [
-                'page'         => $page,
-                'meta'         => $page ? $page->getMeta() : [],
-                'content'      => $response->getBody(),
-                'response'     => $response,
-                'resourcePath' => ConfigurationManager::getConfiguration()->getResourceDirectoryUri(),
-
+                'page'          => $page,
+                'meta'          => $page ? $page->getMeta() : [],
+                'content'       => $response->getBody(),
+                'response'      => $response,
+                'resourcePath'  => $configuration->getResourceDirectoryUri(),
+                'configuration' => $configuration,
             ]
         );
 
@@ -262,4 +267,18 @@ class Dispatcher
         return static::$sharedDispatcher;
     }
 
+    /**
+     * @param string $uri
+     * @return string
+     */
+    protected function prepareUri($uri)
+    {
+        $basePath = ConfigurationManager::getConfiguration()->getRequestBasePath();
+        $basePathLength = strlen($basePath);
+        if ($basePath && substr($uri, 0, $basePathLength) === $basePath) {
+            $uri = '/' . substr($uri, $basePathLength);
+        }
+
+        return $this->getAliasForUri($uri);
+    }
 }
