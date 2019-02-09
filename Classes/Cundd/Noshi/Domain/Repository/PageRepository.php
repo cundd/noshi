@@ -20,7 +20,7 @@ class PageRepository implements PageRepositoryInterface
     /**
      * All pages
      *
-     * @var array<Pages>
+     * @var Page[]
      */
     protected $allPages = [];
 
@@ -49,31 +49,27 @@ class PageRepository implements PageRepositoryInterface
 
         $lastSlashPosition = strrpos($pageName, '/');
 
-        $hiddenPageDataPath = $dataPath . substr($pageName, 0, $lastSlashPosition)
+        $hiddenPageDataPath = $dataPath
+            . substr($pageName, 0, $lastSlashPosition)
             . '_' . substr($pageName, $lastSlashPosition)
             . '.' . $configuration->get('dataSuffix');
 
-        $whiteSpacePageDataPath = $dataPath . str_replace(Page::URI_WHITESPACE_REPLACE, ' ', $pageName)
+        $whiteSpacePageDataPath = $dataPath
+            . str_replace(Page::URI_WHITESPACE_REPLACE, ' ', $pageName)
             . '.'
             . $configuration->get('dataSuffix');
 
         // Check if the node exists
         if (file_exists($pageDataPath)) {
             $rawPageData = file_get_contents($pageDataPath);
-        } else {
-            if (file_exists($whiteSpacePageDataPath)) {
-                $pageDataPath = $whiteSpacePageDataPath;
-                $rawPageData = file_get_contents($pageDataPath);
-            } else {
-                if (file_exists($hiddenPageDataPath)) {
-                    $pageDataPath = $hiddenPageDataPath;
-                    $rawPageData = file_get_contents($pageDataPath);
-                } else {
-                    if (!(file_exists($directoryDataPath) || file_exists($metaDataPath))) {
-                        return null;
-                    }
-                }
-            }
+        } elseif (file_exists($whiteSpacePageDataPath)) {
+            $pageDataPath = $whiteSpacePageDataPath;
+            $rawPageData = file_get_contents($pageDataPath);
+        } elseif (file_exists($hiddenPageDataPath)) {
+            $pageDataPath = $hiddenPageDataPath;
+            $rawPageData = file_get_contents($pageDataPath);
+        } elseif (!(file_exists($directoryDataPath) || file_exists($metaDataPath))) {
+            return null;
         }
 
         $page = new Page($identifier, $rawPageData, $this->buildMetaDataForPageIdentifier($identifier, $pageDataPath));
@@ -91,20 +87,9 @@ class PageRepository implements PageRepositoryInterface
      */
     public function getPageNameForPageIdentifier($identifier)
     {
-        $pageName = urldecode($identifier);
+        $this->assertValidPageIdentifier($identifier);
 
-        if (!$pageName || $pageName[0] === '.' || strpos($pageName, '/.') !== false) {
-            throw new InvalidPageIdentifierException('Invalid page identifier');
-        }
-
-        if ($pageName[0] === '/') {
-            $pageName = substr($pageName, 1);
-        }
-        if (substr($pageName, -1) === '/') {
-            $pageName = substr($pageName, 0, -1);
-        }
-
-        return $pageName;
+        return $identifier;
     }
 
     /**
@@ -220,7 +205,6 @@ class PageRepository implements PageRepositoryInterface
                 );
                 $pageIdentifier = ($uriBase ? $uriBase . '/' : '') . ($relativePageIdentifier ? $relativePageIdentifier : $file);
 
-                /** @var Page $page */
                 $page = $this->findByIdentifier($pageIdentifier);
                 $page->setIsDirectory($isFolder);
                 $sorting = $page->getSorting();
@@ -270,4 +254,20 @@ class PageRepository implements PageRepositoryInterface
 
         return $pagesSortingMap;
     }
-} 
+
+    /**
+     * @param $identifier
+     *
+     * @throws \Cundd\Noshi\Domain\Exception\InvalidPageIdentifierException if the given page identifier is invalid
+     */
+    private function assertValidPageIdentifier($identifier)
+    {
+        if (!is_string($identifier)) {
+            throw new InvalidPageIdentifierException('Invalid page identifier', 1549723840);
+        }
+
+        if (!$identifier || $identifier[0] === '.' || strpos($identifier, '/.') !== false) {
+            throw new InvalidPageIdentifierException('Invalid page identifier', 1549723830);
+        }
+    }
+}

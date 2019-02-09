@@ -31,8 +31,5 @@ class DebugUtility
 
         echo '</pre>';
         echo PHP_EOL;
-
-
     }
-
 }

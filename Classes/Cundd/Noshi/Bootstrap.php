@@ -2,12 +2,12 @@
 
 namespace Cundd\Noshi;
 
+use Cundd\Noshi\Command\NoshiCommandController;
 use Cundd\Noshi\Domain\Model\Page;
 use Cundd\Noshi\Utilities\Profiler;
 
 class Bootstrap
 {
-
     /**
      * Dispatcher instance
      *
@@ -20,6 +20,9 @@ class Bootstrap
         if (substr($basePath, -1) !== DIRECTORY_SEPARATOR) {
             $basePath .= DIRECTORY_SEPARATOR;
         }
+
+        $this->configureEnvironment();
+
         ConfigurationManager::initializeConfiguration($basePath);
         Profiler::start();
     }
@@ -39,7 +42,7 @@ class Bootstrap
      */
     public function runCli($arguments)
     {
-        $commandController = new \Cundd\Noshi\Command\NoshiCommandController($arguments);
+        $commandController = new NoshiCommandController($arguments);
         $commandController->dispatch();
     }
 
@@ -90,5 +93,11 @@ class Bootstrap
         $method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
 
         return $method;
+    }
+
+    private function configureEnvironment()
+    {
+        ini_set('default_charset', 'utf-8');
+        ini_set('mbstring.encoding_translation', true);
     }
 }

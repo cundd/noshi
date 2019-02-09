@@ -3,7 +3,8 @@
     "description": "The no shi* CMS",
     "version": "1.0.0",
     "require": {
-        "erusev/parsedown": "dev-master"
+        "erusev/parsedown": "^1.7.0",
+        "ext-json": "*"
     },
     "bin": [
         "bin/noshi",

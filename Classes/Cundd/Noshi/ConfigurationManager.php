@@ -21,6 +21,7 @@ class ConfigurationManager
         // Read the configurations file
         $configuration = [];
         $configurationFile = $basePath . 'Configurations/Configuration.json';
+
         if (file_exists($configurationFile) && is_readable($configurationFile)) {
             $configuration = json_decode(file_get_contents($configurationFile), true);
         }
@@ -40,4 +41,4 @@ class ConfigurationManager
     {
         return self::$sharedConfiguration;
     }
-} 
+}

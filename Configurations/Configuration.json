@@ -1,0 +1,25 @@
+{
+	"theme": "cundd/noshi-boilerplate",
+	"routing": {
+		"alias": {
+			"/": "/Home/"
+		}
+    },
+    "pages": {
+        "Home": {
+            "meta": {
+            	"title": "The no shi! CMS"
+            }
+        },
+        "Source": {
+            "meta": {
+                "sorting": 20
+            }
+        },
+        "About": {
+            "meta": {
+                "sorting": 30
+            }
+        }
+    }
+}
