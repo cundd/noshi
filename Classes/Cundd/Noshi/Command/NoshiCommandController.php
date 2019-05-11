@@ -18,7 +18,13 @@ class NoshiCommandController extends AbstractCommandController
     public function listPagesCommand()
     {
         $pageRepository = new PageRepository();
-        $pages = $pageRepository->findAll();
+        try {
+            $pages = $pageRepository->findAll();
+        } catch (\InvalidArgumentException $exception) {
+            $this->outputError($exception->getMessage());
+
+            return;
+        }
         $tableData = [];
         /** @var Page $page */
         foreach ($pages as $page) {

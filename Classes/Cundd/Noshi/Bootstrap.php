@@ -15,7 +15,7 @@ class Bootstrap
      */
     protected $dispatcher;
 
-    function __construct($basePath)
+    function __construct(string $basePath, ?string $dataPath = null)
     {
         if (substr($basePath, -1) !== DIRECTORY_SEPARATOR) {
             $basePath .= DIRECTORY_SEPARATOR;
@@ -23,12 +23,12 @@ class Bootstrap
 
         $this->configureEnvironment();
 
-        ConfigurationManager::initializeConfiguration($basePath);
+        ConfigurationManager::initializeConfiguration($basePath, $dataPath);
         Profiler::start();
     }
 
     /**
-     * Invokes the dispatcher
+     * Invoke the web dispatcher
      */
     public function run()
     {
@@ -40,7 +40,7 @@ class Bootstrap
      *
      * @param array $arguments
      */
-    public function runCli($arguments)
+    public function runCli(array $arguments)
     {
         $commandController = new NoshiCommandController($arguments);
         $commandController->dispatch();

@@ -6,9 +6,10 @@ namespace Cundd\Noshi;
 use Cundd\Noshi\Domain\Model\Page;
 use Cundd\Noshi\Domain\Repository\PageRepository;
 use Cundd\Noshi\Helpers\MarkdownFactory;
+use Cundd\Noshi\Ui\UiInterface;
 use Cundd\Noshi\Ui\View;
 
-class Dispatcher
+class Dispatcher implements UiInterface
 {
     /**
      * Request URI
@@ -58,7 +59,7 @@ class Dispatcher
      * @param string $uri
      * @param string $method
      * @param array  $arguments
-     * @return Response
+     * @return Response|null
      */
     public function dispatch($uri, $method = 'GET', $arguments = [])
     {
@@ -101,7 +102,7 @@ class Dispatcher
             }
         }
 
-        return '';
+        return null;
     }
 
     /**
@@ -219,6 +220,9 @@ class Dispatcher
     public function getPageForUri($uri)
     {
         $pageIdentifier = trim(urldecode($uri), '/');
+        if ($pageIdentifier === '') {
+            $pageIdentifier = '/';
+        }
 
         $pageRepository = new PageRepository();
 
@@ -239,6 +243,11 @@ class Dispatcher
         $aliasConfiguration = isset($routingConfiguration['alias']) ? $routingConfiguration['alias'] : [];
 
         return isset($aliasConfiguration[$uri]) ? $aliasConfiguration[$uri] : $uri;
+    }
+
+    public function setContext($context)
+    {
+        // noop
     }
 
     /**

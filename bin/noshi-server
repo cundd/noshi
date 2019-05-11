@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 
+if hash realpath 2> /dev/null; then
+    DIR="$( cd "$(dirname $(realpath "${BASH_SOURCE[0]}" ))" && pwd )";
+elif hash readlink 2> /dev/null && [[ "$(uname -s)" != "Darwin" ]]; then
+    DIR="$( cd "$(dirname $(readlink -f "${BASH_SOURCE[0]}" ))" && pwd )";
+else
+    DIR="$( cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )";
+fi
+
 : ${PHP_BINARY="php"}
+: ${BASE_PATH="$DIR/../"}
+: ${DATA_PATH="$BASE_PATH/data/"}
 HOST=$1
 PORT=$2
 
@@ -12,4 +22,6 @@ if [[ "$PORT" == "" ]]; then
 fi
 
 echo "Start server on $HOST:$PORT";
-${PHP_BINARY} -S ${HOST}:${PORT} -t .
+export BASE_PATH="$BASE_PATH";
+export DATA_PATH="$DATA_PATH";
+${PHP_BINARY} -S ${HOST}:${PORT} -t "$DIR/../";

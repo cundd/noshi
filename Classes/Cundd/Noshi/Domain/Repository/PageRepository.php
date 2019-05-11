@@ -82,8 +82,8 @@ class PageRepository implements PageRepositoryInterface
      * Returns the page file name for the given page identifier
      *
      * @param string $identifier
-     * @throws \Cundd\Noshi\Domain\Exception\InvalidPageIdentifierException if the given page identifier is invalid
      * @return string
+     * @throws InvalidPageIdentifierException if the given page identifier is invalid
      */
     public function getPageNameForPageIdentifier($identifier)
     {
@@ -128,7 +128,7 @@ class PageRepository implements PageRepositoryInterface
     /**
      * Returns all pages
      *
-     * @return array<Page>
+     * @return Page[]
      */
     public function findAll()
     {
@@ -142,7 +142,7 @@ class PageRepository implements PageRepositoryInterface
     /**
      * Returns all available page names
      *
-     * @return array<string>
+     * @return string[]
      */
     public function getPageTree()
     {
@@ -168,10 +168,10 @@ class PageRepository implements PageRepositoryInterface
         $pagesSortingMap = [];
         $pagesIdentifierMap = [];
         if (!file_exists($path)) {
-            throw new \InvalidArgumentException("Page path '$path' does not exist");
+            throw new \InvalidArgumentException("Page path '$path' does not exist", 1556015352);
         }
         if (!is_readable($path)) {
-            throw new \InvalidArgumentException("Page path '$path' is not readable");
+            throw new \InvalidArgumentException("Page path '$path' is not readable", 1556015359);
         }
         if ($handle = opendir($path)) {
 
@@ -258,7 +258,7 @@ class PageRepository implements PageRepositoryInterface
     /**
      * @param $identifier
      *
-     * @throws \Cundd\Noshi\Domain\Exception\InvalidPageIdentifierException if the given page identifier is invalid
+     * @throws InvalidPageIdentifierException if the given page identifier is invalid
      */
     private function assertValidPageIdentifier($identifier)
     {

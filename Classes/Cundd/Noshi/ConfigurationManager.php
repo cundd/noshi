@@ -14,9 +14,10 @@ class ConfigurationManager
      * Initializes the shared configuration
      *
      * @param string $basePath
+     * @param string $dataPath
      * @return Configuration
      */
-    static public function initializeConfiguration($basePath)
+    static public function initializeConfiguration(string $basePath, ?string $dataPath)
     {
         // Read the configurations file
         $configuration = [];
@@ -26,8 +27,11 @@ class ConfigurationManager
             $configuration = json_decode(file_get_contents($configurationFile), true);
         }
 
+        $configuration['basePath'] = $basePath;
+        if (null !== $dataPath) {
+            $configuration['dataPath'] = $dataPath;
+        }
         self::$sharedConfiguration = new Configuration($configuration);
-        self::$sharedConfiguration->set('basePath', $basePath);
 
         return self::$sharedConfiguration;
     }
