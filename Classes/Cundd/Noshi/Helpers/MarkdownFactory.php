@@ -9,22 +9,15 @@ use Cundd\Noshi\Helpers\Markdown\RenderInterface;
 
 /**
  * Factory class for Markdown parsers
- *
- * @package Cundd\Noshi\Helpers
  */
-class MarkdownFactory
+class MarkdownFactory implements MarkdownFactoryInterface
 {
     /**
      * @var RenderInterface
      */
-    static protected $markdownRendererInstance;
+    protected static $markdownRendererInstance;
 
-    /**
-     * Returns a Markdown Parser instance
-     *
-     * @return RenderInterface
-     */
-    static public function getMarkdownRenderer()
+    public function create(): RenderInterface
     {
         if (!self::$markdownRendererInstance) {
             if (class_exists('\\Michelf\\Markdown')) {
@@ -36,4 +29,4 @@ class MarkdownFactory
 
         return self::$markdownRendererInstance;
     }
-} 
+}

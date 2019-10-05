@@ -3,14 +3,11 @@ declare(strict_types=1);
 
 namespace Cundd\Noshi\Ui;
 
-use Cundd\Noshi\Ui\Exception\InvalidExpressionException;
+use Cundd\Noshi\Expression\ExpressionProcessorInterface;
 use Cundd\Noshi\Utilities\ObjectUtility;
 use Exception;
 
-/**
- * A simple template
- */
-class Template extends AbstractUi
+class Template extends AbstractUi implements TemplateInterface
 {
     /**
      * Data
@@ -27,63 +24,41 @@ class Template extends AbstractUi
     protected $template = '';
 
     /**
-     * Assign value for variable key
-     *
-     * @param string $key
-     * @param mixed  $value
-     * @return $this
+     * @var ExpressionProcessorInterface
      */
-    public function assign($key, $value)
+    protected $expressionProcessor;
+
+    /**
+     * Template constructor.
+     *
+     * @param string                       $template
+     * @param array                        $data
+     * @param ExpressionProcessorInterface $expressionProcessor
+     */
+    public function __construct(string $template, array $data, ExpressionProcessorInterface $expressionProcessor)
+    {
+        $this->data = $data;
+        $this->template = $template;
+        $this->expressionProcessor = $expressionProcessor;
+    }
+
+    public function assign(string $key, $value): TemplateInterface
     {
         $this->data[$key] = $value;
 
         return $this;
     }
 
-    /**
-     * Assign multiple values
-     *
-     * @param array $values
-     * @return $this
-     */
-    public function assignMultiple($values)
+    public function assignMultiple(array $values): TemplateInterface
     {
         $this->data = array_merge($this->data, (array)$values);
 
         return $this;
     }
 
-    /**
-     * Renders the template
-     *
-     * @return string
-     * @throws Exception\InvalidExpressionException if the rendered expression can not be converted to a string
-     */
-    public function render()
+    public function render(): string
     {
-        $template = $this->getTemplate();
-
-        // Find the expressions
-        $matches = [];
-        if (!preg_match_all('!{([\w.\\\ /]*)}!', $template, $matches)) {
-            return $template;
-        }
-
-        $expressions = $matches[1];
-        $expressions = array_unique($expressions);
-        foreach ($expressions as $expression) {
-            $renderedExpression = $this->renderExpression($expression);
-            if (is_object($renderedExpression) && !method_exists($renderedExpression, '__toString')) {
-                throw new InvalidExpressionException(
-                    'Could not convert object of class ' . get_class(
-                        $renderedExpression
-                    ) . ' for expression ' . $expression . ' to string', 1401543101
-                );
-            }
-            $template = str_replace('{' . $expression . '}', $renderedExpression, $template);
-        }
-
-        return $template;
+        return $this->expressionProcessor->process($this->getTemplate(), $this, $this->data);
     }
 
     /**
@@ -91,6 +66,7 @@ class Template extends AbstractUi
      *
      * @param string $expression
      * @return string
+     * @deprecated use ExpressionProcessorInterface instead. Will be removed in 3.0
      */
     public function renderExpression($expression)
     {
@@ -127,6 +103,7 @@ class Template extends AbstractUi
      *
      * @param string $keyPath
      * @return string
+     * @deprecated use ExpressionProcessorInterface instead. Will be removed in 3.0
      */
     public function resolveExpressionKeyPath($keyPath)
     {
@@ -137,22 +114,11 @@ class Template extends AbstractUi
         return ObjectUtility::valueForKeyPathOfObject($keyPath, $this->data);
     }
 
-    /**
-     * Returns the raw template
-     *
-     * @return string
-     */
     public function getTemplate()
     {
         return $this->template;
     }
 
-    /**
-     * Sets the raw template
-     *
-     * @param string $template
-     * @return $this
-     */
     public function setTemplate($template)
     {
         $this->template = $template;

@@ -6,6 +6,7 @@ namespace Cundd\Noshi\Domain\Repository;
 use Cundd\Noshi\ConfigurationManager;
 use Cundd\Noshi\Domain\Exception\InvalidPageIdentifierException;
 use Cundd\Noshi\Domain\Model\Page;
+use Cundd\Noshi\Helpers\MarkdownFactoryInterface;
 use Cundd\Noshi\Utilities\ObjectUtility;
 use InvalidArgumentException;
 
@@ -25,7 +26,20 @@ class PageRepository implements PageRepositoryInterface
      */
     protected $allPages = [];
 
-    const DEFAULT_SORTING = 9000;
+    /**
+     * @var MarkdownFactoryInterface
+     */
+    private $markdownFactory;
+
+    /**
+     * PageRepository constructor
+     *
+     * @param MarkdownFactoryInterface $markdownFactory
+     */
+    public function __construct(MarkdownFactoryInterface $markdownFactory)
+    {
+        $this->markdownFactory = $markdownFactory;
+    }
 
     /**
      * Find the page with tie given identifier
@@ -33,7 +47,7 @@ class PageRepository implements PageRepositoryInterface
      * @param string $identifier
      * @return Page
      */
-    public function findByIdentifier($identifier)
+    public function findByIdentifier(string $identifier): ?Page
     {
         if (isset($this->allPages[$identifier])) {
             return $this->allPages[$identifier];
@@ -48,7 +62,7 @@ class PageRepository implements PageRepositoryInterface
         $directoryDataPath = $dataPath . $pageName;
         $metaDataPath = $dataPath . $pageName . '.json';
 
-        $lastSlashPosition = strrpos($pageName, '/');
+        $lastSlashPosition = (int)strrpos($pageName, '/');
 
         $hiddenPageDataPath = $dataPath
             . substr($pageName, 0, $lastSlashPosition)
@@ -73,14 +87,19 @@ class PageRepository implements PageRepositoryInterface
             return null;
         }
 
-        $page = new Page($identifier, $rawPageData, $this->buildMetaDataForPageIdentifier($identifier, $pageDataPath));
+        $page = new Page(
+            $identifier,
+            (string)$rawPageData,
+            $this->buildMetaDataForPageIdentifier($identifier, $pageDataPath),
+            $this->markdownFactory
+        );
         $this->allPages[$identifier] = $page;
 
         return $page;
     }
 
     /**
-     * Returns the page file name for the given page identifier
+     * Return the page file name for the given page identifier
      *
      * @param string $identifier
      * @return string
@@ -94,7 +113,7 @@ class PageRepository implements PageRepositoryInterface
     }
 
     /**
-     * Returns the meta data for the given page identifier
+     * Return the meta data for the given page identifier
      *
      * The meta data is read from the global configuration and the page's config file (i.e. 'PageName.json'), whilst the
      * page config takes precedence.
@@ -127,11 +146,11 @@ class PageRepository implements PageRepositoryInterface
     }
 
     /**
-     * Returns all pages
+     * Return all pages
      *
      * @return Page[]
      */
-    public function findAll()
+    public function findAll(): array
     {
         if (!$this->allPages) {
             $this->getPageTree();
@@ -141,11 +160,11 @@ class PageRepository implements PageRepositoryInterface
     }
 
     /**
-     * Returns all available page names
+     * Return all available page names
      *
-     * @return string[]
+     * @return array[]
      */
-    public function getPageTree()
+    public function getPageTree(): array
     {
         if (!$this->pageTree) {
             $configuration = ConfigurationManager::getConfiguration();
@@ -157,13 +176,13 @@ class PageRepository implements PageRepositoryInterface
     }
 
     /**
-     * Returns all available pages for the given path
+     * Return all available pages for the given path
      *
      * @param string $path
      * @param string $uriBase
-     * @return array
+     * @return array[]
      */
-    public function getPagesForPath($path, $uriBase = '')
+    public function getPagesForPath($path, $uriBase = ''): array
     {
         $pages = [];
         $pagesSortingMap = [];
@@ -175,7 +194,6 @@ class PageRepository implements PageRepositoryInterface
             throw new InvalidArgumentException("Page path '$path' is not readable", 1556015359);
         }
         if ($handle = opendir($path)) {
-
             $dataSuffix = '.' . ConfigurationManager::getConfiguration()->get('dataSuffix');
             $dataSuffixLength = strlen($dataSuffix);
 
@@ -190,7 +208,6 @@ class PageRepository implements PageRepositoryInterface
                     continue;
                 }
 
-
                 $isFolder = strpos($file, '.') === false;
                 $isPage = substr($file, -$dataSuffixLength) === $dataSuffix;
                 $isConfig = substr($file, -5) === '.json';
@@ -202,7 +219,7 @@ class PageRepository implements PageRepositoryInterface
                 $relativePageIdentifier = str_replace(
                     ' ',
                     Page::URI_WHITESPACE_REPLACE,
-                    substr($file, 0, strrpos($file, '.'))
+                    substr($file, 0, (int)strrpos($file, '.'))
                 );
                 $pageIdentifier = ($uriBase ? $uriBase . '/' : '') . ($relativePageIdentifier ? $relativePageIdentifier : $file);
 

@@ -14,14 +14,14 @@ interface PageRepositoryInterface
      * Find the page with tie given identifier
      *
      * @param string $identifier
-     * @return Page
+     * @return Page|null
      */
-    public function findByIdentifier($identifier);
+    public function findByIdentifier(string $identifier): ?Page;
 
     /**
      * Returns all pages
      *
-     * @return array<Page>
+     * @return Page[]
      */
-    public function findAll();
+    public function findAll(): array;
 }

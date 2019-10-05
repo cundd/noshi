@@ -29,13 +29,12 @@ class Configuration implements ArrayAccess
         'templatePath' => 'Resources/Private/Templates/',
         'resourcePath' => 'Resources/Public/',
 
-
         'metaData' => [
             'title' => 'NoShi',
         ],
     ];
 
-    function __construct($configuration = [])
+    function __construct(array $configuration = [])
     {
         $this->configuration = array_merge(
             $this->configuration,
@@ -95,8 +94,8 @@ class Configuration implements ArrayAccess
     /**
      * Returns the sanitized hostname
      *
-     * @throws Exception\SecurityException if the host could not be detected
      * @return string
+     * @throws Exception\SecurityException if the host could not be detected
      */
     public function getHost()
     {
@@ -183,15 +182,13 @@ class Configuration implements ArrayAccess
      */
     public function getRequestBasePath()
     {
-        $trimmedBasePath = trim($this->_get('requestBasePath'), '/');
+        $trimmedBasePath = trim((string)$this->_get('requestBasePath'), '/');
 
         if (!$trimmedBasePath) {
             return '/';
         }
 
-        return '/'
-            . $trimmedBasePath
-            . '/';
+        return '/' . $trimmedBasePath . '/';
     }
 
     /**
@@ -203,7 +200,6 @@ class Configuration implements ArrayAccess
     {
         return (bool)$this->get('developmentMode');
     }
-
 
     /**
      * Returns the configuration (without checking for an accessor method)

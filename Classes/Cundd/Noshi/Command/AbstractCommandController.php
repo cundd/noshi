@@ -5,6 +5,7 @@ namespace Cundd\Noshi\Command;
 
 use Exception;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionMethod;
 
 /**
@@ -232,10 +233,8 @@ abstract class AbstractCommandController
         $message = self::ESCAPE . self::RED;
         if (is_scalar($error)) {
             $message .= $error;
-        } else {
-            if (is_object($error) && $error instanceof Exception) {
-                $message .= '#' . $error->getCode() . ': ' . $error->getMessage();
-            }
+        } elseif (is_object($error) && $error instanceof Exception) {
+            $message .= '#' . $error->getCode() . ': ' . $error->getMessage();
         }
         $message .= PHP_EOL;
         $message .= self::ESCAPE . self::NORMAL;
@@ -271,12 +270,16 @@ abstract class AbstractCommandController
     /**
      * Returns the available commands
      *
-     * @return array
+     * @return string[]
      */
-    public function getAvailableCommands()
+    public function getAvailableCommands(): array
     {
         $commands = [];
-        $classReflection = new ReflectionClass(get_class($this));
+        try {
+            $classReflection = new ReflectionClass(get_class($this));
+        } catch (ReflectionException $e) {
+            return [];
+        }
         $methods = $classReflection->getMethods(ReflectionMethod::IS_PUBLIC);
         /** @var ReflectionMethod $method */
         foreach ($methods as $method) {

@@ -5,12 +5,15 @@ namespace Cundd\Noshi;
 
 use Cundd\Noshi\Domain\Model\Page;
 use Cundd\Noshi\Domain\Repository\PageRepository;
+use Cundd\Noshi\Expression\ExpressionProcessor;
+use Cundd\Noshi\Expression\ExpressionProcessorInterface;
 use Cundd\Noshi\Helpers\MarkdownFactory;
+use Cundd\Noshi\Helpers\MarkdownFactoryInterface;
 use Cundd\Noshi\Ui\UiInterface;
 use Cundd\Noshi\Ui\View;
 use Exception;
 
-class Dispatcher implements UiInterface
+class Dispatcher implements UiInterface, DispatcherInterface
 {
     /**
      * Request URI
@@ -50,19 +53,35 @@ class Dispatcher implements UiInterface
     /**
      * Shared Dispatcher instance
      *
-     * @var Dispatcher
+     * @var DispatcherInterface
      */
     static protected $sharedDispatcher = null;
 
     /**
-     * Dispatch the given request URI
-     *
-     * @param string $uri
-     * @param string $method
-     * @param array  $arguments
-     * @return Response|null
+     * @var MarkdownFactoryInterface
      */
-    public function dispatch($uri, $method = 'GET', $arguments = [])
+    private $markdownFactory;
+
+    /**
+     * @var ExpressionProcessorInterface
+     */
+    private $expressionProcessor;
+
+    /**
+     * Dispatcher constructor.
+     *
+     * @param MarkdownFactoryInterface     $markdownFactory
+     * @param ExpressionProcessorInterface $expressionProcessor
+     */
+    public function __construct(
+        MarkdownFactoryInterface $markdownFactory,
+        ExpressionProcessorInterface $expressionProcessor
+    ) {
+        $this->markdownFactory = $markdownFactory;
+        $this->expressionProcessor = $expressionProcessor;
+    }
+
+    public function dispatch(string $uri, string $method = 'GET', array $arguments = []): Response
     {
         $this->originalUri = $uri;
         $this->uri = $this->prepareUri($uri);
@@ -89,21 +108,16 @@ class Dispatcher implements UiInterface
                 $response = $this->createTemplateResponse($response);
             }
 
-            // Output the response
-            echo $response;
-
             return $response;
         } catch (Exception $exception) {
             $fileHandle = fopen('php://stderr', 'w');
             fwrite($fileHandle, (string)$exception);
             if (ConfigurationManager::getConfiguration()->isDevelopmentMode()) {
-                echo new Response('An error occurred: ' . $exception, 500);
+                return new Response('An error occurred: ' . $exception, 500);
             } else {
-                echo new Response('An error occurred', 500);
+                return new Response('An error occurred', 500);
             }
         }
-
-        return null;
     }
 
     /**
@@ -111,12 +125,13 @@ class Dispatcher implements UiInterface
      *
      * @param Response $response
      * @return Response
+     * @throws Ui\Exception\InvalidExpressionException
      */
     public function createTemplateResponse($response)
     {
         $page = $this->getPage();
 
-        $view = new View();
+        $view = new View('', [], $this->expressionProcessor);
         $view->setContext($this);
         $view->setTemplatePath($this->getTemplatePath());
         $configuration = ConfigurationManager::getConfiguration();
@@ -139,7 +154,7 @@ class Dispatcher implements UiInterface
     }
 
     /**
-     * Returns the template
+     * Return the template
      *
      * @return string
      */
@@ -151,11 +166,11 @@ class Dispatcher implements UiInterface
     }
 
     /**
-     * Returns the Page object for the current URI
+     * Return the Page object for the current URI
      *
-     * @return Page
+     * @return Page|null
      */
-    public function getPage()
+    public function getPage(): ?Page
     {
         if (!$this->page) {
             $this->page = $this->getPageForUri($this->uri);
@@ -165,23 +180,24 @@ class Dispatcher implements UiInterface
     }
 
     /**
-     * Returns the page data
+     * Return the page data
      *
-     * @return mixed
+     * @return Page|null
      */
-    public function getNotFoundPage()
+    public function getNotFoundPage(): ?Page
     {
         return $this->getPageForUri('/NotFound/');
     }
 
     /**
-     * Returns the response for the current page URI
+     * Return the response for the current page URI
      *
      * If the current page URI was not found, the URI "/NotFound/" will be checked
      *
-     * @return Response|NULL
+     * @return Response
+     * @throws Ui\Exception\InvalidExpressionException
      */
-    public function getResponse()
+    public function getResponse(): Response
     {
         $statusCode = 200;
         $page = $this->getPage();
@@ -197,12 +213,13 @@ class Dispatcher implements UiInterface
     }
 
     /**
-     * Returns the response for the page URI or NULL if no data was found
+     * Return the response for the page URI or NULL if no data was found
      *
      * @param string $uri
      * @return Response|NULL
+     * @deprecated will be removed in 3.0.0
      */
-    public function buildResponseForUri($uri)
+    public function buildResponseForUri(string $uri): ?Response
     {
         $page = $this->getPageForUri($uri);
         if (!$page) {
@@ -213,37 +230,37 @@ class Dispatcher implements UiInterface
     }
 
     /**
-     * Returns the Page for the page URI or NULL if no data was found
+     * Return the Page for the page URI or NULL if no data was found
      *
      * @param string $uri
-     * @return Page
+     * @return Page|null
      */
-    public function getPageForUri($uri)
+    public function getPageForUri(string $uri): ?Page
     {
         $pageIdentifier = trim(urldecode($uri), '/');
         if ($pageIdentifier === '') {
             $pageIdentifier = '/';
         }
 
-        $pageRepository = new PageRepository();
+        $pageRepository = new PageRepository($this->markdownFactory);
 
         return $pageRepository->findByIdentifier($pageIdentifier);
     }
 
     /**
-     * Returns the alias for the given URI, or the original URI if no alias is defined
+     * Return the alias for the given URI, or the original URI if no alias is defined
      *
      * At the current stage this method doesn't do much. It simply returns "/Home/" if the current URI is "/"
      *
      * @param string $uri
      * @return string
      */
-    public function getAliasForUri($uri)
+    public function getAliasForUri($uri): string
     {
         $routingConfiguration = ConfigurationManager::getConfiguration()->get('routing');
         $aliasConfiguration = isset($routingConfiguration['alias']) ? $routingConfiguration['alias'] : [];
 
-        return isset($aliasConfiguration[$uri]) ? $aliasConfiguration[$uri] : $uri;
+        return isset($aliasConfiguration[$uri]) ? (string)$aliasConfiguration[$uri] : $uri;
     }
 
     public function setContext($context)
@@ -252,26 +269,14 @@ class Dispatcher implements UiInterface
     }
 
     /**
-     * Parse the given Markdown code
+     * Return the shared dispatcher instance
      *
-     * @param $markdown
-     * @return mixed|string
-     * @deprecated since 1.0.0 use \Cundd\Noshi\Helpers\MarkdownFactory::getMarkdownRenderer()->transform($markdown)
-     */
-    protected function parseMarkdown($markdown)
-    {
-        return MarkdownFactory::getMarkdownRenderer()->transform($markdown);
-    }
-
-    /**
-     * Returns the shared dispatcher instance
-     *
-     * @return Dispatcher
+     * @return DispatcherInterface
      */
     static public function getSharedDispatcher()
     {
         if (!static::$sharedDispatcher) {
-            static::$sharedDispatcher = new static();
+            static::$sharedDispatcher = new static(new MarkdownFactory(), new ExpressionProcessor());
         }
 
         return static::$sharedDispatcher;
@@ -281,7 +286,7 @@ class Dispatcher implements UiInterface
      * @param string $uri
      * @return string
      */
-    protected function prepareUri($uri)
+    protected function prepareUri(string $uri): string
     {
         $basePath = ConfigurationManager::getConfiguration()->getRequestBasePath();
         $basePathLength = strlen($basePath);

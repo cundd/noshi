@@ -3,13 +3,11 @@ declare(strict_types=1);
 
 namespace Cundd\Noshi\Domain\Model;
 
-use Cundd\Noshi\Helpers\MarkdownFactory;
+use Cundd\Noshi\Helpers\MarkdownFactoryInterface;
 use Cundd\Noshi\Utilities\ObjectUtility;
 
 /**
  * Page model
- *
- * @package Cundd\Noshi\Domain\Model
  */
 class Page
 {
@@ -67,20 +65,30 @@ class Page
      */
     protected $uri = '';
 
-    function __construct($identifier = '', $rawContent = '', $meta = [])
-    {
+    /**
+     * @var MarkdownFactoryInterface
+     */
+    protected $markdownFactory;
+
+    function __construct(
+        string $identifier,
+        string $rawContent,
+        array $meta,
+        MarkdownFactoryInterface $markdownFactory
+    ) {
         $this->meta = $meta;
         $this->rawContent = $rawContent;
         $this->identifier = $identifier;
+        $this->markdownFactory = $markdownFactory;
     }
 
     /**
-     * Sets the page's unique identifier
+     * Set the page's unique identifier
      *
      * @param string $identifier
      * @return $this
      */
-    public function setIdentifier($identifier)
+    public function setIdentifier(string $identifier): self
     {
         $this->identifier = $identifier;
 
@@ -88,22 +96,22 @@ class Page
     }
 
     /**
-     * Returns the page's unique identifier
+     * Return the page's unique identifier
      *
      * @return string
      */
-    public function getIdentifier()
+    public function getIdentifier(): string
     {
         return $this->identifier;
     }
 
     /**
-     * Sets the meta data
+     * Set the meta data
      *
      * @param array $meta
      * @return $this
      */
-    public function setMeta($meta)
+    public function setMeta(array $meta): self
     {
         $this->meta = $meta;
 
@@ -111,22 +119,22 @@ class Page
     }
 
     /**
-     * Returns the meta data
+     * Return the meta data
      *
      * @return array
      */
-    public function getMeta()
+    public function getMeta(): array
     {
         return $this->meta;
     }
 
     /**
-     * Sets the raw content
+     * Set the raw content
      *
      * @param string $rawContent
      * @return $this
      */
-    public function setRawContent($rawContent)
+    public function setRawContent(string $rawContent): self
     {
         $this->rawContent = $rawContent;
         $this->parsedContent = null;
@@ -135,36 +143,36 @@ class Page
     }
 
     /**
-     * Returns the raw content
+     * Return the raw content
      *
      * @return string
      */
-    public function getRawContent()
+    public function getRawContent(): string
     {
         return $this->rawContent;
     }
 
     /**
-     * Returns the parsed content
+     * Return the parsed content
      *
      * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         if (!$this->parsedContent) {
-            $this->parsedContent = MarkdownFactory::getMarkdownRenderer()->transform($this->getRawContent());
+            $this->parsedContent = $this->markdownFactory->create()->transform($this->getRawContent());
         }
 
         return $this->parsedContent;
     }
 
     /**
-     * Sets the sorting position in a menu
+     * Set the sorting position in a menu
      *
      * @param int $sorting
      * @return $this
      */
-    public function setSorting($sorting)
+    public function setSorting(int $sorting): self
     {
         $this->sorting = $sorting;
 
@@ -172,11 +180,11 @@ class Page
     }
 
     /**
-     * Returns the sorting position in a menu
+     * Return the sorting position in a menu
      *
      * @return int
      */
-    public function getSorting()
+    public function getSorting(): int
     {
         if (!$this->sorting) {
             $sorting = ObjectUtility::valueForKeyPathOfObject('meta.sorting', $this);
@@ -190,28 +198,26 @@ class Page
     }
 
     /**
-     * Returns the URI of the page
+     * Return the URI of the page
      *
      * @return string
      */
-    public function getUri()
+    public function getUri(): string
     {
         if (!$this->uri) {
-            if (($url = $this->_getUrlFromMeta())) {
+            if (($url = $this->getUrlFromMeta())) {
                 $this->uri = $url;
+            } elseif ($this->getIsVirtual()) {
+                $this->uri = '#';
             } else {
-                if ($this->getIsVirtual()) {
-                    $this->uri = '#';
-                } else {
-                    $uriParts = explode(DIRECTORY_SEPARATOR, $this->getIdentifier());
-                    array_walk(
-                        $uriParts,
-                        function (&$uriPart) {
-                            $uriPart = urlencode($uriPart);
-                        }
-                    );
-                    $this->uri = DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $uriParts) . DIRECTORY_SEPARATOR;
-                }
+                $uriParts = explode(DIRECTORY_SEPARATOR, $this->getIdentifier());
+                array_walk(
+                    $uriParts,
+                    function (&$uriPart) {
+                        $uriPart = urlencode($uriPart);
+                    }
+                );
+                $this->uri = DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $uriParts) . DIRECTORY_SEPARATOR;
             }
         }
 
@@ -219,11 +225,76 @@ class Page
     }
 
     /**
-     * Returns the URL read from the meta data or NULL if it is not set
+     * Return the pages title
      *
      * @return string
      */
-    protected function _getUrlFromMeta()
+    public function getTitle(): string
+    {
+        $title = ObjectUtility::valueForKeyPathOfObject('meta.title', $this);
+        if (!$title) {
+            $title = $this->getIdentifier();
+            $slashPosition = strpos($title, DIRECTORY_SEPARATOR);
+            if ($slashPosition !== false) {
+                $title = substr($title, $slashPosition + 1);
+            }
+            $title = str_replace(self::URI_WHITESPACE_REPLACE, ' ', $title);
+        }
+
+        return $title;
+    }
+
+    /**
+     * Set if the Page is a directory
+     *
+     * @param boolean $isDirectory
+     * @return $this
+     */
+    public function setIsDirectory(bool $isDirectory): self
+    {
+        $this->isDirectory = $isDirectory;
+
+        return $this;
+    }
+
+    /**
+     * Return if the Page is a directory
+     *
+     * @return boolean
+     */
+    public function getIsDirectory(): bool
+    {
+        return $this->isDirectory;
+    }
+
+    /**
+     * Return if the Page isn't a real Page
+     *
+     * A directory without an associated content file (i.e. "About/" exists but "About.md" do not) is virtual.
+     *
+     * @return boolean
+     */
+    public function getIsVirtual(): bool
+    {
+        return $this->getRawContent() === null;
+    }
+
+    /**
+     * Return if the Page is an external link
+     *
+     * @return bool
+     */
+    public function getIsExternalLink(): bool
+    {
+        return ObjectUtility::valueForKeyPathOfObject('meta.url', $this) ? true : false;
+    }
+
+    /**
+     * Return the URL read from the meta data or NULL if it is not set
+     *
+     * @return string|null
+     */
+    protected function getUrlFromMeta(): ?string
     {
         $url = ObjectUtility::valueForKeyPathOfObject('meta.url', $this);
         if (!$url) {
@@ -240,70 +311,5 @@ class Page
         }
 
         return $url;
-    }
-
-    /**
-     * Returns the pages title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        $title = ObjectUtility::valueForKeyPathOfObject('meta.title', $this);
-        if (!$title) {
-            $title = $this->getIdentifier();
-            $slashPosition = strpos($title, DIRECTORY_SEPARATOR);
-            if ($slashPosition !== false) {
-                $title = substr($title, $slashPosition + 1);
-            }
-            $title = str_replace(self::URI_WHITESPACE_REPLACE, ' ', $title);
-        }
-
-        return $title;
-    }
-
-    /**
-     * Sets if the Page is a directory
-     *
-     * @param boolean $isDirectory
-     * @return $this
-     */
-    public function setIsDirectory($isDirectory)
-    {
-        $this->isDirectory = $isDirectory;
-
-        return $this;
-    }
-
-    /**
-     * Returns if the Page is a directory
-     *
-     * @return boolean
-     */
-    public function getIsDirectory()
-    {
-        return $this->isDirectory;
-    }
-
-    /**
-     * Returns if the Page isn't a real Page
-     *
-     * A directory without an associated content file (i.e. "About/" exists but "About.md" do not) is virtual.
-     *
-     * @return boolean
-     */
-    public function getIsVirtual()
-    {
-        return $this->getRawContent() === null;
-    }
-
-    /**
-     * Returns if the Page is an external link
-     *
-     * @return bool
-     */
-    public function getIsExternalLink()
-    {
-        return ObjectUtility::valueForKeyPathOfObject('meta.url', $this) ? true : false;
     }
 }

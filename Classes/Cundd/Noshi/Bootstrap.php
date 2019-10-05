@@ -12,7 +12,7 @@ class Bootstrap
     /**
      * Dispatcher instance
      *
-     * @var Dispatcher
+     * @var DispatcherInterface
      */
     protected $dispatcher;
 
@@ -33,7 +33,7 @@ class Bootstrap
      */
     public function run()
     {
-        Dispatcher::getSharedDispatcher()->dispatch($this->getUri(), $this->getMethod(), $this->getArguments());
+        echo Dispatcher::getSharedDispatcher()->dispatch($this->getUri(), $this->getMethod(), $this->getArguments());
     }
 
     /**
@@ -99,6 +99,6 @@ class Bootstrap
     private function configureEnvironment()
     {
         ini_set('default_charset', 'utf-8');
-        ini_set('mbstring.encoding_translation', true);
+        ini_set('mbstring.encoding_translation', 'true');
     }
 }
