@@ -1,11 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi\Helpers\Markdown;
 
 /**
  * Interface for Markdown renderers
- *
- * @package Cundd\Noshi\Helpers\Markdown
  */
 interface RenderInterface
 {
@@ -16,4 +15,4 @@ interface RenderInterface
      * @return string
      */
     public function transform($markdown);
-} 
+}

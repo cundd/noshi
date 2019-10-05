@@ -1,13 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi\Ui\Exception;
 
+use Exception;
+
 /**
  * Exception thrown if a invalid template expression was detected
- *
- * @package Cundd\Noshi\Ui\Exception
  */
-class InvalidExpressionException extends \Exception
+class InvalidExpressionException extends Exception
 {
-
-} 
+}

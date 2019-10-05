@@ -1,7 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi;
-
 
 class Response
 {
@@ -89,7 +89,6 @@ class Response
         }
     }
 
-
     /**
      * @param string $body
      */
@@ -169,5 +168,4 @@ class Response
         return $this->getBody();
     }
 
-
-} 
+}

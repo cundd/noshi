@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi\Ui;
 
@@ -36,7 +37,6 @@ class Menu extends AbstractUi
 
         foreach ($pages as $pageData) {
             $uri = '#';
-            $title = '';
             $target = '';
             $class = '';
             if (isset($pageData['page']) && $pageData['page']) { // Page object

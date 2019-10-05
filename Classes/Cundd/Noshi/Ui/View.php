@@ -1,11 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi\Ui;
 
 /**
  * A view
- *
- * @package Cundd\Noshi
  */
 class View extends Template implements UiInterface
 {

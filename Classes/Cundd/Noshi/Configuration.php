@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi;
 
-
+use ArrayAccess;
 use Cundd\Noshi\Exception\SecurityException;
 
 /**
@@ -12,7 +13,7 @@ use Cundd\Noshi\Exception\SecurityException;
  * @method string getDataPath()
  * @method string getTemplatePath()
  */
-class Configuration implements \ArrayAccess
+class Configuration implements ArrayAccess
 {
     /**
      * @var bool

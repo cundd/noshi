@@ -1,14 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi\Ui;
 
 use Cundd\Noshi\Ui\Exception\InvalidExpressionException;
 use Cundd\Noshi\Utilities\ObjectUtility;
+use Exception;
 
 /**
  * A simple template
- *
- * @package Cundd\Noshi\Ui
  */
 class Template extends AbstractUi
 {
@@ -49,13 +49,15 @@ class Template extends AbstractUi
     public function assignMultiple($values)
     {
         $this->data = array_merge($this->data, (array)$values);
+
+        return $this;
     }
 
     /**
      * Renders the template
      *
-     * @throws Exception\InvalidExpressionException if the rendered expression can not be converted to a string
      * @return string
+     * @throws Exception\InvalidExpressionException if the rendered expression can not be converted to a string
      */
     public function render()
     {
@@ -63,7 +65,7 @@ class Template extends AbstractUi
 
         // Find the expressions
         $matches = [];
-        if (!preg_match_all('!\{([\w\.\\\ \/]*)\}!', $template, $matches)) {
+        if (!preg_match_all('!{([\w.\\\ /]*)}!', $template, $matches)) {
             return $template;
         }
 
@@ -111,12 +113,10 @@ class Template extends AbstractUi
             }
             try {
                 return (string)$newView;
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
             }
-        } else {
-            if (substr($expression, 0, 2) === '//') { // Handle expressions like "{//please.output.me}"
-
-            }
+        } elseif (substr($expression, 0, 2) === '//') { // Handle expressions like "{//please.output.me}"
+            // noop
         }
 
         return $this->resolveExpressionKeyPath($expression);

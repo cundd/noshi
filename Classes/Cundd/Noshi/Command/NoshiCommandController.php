@@ -1,14 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi\Command;
 
 use Cundd\Noshi\Domain\Model\Page;
 use Cundd\Noshi\Domain\Repository\PageRepository;
+use InvalidArgumentException;
 
 /**
  * NoshiCommandController
- *
- * @package Cundd\Noshi\Command
  */
 class NoshiCommandController extends AbstractCommandController
 {
@@ -20,7 +20,7 @@ class NoshiCommandController extends AbstractCommandController
         $pageRepository = new PageRepository();
         try {
             $pages = $pageRepository->findAll();
-        } catch (\InvalidArgumentException $exception) {
+        } catch (InvalidArgumentException $exception) {
             $this->outputError($exception->getMessage());
 
             return;

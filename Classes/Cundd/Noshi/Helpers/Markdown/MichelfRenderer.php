@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi\Helpers\Markdown;
 
@@ -7,9 +8,7 @@ use Michelf\MarkdownInterface;
 
 /**
  * Markdown renderer implementation using Parsedown (http://michelf.ca/projects/php-markdown/)
- *
- * @package Cundd\Noshi\Helpers\Markdown
  */
 class MichelfRenderer extends Markdown implements MarkdownInterface
 {
-} 
+}

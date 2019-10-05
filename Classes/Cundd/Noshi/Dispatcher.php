@@ -1,13 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi;
-
 
 use Cundd\Noshi\Domain\Model\Page;
 use Cundd\Noshi\Domain\Repository\PageRepository;
 use Cundd\Noshi\Helpers\MarkdownFactory;
 use Cundd\Noshi\Ui\UiInterface;
 use Cundd\Noshi\Ui\View;
+use Exception;
 
 class Dispatcher implements UiInterface
 {
@@ -92,7 +93,7 @@ class Dispatcher implements UiInterface
             echo $response;
 
             return $response;
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $fileHandle = fopen('php://stderr', 'w');
             fwrite($fileHandle, (string)$exception);
             if (ConfigurationManager::getConfiguration()->isDevelopmentMode()) {

@@ -1,18 +1,13 @@
 <?php
-
-/**
- * @author COD
- * Created 14.03.14 12:16
- */
-
+declare(strict_types=1);
 
 namespace Cundd\Noshi\Exception;
 
+use RuntimeException;
+
 /**
  * Exception thrown if a security problem occurred
- *
- * @package Cundd\Noshi\Exception
  */
-class SecurityException extends \RuntimeException
+class SecurityException extends RuntimeException
 {
 }

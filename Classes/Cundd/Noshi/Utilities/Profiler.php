@@ -1,11 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi\Utilities;
 
 /**
  * Profiler
- *
- * @package Cundd\Noshi\Utilities
  */
 class Profiler
 {
@@ -65,4 +64,4 @@ class Profiler
 
         return false;
     }
-} 
+}

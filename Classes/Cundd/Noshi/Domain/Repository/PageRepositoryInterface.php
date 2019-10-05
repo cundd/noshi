@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi\Domain\Repository;
 
@@ -6,8 +7,6 @@ use Cundd\Noshi\Domain\Model\Page;
 
 /**
  * Interface for the Page Repository
- *
- * @package Cundd\Noshi\Domain\Repository
  */
 interface PageRepositoryInterface
 {

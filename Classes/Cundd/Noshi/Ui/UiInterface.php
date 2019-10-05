@@ -1,11 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi\Ui;
 
 /**
  * Interface UiInterface
- *
- * @package Cundd\Noshi\Ui
  */
 interface UiInterface
 {
@@ -25,4 +24,4 @@ interface UiInterface
      * @return $this
      */
     public function setContext($context);
-} 
+}

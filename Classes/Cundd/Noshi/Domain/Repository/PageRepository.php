@@ -1,12 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi\Domain\Repository;
-
 
 use Cundd\Noshi\ConfigurationManager;
 use Cundd\Noshi\Domain\Exception\InvalidPageIdentifierException;
 use Cundd\Noshi\Domain\Model\Page;
 use Cundd\Noshi\Utilities\ObjectUtility;
+use InvalidArgumentException;
 
 class PageRepository implements PageRepositoryInterface
 {
@@ -168,10 +169,10 @@ class PageRepository implements PageRepositoryInterface
         $pagesSortingMap = [];
         $pagesIdentifierMap = [];
         if (!file_exists($path)) {
-            throw new \InvalidArgumentException("Page path '$path' does not exist", 1556015352);
+            throw new InvalidArgumentException("Page path '$path' does not exist", 1556015352);
         }
         if (!is_readable($path)) {
-            throw new \InvalidArgumentException("Page path '$path' is not readable", 1556015359);
+            throw new InvalidArgumentException("Page path '$path' is not readable", 1556015359);
         }
         if ($handle = opendir($path)) {
 

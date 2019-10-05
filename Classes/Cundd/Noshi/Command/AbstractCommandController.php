@@ -1,11 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi\Command;
 
+use Exception;
+use ReflectionClass;
+use ReflectionMethod;
+
 /**
  * Abstract controller for CLI tools
- *
- * @package Cundd\Noshi\Command
  */
 abstract class AbstractCommandController
 {
@@ -222,7 +225,7 @@ abstract class AbstractCommandController
     /**
      * Prints the given error to the console
      *
-     * @param string|\Exception $error
+     * @param string|Exception $error
      */
     public function outputError($error)
     {
@@ -230,7 +233,7 @@ abstract class AbstractCommandController
         if (is_scalar($error)) {
             $message .= $error;
         } else {
-            if (is_object($error) && $error instanceof \Exception) {
+            if (is_object($error) && $error instanceof Exception) {
                 $message .= '#' . $error->getCode() . ': ' . $error->getMessage();
             }
         }
@@ -273,9 +276,9 @@ abstract class AbstractCommandController
     public function getAvailableCommands()
     {
         $commands = [];
-        $classReflection = new \ReflectionClass(get_class($this));
-        $methods = $classReflection->getMethods(\ReflectionMethod::IS_PUBLIC);
-        /** @var \ReflectionMethod $method */
+        $classReflection = new ReflectionClass(get_class($this));
+        $methods = $classReflection->getMethods(ReflectionMethod::IS_PUBLIC);
+        /** @var ReflectionMethod $method */
         foreach ($methods as $method) {
             $methodDescription = [];
             $methodName = $method->name;
@@ -313,6 +316,4 @@ abstract class AbstractCommandController
 
         return $commands;
     }
-
-
 }

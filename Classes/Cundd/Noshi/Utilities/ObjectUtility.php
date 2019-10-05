@@ -1,32 +1,33 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi\Utilities;
 
+use Closure;
+use LogicException;
+
 /**
  * Utility class for accessing object properties
- *
- * @package Cundd\Noshi\Utilities
  */
 class ObjectUtility
 {
     /**
      * Returns the value for the key path of the given object
      *
-     * @param string $keyPath      Key path of the property to fetch
-     * @param object|array $object Source to fetch the data from
-     * @param mixed $default       An optional default value to return if the path could not be resolved. If a callback is passed, it's return value is used
-     * @throws \LogicException if the given key path is no string
+     * @param string       $keyPath Key path of the property to fetch
+     * @param object|array $object  Source to fetch the data from
+     * @param mixed        $default An optional default value to return if the path could not be resolved. If a callback is passed, it's return value is used
      * @return mixed
+     * @throws LogicException if the given key path is no string
      */
     static public function valueForKeyPathOfObject($keyPath, $object, $default = null)
     {
-        $i = 0;
         $keyPathParts = explode('.', $keyPath);
         $keyPathPartsLength = count($keyPathParts);
         $currentValue = $object;
 
         if (!is_string($keyPath)) {
-            throw new \LogicException(
+            throw new LogicException(
                 'Given key path is not of type string (maybe arguments are ordered incorrect)',
                 1395484136
             );
@@ -46,15 +47,13 @@ class ObjectUtility
                 case is_object($currentValue):
                     if (method_exists($currentValue, $accessorMethod)) { // Getter method
                         $currentValue = $currentValue->$accessorMethod();
+                    } elseif (method_exists($currentValue, 'get')) { // General "get" method
+                        $currentValue = $currentValue->get($key);
                     } else {
-                        if (method_exists($currentValue, 'get')) { // General "get" method
-                            $currentValue = $currentValue->get($key);
+                        if (in_array($key, get_object_vars($currentValue))) { // Direct access
+                            $currentValue = $currentValue->$key;
                         } else {
-                            if (in_array($key, get_object_vars($currentValue))) { // Direct access
-                                $currentValue = $currentValue->$key;
-                            } else {
-                                $currentValue = null;
-                            }
+                            $currentValue = null;
                         }
                     }
                     break;
@@ -69,7 +68,7 @@ class ObjectUtility
         }
 
         if ($i !== $keyPathPartsLength && func_num_args() > 2) {
-            if (is_object($default) && ($default instanceof \Closure)) {
+            if (is_object($default) && ($default instanceof Closure)) {
                 $currentValue = $default();
             } else {
                 $currentValue = $default;
@@ -78,4 +77,4 @@ class ObjectUtility
 
         return $currentValue;
     }
-} 
+}

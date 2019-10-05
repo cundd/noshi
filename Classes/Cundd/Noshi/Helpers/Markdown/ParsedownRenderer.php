@@ -1,13 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi\Helpers\Markdown;
 
+use Parsedown;
+
 /**
  * Markdown renderer implementation using Parsedown (http://parsedown.org/)
- *
- * @package Cundd\Noshi\Helpers\Markdown
  */
-class ParsedownRenderer extends \Parsedown implements RenderInterface
+class ParsedownRenderer extends Parsedown implements RenderInterface
 {
     use AnchorTrait;
 
@@ -21,5 +22,4 @@ class ParsedownRenderer extends \Parsedown implements RenderInterface
     {
         return $this->addHeadlineIds($this->text($markdown));
     }
-
-} 
+}

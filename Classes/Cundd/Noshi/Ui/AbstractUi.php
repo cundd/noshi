@@ -1,11 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Cundd\Noshi\Ui;
 
 /**
  * Abstract class for UI elements
- *
- * @package Cundd\Noshi\Ui
  */
 abstract class AbstractUi implements UiInterface
 {
