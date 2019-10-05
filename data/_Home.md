@@ -186,7 +186,7 @@ Okay, actually every class' instance that can be transformed to a string
 
 ### Creating a plugin
 Simply create a PHP class, that composer can autoload and require it in your template, in the format
-`{Namespace\ClassName}`. NoShi will then unfold an instance of the class and transform it to a string.
+`{// Namespace\ClassName}`. NoShi will then unfold an instance of the class and transform it to a string.
 
 If the class implements `\Cundd\Noshi\Ui\UiInterface` to method `setContext()` will be invoked before rendering.
 `setContext()` receives the parent view as it's argument. The parent view's context as an example is the core Dispatcher.

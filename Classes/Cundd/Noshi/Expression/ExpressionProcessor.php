@@ -41,7 +41,9 @@ class ExpressionProcessor implements ExpressionProcessorInterface
      */
     private function resolveExpression(string $expression, UiInterface $context, array $data)
     {
-        if (strpos($expression, '\\') !== false) {
+        if (substr($expression, 0, 2) === '//') { // Handle expressions like "{//please.output.me}"
+            return '{' . trim((string)substr($expression, 2)) . '}';
+        } elseif (strpos($expression, '\\') !== false) {
             $expressionParts = explode(' ', $expression);
             $viewClass = '\\' . array_shift($expressionParts);
 
@@ -63,8 +65,6 @@ class ExpressionProcessor implements ExpressionProcessorInterface
             } catch (Exception $exception) {
                 return '<!-- view class ' . $viewClass . '::__toString() failed -->';
             }
-        } elseif (substr($expression, 0, 2) === '//') { // Handle expressions like "{//please.output.me}"
-            return '';
         }
 
         return $this->resolveExpressionValue($expression, $data);
