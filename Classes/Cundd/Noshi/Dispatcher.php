@@ -206,10 +206,13 @@ class Dispatcher implements UiInterface, DispatcherInterface
             $page = $this->getNotFoundPage();
         }
 
-        return new Response(
-            $page ? $page->getContent() : 'Not found',
-            $statusCode
-        );
+        if ($page) {
+            $content = $this->expressionProcessor->process($page->getContent(), $this, []);
+        } else {
+            $content = 'Not found';
+        }
+
+        return new Response($content, $statusCode);
     }
 
     /**
