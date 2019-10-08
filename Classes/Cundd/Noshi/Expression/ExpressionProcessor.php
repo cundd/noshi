@@ -3,23 +3,27 @@ declare(strict_types=1);
 
 namespace Cundd\Noshi\Expression;
 
+use Cundd\Noshi\Ui\ContextInterface;
 use Cundd\Noshi\Ui\Exception\InvalidExpressionException;
 use Cundd\Noshi\Ui\UiInterface;
 use Cundd\Noshi\Utilities\ObjectUtility;
 use Exception;
 
+/**
+ * Class to find, evaluate and replace Expressions inside strings (e.g. templates, or content)
+ */
 class ExpressionProcessor implements ExpressionProcessorInterface
 {
     /**
      * Replace and resolve expressions in the content
      *
-     * @param string      $content
-     * @param UiInterface $context
-     * @param array       $data
+     * @param string           $content
+     * @param ContextInterface $context
+     * @param array            $data
      * @return string
      * @throws InvalidExpressionException
      */
-    public function process(string $content, UiInterface $context, array $data): string
+    public function process(string $content, ContextInterface $context, array $data): string
     {
         $expressions = $this->detectExpressions($content);
 
@@ -34,12 +38,12 @@ class ExpressionProcessor implements ExpressionProcessorInterface
     /**
      * Resolve the given expression
      *
-     * @param string      $expression
-     * @param UiInterface $context
-     * @param array       $data
+     * @param string           $expression
+     * @param ContextInterface $context
+     * @param array            $data
      * @return string
      */
-    private function resolveExpression(string $expression, UiInterface $context, array $data)
+    private function resolveExpression(string $expression, ContextInterface $context, array $data)
     {
         if (substr($expression, 0, 2) === '//') { // Handle expressions like "{//please.output.me}"
             return '{' . trim((string)substr($expression, 2)) . '}';
@@ -54,11 +58,9 @@ class ExpressionProcessor implements ExpressionProcessorInterface
             $newView = new $viewClass();
             if ($newView instanceof UiInterface) {
                 $newView->setContext($context);
-                if ($expressionParts) {
-                    return call_user_func_array([$newView, 'render'], $expressionParts);
-                }
+                $newViewData = array_merge($data, ['arguments' => $expressionParts]);
 
-                return $newView->render();
+                return $newView->render($newViewData);
             }
             try {
                 return (string)$newView;
@@ -104,13 +106,13 @@ class ExpressionProcessor implements ExpressionProcessorInterface
     }
 
     /**
-     * @param UiInterface $context
-     * @param array       $data
-     * @param string      $expression
+     * @param ContextInterface $context
+     * @param array            $data
+     * @param string           $expression
      * @return string
      * @throws InvalidExpressionException
      */
-    private function renderExpression(UiInterface $context, array $data, string $expression): string
+    private function renderExpression(ContextInterface $context, array $data, string $expression): string
     {
         $resolvedExpression = $this->resolveExpression($expression, $context, $data);
         if (is_object($resolvedExpression) && !method_exists($resolvedExpression, '__toString')) {

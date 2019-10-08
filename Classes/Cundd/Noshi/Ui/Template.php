@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Cundd\Noshi\Ui;
 
 use Cundd\Noshi\Expression\ExpressionProcessorInterface;
+use Cundd\Noshi\Ui\Exception\InvalidExpressionException;
 use Cundd\Noshi\Utilities\ObjectUtility;
 use Exception;
 
@@ -31,8 +32,8 @@ class Template extends AbstractUi implements TemplateInterface
     /**
      * Template constructor.
      *
-     * @param string                       $template
-     * @param array                        $data
+     * @param string $template
+     * @param array $data
      * @param ExpressionProcessorInterface $expressionProcessor
      */
     public function __construct(string $template, array $data, ExpressionProcessorInterface $expressionProcessor)
@@ -56,9 +57,20 @@ class Template extends AbstractUi implements TemplateInterface
         return $this;
     }
 
-    public function render(): string
+    /**
+     * Render the template
+     *
+     * @param array $data
+     * @return string
+     * @throws InvalidExpressionException if the rendered expression can not be converted to a string
+     */
+    public function render(array $data): string
     {
-        return $this->expressionProcessor->process($this->getTemplate(), $this, $this->data);
+        return $this->expressionProcessor->process(
+            $this->getTemplate(),
+            new Context($this),
+            array_merge($this->data, $data)
+        );
     }
 
     /**
@@ -80,12 +92,10 @@ class Template extends AbstractUi implements TemplateInterface
             }
             $newView = new $viewClass();
             if ($newView instanceof UiInterface) {
-                $newView->setContext($this);
-                if ($expressionParts) {
-                    return call_user_func_array([$newView, 'render'], $expressionParts);
-                }
+                $newView->setContext(new Context($this));
+                $newViewData = array_merge($this->data, ['arguments' => $expressionParts]);
 
-                return $newView->render();
+                return $newView->render($newViewData);
             }
             try {
                 return (string)$newView;

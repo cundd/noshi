@@ -11,17 +11,16 @@ interface UiInterface
     /**
      * Render the UI element
      *
-     * This is not a real interface method because implementations can expect different number of arguments
-     *
+     * @param array $data
      * @return string
      */
-    // public function render();
+    public function render(array $data): string;
 
     /**
-     * Sets the context
+     * Set the context
      *
-     * @param UiInterface $context
+     * @param ContextInterface $context
      * @return $this
      */
-    public function setContext($context);
+    public function setContext(ContextInterface $context): self;
 }

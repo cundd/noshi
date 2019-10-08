@@ -18,9 +18,10 @@ class Menu extends AbstractUi
     /**
      * Renders the element
      *
+     * @param array $data
      * @return string
      */
-    public function render()
+    public function render(array $data): string
     {
         return $this->renderPages($this->getPageTree());
     }

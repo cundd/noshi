@@ -10,10 +10,10 @@ class Vendor extends AbstractUi
     /**
      * Renders the element
      *
-     * @param string $vendorName
+     * @param array $data
      * @return string
      */
-    public function render($vendorName)
+    public function render(array $data): string
     {
         return 'vendor/' . $vendorName;
     }

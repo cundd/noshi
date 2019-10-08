@@ -7,7 +7,7 @@ use Cundd\Noshi\Ui\Exception\InvalidExpressionException;
 /**
  * A simple template
  */
-interface TemplateInterface
+interface TemplateInterface extends UiInterface
 {
     /**
      * Assign value for variable key
@@ -29,10 +29,11 @@ interface TemplateInterface
     /**
      * Render the template
      *
+     * @param array $data
      * @return string
      * @throws InvalidExpressionException if the rendered expression can not be converted to a string
      */
-    public function render(): string;
+    public function render(array $data): string;
 
     /**
      * Returns the raw template

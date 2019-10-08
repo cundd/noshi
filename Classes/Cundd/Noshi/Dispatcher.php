@@ -9,11 +9,12 @@ use Cundd\Noshi\Expression\ExpressionProcessor;
 use Cundd\Noshi\Expression\ExpressionProcessorInterface;
 use Cundd\Noshi\Helpers\MarkdownFactory;
 use Cundd\Noshi\Helpers\MarkdownFactoryInterface;
-use Cundd\Noshi\Ui\UiInterface;
+use Cundd\Noshi\Ui\Context;
+use Cundd\Noshi\Ui\ContextInterface;
 use Cundd\Noshi\Ui\View;
 use Exception;
 
-class Dispatcher implements UiInterface, DispatcherInterface
+class Dispatcher implements DispatcherInterface, ContextInterface
 {
     /**
      * Request URI
@@ -129,25 +130,23 @@ class Dispatcher implements UiInterface, DispatcherInterface
      */
     public function createTemplateResponse($response)
     {
+        $configuration = ConfigurationManager::getConfiguration();
         $page = $this->getPage();
+        $data = [
+            'page'          => $page,
+            'meta'          => $page ? $page->getMeta() : [],
+            'content'       => $response->getBody(),
+            'response'      => $response,
+            'resourcePath'  => $configuration->getResourceDirectoryUri(),
+            'configuration' => $configuration,
+        ];
 
-        $view = new View('', [], $this->expressionProcessor);
+        $view = new View('', $data, $this->expressionProcessor);
         $view->setContext($this);
         $view->setTemplatePath($this->getTemplatePath());
-        $configuration = ConfigurationManager::getConfiguration();
-        $view->assignMultiple(
-            [
-                'page'          => $page,
-                'meta'          => $page ? $page->getMeta() : [],
-                'content'       => $response->getBody(),
-                'response'      => $response,
-                'resourcePath'  => $configuration->getResourceDirectoryUri(),
-                'configuration' => $configuration,
-            ]
-        );
 
         return new Response(
-            $view->render(),
+            $view->render($data),
             $response->getStatusCode(),
             $response->getStatusText()
         );
@@ -207,7 +206,7 @@ class Dispatcher implements UiInterface, DispatcherInterface
         }
 
         if ($page) {
-            $content = $this->expressionProcessor->process($page->getContent(), $this, []);
+            $content = $this->expressionProcessor->process($page->getContent(), new Context($this), []);
         } else {
             $content = 'Not found';
         }
@@ -266,9 +265,18 @@ class Dispatcher implements UiInterface, DispatcherInterface
         return isset($aliasConfiguration[$uri]) ? (string)$aliasConfiguration[$uri] : $uri;
     }
 
+    /**
+     * @param $context
+     * @deprecated Will be removed in 3.0
+     */
     public function setContext($context)
     {
         // noop
+    }
+
+    public function getCaller()
+    {
+        return $this;
     }
 
     /**
