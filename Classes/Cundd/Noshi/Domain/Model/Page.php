@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi\Domain\Model;
@@ -35,7 +36,7 @@ class Page
      *
      * @var string
      */
-    protected $rawContent = null;
+    protected string $rawContent;
 
     /**
      * Parsed content
@@ -276,7 +277,7 @@ class Page
      */
     public function getIsVirtual(): bool
     {
-        return $this->getRawContent() === null;
+        return $this->getRawContent() === '';
     }
 
     /**
