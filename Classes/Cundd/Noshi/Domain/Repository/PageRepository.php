@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi\Domain\Repository;
@@ -9,6 +10,8 @@ use Cundd\Noshi\Domain\Model\Page;
 use Cundd\Noshi\Helpers\MarkdownFactoryInterface;
 use Cundd\Noshi\Utilities\ObjectUtility;
 use InvalidArgumentException;
+
+use function str_replace;
 
 class PageRepository implements PageRepositoryInterface
 {
@@ -73,6 +76,7 @@ class PageRepository implements PageRepositoryInterface
             . str_replace(Page::URI_WHITESPACE_REPLACE, ' ', $pageName)
             . '.'
             . $configuration->get('dataSuffix');
+        $whiteSpaceMetadataPath = $dataPath . str_replace(Page::URI_WHITESPACE_REPLACE, ' ', $pageName) . '.json';
 
         // Check if the node exists
         if (file_exists($pageDataPath)) {
@@ -83,7 +87,10 @@ class PageRepository implements PageRepositoryInterface
         } elseif (file_exists($hiddenPageDataPath)) {
             $pageDataPath = $hiddenPageDataPath;
             $rawPageData = file_get_contents($pageDataPath);
-        } elseif (!(file_exists($directoryDataPath) || file_exists($metaDataPath))) {
+        } elseif (
+            !file_exists($directoryDataPath)
+            && !file_exists($metaDataPath)
+            && !file_exists($whiteSpaceMetadataPath)) {
             return null;
         }
 
@@ -118,16 +125,17 @@ class PageRepository implements PageRepositoryInterface
      * The meta data is read from the global configuration and the page's config file (i.e. 'PageName.json'), whilst the
      * page config takes precedence.
      *
-     * @param string $identifier
-     * @param string $pageDataPath Determined path to the page contents
+     * @param string      $identifier
+     * @param string|null $pageDataPath Determined path to the page contents
      * @return array
      */
-    public function buildMetaDataForPageIdentifier($identifier, $pageDataPath = null)
+    public function buildMetaDataForPageIdentifier(string $identifier, string $pageDataPath = null): array
     {
         $configuration = ConfigurationManager::getConfiguration();
         $dataPath = $configuration->get('basePath') . $configuration->get('dataPath');
         $pageName = $this->getPageNameForPageIdentifier($identifier);
         $metaDataPath = $dataPath . $pageName . '.json';
+        $whiteSpaceMetadataPath = $dataPath . str_replace(Page::URI_WHITESPACE_REPLACE, ' ', $pageName) . '.json';
 
         // Read the global configuration
         $metaData = ObjectUtility::valueForKeyPathOfObject("pages.$identifier.meta", $configuration, []);
@@ -135,6 +143,9 @@ class PageRepository implements PageRepositoryInterface
         // Check if the node exists
         if (file_exists($metaDataPath)) {
             $rawMetaData = file_get_contents($metaDataPath);
+            $metaData = array_merge($metaData, (array)json_decode($rawMetaData, true));
+        } elseif (file_exists($whiteSpaceMetadataPath)) {
+            $rawMetaData = file_get_contents($whiteSpaceMetadataPath);
             $metaData = array_merge($metaData, (array)json_decode($rawMetaData, true));
         }
 
@@ -182,7 +193,7 @@ class PageRepository implements PageRepositoryInterface
      * @param string $uriBase
      * @return array[]
      */
-    public function getPagesForPath($path, $uriBase = ''): array
+    public function getPagesForPath(string $path, string $uriBase = ''): array
     {
         $pages = [];
         $pagesSortingMap = [];
@@ -221,7 +232,7 @@ class PageRepository implements PageRepositoryInterface
                     Page::URI_WHITESPACE_REPLACE,
                     substr($file, 0, (int)strrpos($file, '.'))
                 );
-                $pageIdentifier = ($uriBase ? $uriBase . '/' : '') . ($relativePageIdentifier ? $relativePageIdentifier : $file);
+                $pageIdentifier = ($uriBase ? $uriBase . '/' : '') . ($relativePageIdentifier ?: $file);
 
                 $page = $this->findByIdentifier($pageIdentifier);
                 $page->setIsDirectory($isFolder);
