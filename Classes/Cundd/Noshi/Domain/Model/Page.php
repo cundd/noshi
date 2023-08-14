@@ -19,17 +19,14 @@ class Page
      */
     const URI_WHITESPACE_REPLACE = '_';
 
-    /**
-     * @var string
-     */
-    protected $identifier;
+    protected string $identifier;
 
     /**
      * Meta data
      *
      * @var array
      */
-    protected $meta = [];
+    protected array $meta = [];
 
     /**
      * Raw content
@@ -41,9 +38,9 @@ class Page
     /**
      * Parsed content
      *
-     * @var string
+     * @var string|null
      */
-    protected $parsedContent = '';
+    protected ?string $parsedContent = '';
 
     /**
      * Sorting position in a menu
