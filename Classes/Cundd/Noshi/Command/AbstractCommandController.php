@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi\Command;
@@ -7,6 +8,8 @@ use Exception;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
+
+use function var_dump;
 
 /**
  * Abstract controller for CLI tools
@@ -286,7 +289,7 @@ abstract class AbstractCommandController
             $methodDescription = [];
             $methodName = $method->name;
             $docComment = $method->getDocComment();
-            $docCommentLines = explode(PHP_EOL, $docComment);
+            $docCommentLines = explode(PHP_EOL, (string)$docComment);
 
             if (substr($methodName, -7) !== 'Command') {
                 continue;

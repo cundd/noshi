@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi;
@@ -18,12 +19,12 @@ class Configuration implements ArrayAccess
     /**
      * @var bool
      */
-    protected $_useVendorDirectory = true;
+    protected bool $useVendorDirectory = true;
 
     /**
      * @var array
      */
-    protected $configuration = [
+    protected array $configuration = [
         'dataPath'     => 'data/',
         'dataSuffix'   => 'md',
         'templatePath' => 'Resources/Private/Templates/',
@@ -40,7 +41,7 @@ class Configuration implements ArrayAccess
             $this->configuration,
             $this->prepareConfigurationArray((array)$configuration)
         );
-        $this->_useVendorDirectory = file_exists($this->getThemePath());
+        $this->useVendorDirectory = file_exists($this->getThemePath());
     }
 
     /**
@@ -51,7 +52,7 @@ class Configuration implements ArrayAccess
      * @param array $configuration
      * @return array
      */
-    private function prepareConfigurationArray(array $configuration)
+    private function prepareConfigurationArray(array $configuration): array
     {
         $pathConfiguration = [
             'dataPath',
@@ -72,7 +73,7 @@ class Configuration implements ArrayAccess
      *
      * @return string
      */
-    public function getBaseUrl()
+    public function getBaseUrl(): string
     {
         $baseUrl = $this->_get('baseUrl');
         if (!$baseUrl) {
@@ -97,13 +98,13 @@ class Configuration implements ArrayAccess
      * @return string
      * @throws Exception\SecurityException if the host could not be detected
      */
-    public function getHost()
+    public function getHost(): string
     {
         $host = '';
 
         if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] !== '0.0.0.0') {
             $host = $_SERVER['SERVER_NAME'];
-            if (!$this->_validateHost($host)) {
+            if (!$this->validateHost($host)) {
                 $host = '';
             }
 
@@ -118,7 +119,7 @@ class Configuration implements ArrayAccess
 
         if (!$host && isset($_SERVER['HTTP_HOST'])) {
             $host = $_SERVER['HTTP_HOST'];
-            if (!$this->_validateHost($host)) {
+            if (!$this->validateHost($host)) {
                 $host = '';
             }
         }
@@ -135,7 +136,7 @@ class Configuration implements ArrayAccess
      * @param string $host
      * @return boolean
      */
-    protected function _validateHost($host)
+    protected function validateHost(string $host): bool
     {
         // Remove any dash ('-'), dot ('.') and colon (':', allowed because of the port)
         return ctype_alnum(str_replace(['-', '.', ':'], '', $host));
@@ -146,10 +147,10 @@ class Configuration implements ArrayAccess
      *
      * @return string
      */
-    public function getThemePath()
+    public function getThemePath(): string
     {
         return $this->get('basePath') .
-            ($this->_useVendorDirectory ? 'vendor/' . $this->get('theme') : '')
+            ($this->useVendorDirectory ? 'vendor/' . $this->get('theme') : '')
             . '/';
     }
 
@@ -158,10 +159,10 @@ class Configuration implements ArrayAccess
      *
      * @return string
      */
-    public function getThemeUri()
+    public function getThemeUri(): string
     {
         return $this->getBaseUrl() .
-            ($this->_useVendorDirectory ? 'vendor/' . $this->get('theme') : '')
+            ($this->useVendorDirectory ? 'vendor/' . $this->get('theme') : '')
             . '/';
     }
 
@@ -170,7 +171,7 @@ class Configuration implements ArrayAccess
      *
      * @return string
      */
-    public function getResourceDirectoryUri()
+    public function getResourceDirectoryUri(): string
     {
         return $this->getThemeUri() . $this->get('resourcePath');
     }
@@ -180,7 +181,7 @@ class Configuration implements ArrayAccess
      *
      * @return string
      */
-    public function getRequestBasePath()
+    public function getRequestBasePath(): string
     {
         $trimmedBasePath = trim((string)$this->_get('requestBasePath'), '/');
 
@@ -196,7 +197,7 @@ class Configuration implements ArrayAccess
      *
      * @return bool
      */
-    public function isDevelopmentMode()
+    public function isDevelopmentMode(): bool
     {
         return (bool)$this->get('developmentMode');
     }
@@ -207,7 +208,7 @@ class Configuration implements ArrayAccess
      * @param string $key
      * @return mixed
      */
-    protected function _get($key)
+    protected function _get(string $key): mixed
     {
         if (isset($this->configuration[$key])) {
             return $this->configuration[$key];
@@ -224,7 +225,7 @@ class Configuration implements ArrayAccess
      * @param string $key
      * @return mixed
      */
-    public function get($key)
+    public function get(string $key): mixed
     {
         $accessorMethod = 'get' . ucfirst($key);
         if (method_exists($this, $accessorMethod)) {
@@ -241,82 +242,36 @@ class Configuration implements ArrayAccess
      * @param mixed  $value
      * @return $this
      */
-    public function set($key, $value)
+    public function set(string $key, mixed $value): self
     {
         $this->configuration[$key] = $value;
 
         return $this;
     }
 
-    /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Whether a offset exists
-     *
-     * @link http://php.net/manual/en/arrayaccess.offsetexists.php
-     * @param mixed $offset <p>
-     *                      An offset to check for.
-     *                      </p>
-     * @return boolean true on success or false on failure.
-     *                      </p>
-     *                      <p>
-     *                      The return value will be casted to boolean if non-boolean was returned.
-     */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->configuration[$offset]);
     }
 
-    /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Offset to retrieve
-     *
-     * @link http://php.net/manual/en/arrayaccess.offsetget.php
-     * @param mixed $offset <p>
-     *                      The offset to retrieve.
-     *                      </p>
-     * @return mixed Can return all value types.
-     */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->get($offset);
     }
 
-    /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Offset to set
-     *
-     * @link http://php.net/manual/en/arrayaccess.offsetset.php
-     * @param mixed $offset <p>
-     *                      The offset to assign the value to.
-     *                      </p>
-     * @param mixed $value  <p>
-     *                      The value to set.
-     *                      </p>
-     * @return void
-     */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->set($offset, $value);
     }
 
-    /**
-     * (PHP 5 &gt;= 5.0.0)<br/>
-     * Offset to unset
-     *
-     * @link http://php.net/manual/en/arrayaccess.offsetunset.php
-     * @param mixed $offset <p>
-     *                      The offset to unset.
-     *                      </p>
-     * @return void
-     */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->set($offset, null);
     }
 
     function __call($name, $arguments)
     {
-        if (substr($name, 0, 3) === 'get') {
+        if (str_starts_with($name, 'get')) {
             return $this->get(lcfirst(substr($name, 3)));
         }
 
