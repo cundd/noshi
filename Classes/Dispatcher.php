@@ -15,49 +15,49 @@ use Cundd\Noshi\Ui\ContextInterface;
 use Cundd\Noshi\Ui\View;
 use Exception;
 
-class Dispatcher implements DispatcherInterface, ContextInterface
+final class Dispatcher implements DispatcherInterface, ContextInterface
 {
     /**
      * Request URI
      *
      * @var string
      */
-    protected $uri = '';
+    private $uri = '';
 
     /**
      * Original request URI
      *
      * @var string
      */
-    protected $originalUri = '';
+    private $originalUri = '';
 
     /**
      * Request method
      *
      * @var string
      */
-    protected $method = '';
+    private $method = '';
 
     /**
      * Return the raw result
      *
      * @var bool
      */
-    protected $raw = false;
+    private $raw = false;
 
     /**
      * Page object for the current URI
      *
      * @var Page
      */
-    protected $page;
+    private $page;
 
     /**
      * Shared Dispatcher instance
      *
      * @var DispatcherInterface
      */
-    protected static $sharedDispatcher;
+    private static $sharedDispatcher;
 
     /**
      * @var MarkdownFactoryInterface
@@ -80,8 +80,11 @@ class Dispatcher implements DispatcherInterface, ContextInterface
         $this->expressionProcessor = $expressionProcessor;
     }
 
-    public function dispatch(string $uri, string $method = 'GET', array $arguments = []): Response
-    {
+    public function dispatch(
+        string $uri,
+        string $method = 'GET',
+        array $arguments = [],
+    ): Response {
         $this->originalUri = $uri;
         $this->uri = $this->prepareUri($uri);
 
@@ -281,7 +284,7 @@ class Dispatcher implements DispatcherInterface, ContextInterface
         return static::$sharedDispatcher;
     }
 
-    protected function prepareUri(string $uri): string
+    private function prepareUri(string $uri): string
     {
         $basePath = ConfigurationManager::getConfiguration()->getRequestBasePath();
         $basePathLength = strlen($basePath);
