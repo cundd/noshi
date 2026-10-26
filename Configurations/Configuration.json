@@ -1,14 +1,14 @@
 {
-	"theme": "cundd/noshi-boilerplate",
-	"routing": {
-		"alias": {
-			"/": "/Home/"
-		}
+    "theme": "cundd/noshi-boilerplate",
+    "routing": {
+        "alias": {
+            "/": "/Home/"
+        }
     },
     "pages": {
         "Home": {
             "meta": {
-            	"title": "The no shi! CMS"
+                "title": "The no shi! CMS"
             }
         },
         "Source": {
