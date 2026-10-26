@@ -5,14 +5,12 @@ NoShi
 
 The no shi! CMS
 
-
 Features
 --------
 
 - Markdown equipped
 - File based
 - Open Source (MIT License)
-
 
 Free from
 ---------

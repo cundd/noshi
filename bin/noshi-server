@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-if hash realpath 2> /dev/null; then
-    DIR="$( cd "$(dirname $(realpath "${BASH_SOURCE[0]}" ))" && pwd )";
-elif hash readlink 2> /dev/null && [[ "$(uname -s)" != "Darwin" ]]; then
-    DIR="$( cd "$(dirname $(readlink -f "${BASH_SOURCE[0]}" ))" && pwd )";
+if hash realpath 2>/dev/null; then
+    DIR="$(cd "$(dirname $(realpath "${BASH_SOURCE[0]}"))" && pwd)"
+elif hash readlink 2>/dev/null && [[ "$(uname -s)" != "Darwin" ]]; then
+    DIR="$(cd "$(dirname $(readlink -f "${BASH_SOURCE[0]}"))" && pwd)"
 else
-    DIR="$( cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )";
+    DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 fi
 
 : ${PHP_BINARY="php"}
@@ -21,7 +21,7 @@ if [[ "$PORT" == "" ]]; then
     PORT=9000
 fi
 
-echo "Start server on $HOST:$PORT";
-export BASE_PATH="$BASE_PATH";
-export DATA_PATH="$DATA_PATH";
-${PHP_BINARY} -S ${HOST}:${PORT} -t "$DIR/../";
+echo "Start server on $HOST:$PORT"
+export BASE_PATH="$BASE_PATH"
+export DATA_PATH="$DATA_PATH"
+${PHP_BINARY} -S ${HOST}:${PORT} -t "$DIR/../"
