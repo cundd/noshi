@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi\Ui;
@@ -31,10 +32,6 @@ class Template extends AbstractUi implements TemplateInterface
 
     /**
      * Template constructor.
-     *
-     * @param string $template
-     * @param array $data
-     * @param ExpressionProcessorInterface $expressionProcessor
      */
     public function __construct(string $template, array $data, ExpressionProcessorInterface $expressionProcessor)
     {
@@ -52,7 +49,7 @@ class Template extends AbstractUi implements TemplateInterface
 
     public function assignMultiple(array $values): TemplateInterface
     {
-        $this->data = array_merge($this->data, (array)$values);
+        $this->data = array_merge($this->data, (array) $values);
 
         return $this;
     }
@@ -60,8 +57,6 @@ class Template extends AbstractUi implements TemplateInterface
     /**
      * Render the template
      *
-     * @param array $data
-     * @return string
      * @throws InvalidExpressionException if the rendered expression can not be converted to a string
      */
     public function render(array $data): string
@@ -77,16 +72,18 @@ class Template extends AbstractUi implements TemplateInterface
      * Renders the given expression
      *
      * @param string $expression
+     *
      * @return string
+     *
      * @deprecated use ExpressionProcessorInterface instead. Will be removed in 3.0
      */
     public function renderExpression($expression)
     {
-        if (strpos($expression, '\\') !== false) {
+        if (false !== strpos($expression, '\\')) {
             $expressionParts = explode(' ', $expression);
             $viewClass = '\\' . array_shift($expressionParts);
 
-            /** @var UiInterface $newView */
+            /* @var UiInterface $newView */
             if (!class_exists($viewClass)) {
                 return '<!-- view class ' . $viewClass . ' not found -->';
             }
@@ -98,10 +95,10 @@ class Template extends AbstractUi implements TemplateInterface
                 return $newView->render($newViewData);
             }
             try {
-                return (string)$newView;
+                return (string) $newView;
             } catch (Exception $exception) {
             }
-        } elseif (substr($expression, 0, 2) === '//') { // Handle expressions like "{//please.output.me}"
+        } elseif ('//' === substr($expression, 0, 2)) { // Handle expressions like "{//please.output.me}"
             // noop
         }
 
@@ -112,7 +109,9 @@ class Template extends AbstractUi implements TemplateInterface
      * Returns the assigned variable value
      *
      * @param string $keyPath
+     *
      * @return string
+     *
      * @deprecated use ExpressionProcessorInterface instead. Will be removed in 3.0
      */
     public function resolveExpressionKeyPath($keyPath)

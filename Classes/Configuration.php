@@ -16,14 +16,8 @@ use Cundd\Noshi\Exception\SecurityException;
  */
 class Configuration implements ArrayAccess
 {
-    /**
-     * @var bool
-     */
     protected bool $useVendorDirectory = true;
 
-    /**
-     * @var array
-     */
     protected array $configuration = [
         'dataPath'     => 'data/',
         'dataSuffix'   => 'md',
@@ -35,11 +29,11 @@ class Configuration implements ArrayAccess
         ],
     ];
 
-    function __construct(array $configuration = [])
+    public function __construct(array $configuration = [])
     {
         $this->configuration = array_merge(
             $this->configuration,
-            $this->prepareConfigurationArray((array)$configuration)
+            $this->prepareConfigurationArray((array) $configuration)
         );
         $this->useVendorDirectory = file_exists($this->getThemePath());
     }
@@ -48,9 +42,6 @@ class Configuration implements ArrayAccess
      * Prepare the configuration values
      *
      * Append a slash at the end of directory configurations
-     *
-     * @param array $configuration
-     * @return array
      */
     private function prepareConfigurationArray(array $configuration): array
     {
@@ -70,15 +61,13 @@ class Configuration implements ArrayAccess
 
     /**
      * Returns the base URL
-     *
-     * @return string
      */
     public function getBaseUrl(): string
     {
         $baseUrl = $this->_get('baseUrl');
         if (!$baseUrl) {
             $baseUrl = ''
-                . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http')
+                . (isset($_SERVER['HTTPS']) && 'off' != $_SERVER['HTTPS'] ? 'https' : 'http')
                 . '://'
                 . $this->getHost()
                 . '/';
@@ -95,14 +84,13 @@ class Configuration implements ArrayAccess
     /**
      * Returns the sanitized hostname
      *
-     * @return string
-     * @throws Exception\SecurityException if the host could not be detected
+     * @throws SecurityException if the host could not be detected
      */
     public function getHost(): string
     {
         $host = '';
 
-        if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] !== '0.0.0.0') {
+        if (isset($_SERVER['SERVER_NAME']) && '0.0.0.0' !== $_SERVER['SERVER_NAME']) {
             $host = $_SERVER['SERVER_NAME'];
             if (!$this->validateHost($host)) {
                 $host = '';
@@ -132,9 +120,6 @@ class Configuration implements ArrayAccess
 
     /**
      * Returns if the given host is valid
-     *
-     * @param string $host
-     * @return boolean
      */
     protected function validateHost(string $host): bool
     {
@@ -144,8 +129,6 @@ class Configuration implements ArrayAccess
 
     /**
      * Returns the path to the configured theme
-     *
-     * @return string
      */
     public function getThemePath(): string
     {
@@ -156,8 +139,6 @@ class Configuration implements ArrayAccess
 
     /**
      * Returns the URI of the path to the configured theme
-     *
-     * @return string
      */
     public function getThemeUri(): string
     {
@@ -168,8 +149,6 @@ class Configuration implements ArrayAccess
 
     /**
      * Returns the URI of the resource directory
-     *
-     * @return string
      */
     public function getResourceDirectoryUri(): string
     {
@@ -178,12 +157,10 @@ class Configuration implements ArrayAccess
 
     /**
      * Returns the name of the subdirectory the project is installed in
-     *
-     * @return string
      */
     public function getRequestBasePath(): string
     {
-        $trimmedBasePath = trim((string)$this->_get('requestBasePath'), '/');
+        $trimmedBasePath = trim((string) $this->_get('requestBasePath'), '/');
 
         if (!$trimmedBasePath) {
             return '/';
@@ -194,19 +171,14 @@ class Configuration implements ArrayAccess
 
     /**
      * Returns if the website is in Development Mode
-     *
-     * @return bool
      */
     public function isDevelopmentMode(): bool
     {
-        return (bool)$this->get('developmentMode');
+        return (bool) $this->get('developmentMode');
     }
 
     /**
      * Returns the configuration (without checking for an accessor method)
-     *
-     * @param string $key
-     * @return mixed
      */
     protected function _get(string $key): mixed
     {
@@ -221,9 +193,6 @@ class Configuration implements ArrayAccess
      * Returns the configuration
      *
      * If an accessor method (i.e.: "getMyKey") is available it will be called
-     *
-     * @param string $key
-     * @return mixed
      */
     public function get(string $key): mixed
     {
@@ -238,8 +207,6 @@ class Configuration implements ArrayAccess
     /**
      * Set the configuration
      *
-     * @param string $key
-     * @param mixed  $value
      * @return $this
      */
     public function set(string $key, mixed $value): self
@@ -269,7 +236,7 @@ class Configuration implements ArrayAccess
         $this->set($offset, null);
     }
 
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         if (str_starts_with($name, 'get')) {
             return $this->get(lcfirst(substr($name, 3)));

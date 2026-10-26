@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi;
@@ -79,7 +80,7 @@ class Response
      */
     protected $protocol = 'HTTP/1.1';
 
-    function __construct($body = '', $statusCode = 200, $statusText = null, $protocol = null)
+    public function __construct($body = '', $statusCode = 200, $statusText = null, $protocol = null)
     {
         $this->body = $body;
         $this->statusCode = $statusCode;
@@ -161,11 +162,10 @@ class Response
         header($this->protocol . ' ' . $this->statusCode . ' ' . $this->statusText);
     }
 
-    function __toString()
+    public function __toString()
     {
         $this->sendHeaders();
 
         return $this->getBody();
     }
-
 }

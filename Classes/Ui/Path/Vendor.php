@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi\Ui\Path;
@@ -9,9 +10,6 @@ class Vendor extends AbstractUi
 {
     /**
      * Renders the element
-     *
-     * @param array $data
-     * @return string
      */
     public function render(array $data): string
     {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi\Utilities;
@@ -7,10 +8,8 @@ class DebugUtility
 {
     /**
      * Print debug information about the given values (arg0, arg1, ... argN)
-     *
-     * @param $variable
      */
-    static public function debug($variable)
+    public static function debug($variable)
     {
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10);
         $caller = $backtrace[1];

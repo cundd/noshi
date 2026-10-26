@@ -12,33 +12,27 @@ use Cundd\Noshi\Utilities\ObjectUtility;
  */
 class Page
 {
-    const DEFAULT_SORTING = 9000;
+    public const DEFAULT_SORTING = 9000;
 
     /**
      * Character to replace whitespaces in the URI
      */
-    const URI_WHITESPACE_REPLACE = '_';
+    public const URI_WHITESPACE_REPLACE = '_';
 
     protected string $identifier;
 
     /**
      * Meta data
-     *
-     * @var array
      */
     protected array $meta = [];
 
     /**
      * Raw content
-     *
-     * @var string
      */
     protected string $rawContent;
 
     /**
      * Parsed content
-     *
-     * @var string|null
      */
     protected ?string $parsedContent = '';
 
@@ -68,11 +62,11 @@ class Page
      */
     protected $markdownFactory;
 
-    function __construct(
+    public function __construct(
         string $identifier,
         string $rawContent,
         array $meta,
-        MarkdownFactoryInterface $markdownFactory
+        MarkdownFactoryInterface $markdownFactory,
     ) {
         $this->meta = $meta;
         $this->rawContent = $rawContent;
@@ -83,7 +77,6 @@ class Page
     /**
      * Set the page's unique identifier
      *
-     * @param string $identifier
      * @return $this
      */
     public function setIdentifier(string $identifier): self
@@ -95,8 +88,6 @@ class Page
 
     /**
      * Return the page's unique identifier
-     *
-     * @return string
      */
     public function getIdentifier(): string
     {
@@ -106,7 +97,6 @@ class Page
     /**
      * Set the meta data
      *
-     * @param array $meta
      * @return $this
      */
     public function setMeta(array $meta): self
@@ -118,8 +108,6 @@ class Page
 
     /**
      * Return the meta data
-     *
-     * @return array
      */
     public function getMeta(): array
     {
@@ -129,7 +117,6 @@ class Page
     /**
      * Set the raw content
      *
-     * @param string $rawContent
      * @return $this
      */
     public function setRawContent(string $rawContent): self
@@ -142,8 +129,6 @@ class Page
 
     /**
      * Return the raw content
-     *
-     * @return string
      */
     public function getRawContent(): string
     {
@@ -152,8 +137,6 @@ class Page
 
     /**
      * Return the parsed content
-     *
-     * @return string
      */
     public function getContent(): string
     {
@@ -167,7 +150,6 @@ class Page
     /**
      * Set the sorting position in a menu
      *
-     * @param int $sorting
      * @return $this
      */
     public function setSorting(int $sorting): self
@@ -179,8 +161,6 @@ class Page
 
     /**
      * Return the sorting position in a menu
-     *
-     * @return int
      */
     public function getSorting(): int
     {
@@ -197,8 +177,6 @@ class Page
 
     /**
      * Return the URI of the page
-     *
-     * @return string
      */
     public function getUri(): string
     {
@@ -224,8 +202,6 @@ class Page
 
     /**
      * Return the pages title
-     *
-     * @return string
      */
     public function getTitle(): string
     {
@@ -233,7 +209,7 @@ class Page
         if (!$title) {
             $title = $this->getIdentifier();
             $slashPosition = strpos($title, DIRECTORY_SEPARATOR);
-            if ($slashPosition !== false) {
+            if (false !== $slashPosition) {
                 $title = substr($title, $slashPosition + 1);
             }
             $title = str_replace(self::URI_WHITESPACE_REPLACE, ' ', $title);
@@ -245,7 +221,6 @@ class Page
     /**
      * Set if the Page is a directory
      *
-     * @param boolean $isDirectory
      * @return $this
      */
     public function setIsDirectory(bool $isDirectory): self
@@ -257,8 +232,6 @@ class Page
 
     /**
      * Return if the Page is a directory
-     *
-     * @return boolean
      */
     public function getIsDirectory(): bool
     {
@@ -269,18 +242,14 @@ class Page
      * Return if the Page isn't a real Page
      *
      * A directory without an associated content file (i.e. "About/" exists but "About.md" do not) is virtual.
-     *
-     * @return boolean
      */
     public function getIsVirtual(): bool
     {
-        return $this->getRawContent() === '';
+        return '' === $this->getRawContent();
     }
 
     /**
      * Return if the Page is an external link
-     *
-     * @return bool
      */
     public function getIsExternalLink(): bool
     {
@@ -289,8 +258,6 @@ class Page
 
     /**
      * Return the URL read from the meta data or NULL if it is not set
-     *
-     * @return string|null
      */
     protected function getUrlFromMeta(): ?string
     {
@@ -298,13 +265,13 @@ class Page
         if (!$url) {
             return null;
         }
-        if (substr($url, 0, 11) === '/Resources/') {
+        if ('/Resources/' === substr($url, 0, 11)) {
             return $url;
         }
-        if (substr($url, 0, 10) === 'Resources/') {
+        if ('Resources/' === substr($url, 0, 10)) {
             return $url;
         }
-        if (strpos($url, '://') === false) {
+        if (false === strpos($url, '://')) {
             $url = 'http://' . $url;
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi\Utilities;
@@ -13,21 +14,21 @@ class Profiler
      *
      * @var float
      */
-    static protected $startTime;
+    protected static $startTime;
 
     /**
      * URI of the stream to write the profiler information to
      *
      * @var string
      */
-    static protected $streamUri = 'php://stdout';
+    protected static $streamUri = 'php://stdout';
 
     /**
      * Show the processing time
      *
      * @param string $message Optional profiling message
      */
-    static public function profile($message = null)
+    public static function profile($message = null)
     {
         static $fileHandle = null;
 
@@ -54,7 +55,7 @@ class Profiler
      *
      * @return bool Returns if the profiler just has been started
      */
-    static public function start()
+    public static function start()
     {
         if (!static::$startTime) {
             static::$startTime = microtime(true);

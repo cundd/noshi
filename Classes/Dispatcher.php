@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi;
@@ -49,14 +50,14 @@ class Dispatcher implements DispatcherInterface, ContextInterface
      *
      * @var Page
      */
-    protected $page = null;
+    protected $page;
 
     /**
      * Shared Dispatcher instance
      *
      * @var DispatcherInterface
      */
-    static protected $sharedDispatcher = null;
+    protected static $sharedDispatcher;
 
     /**
      * @var MarkdownFactoryInterface
@@ -70,13 +71,10 @@ class Dispatcher implements DispatcherInterface, ContextInterface
 
     /**
      * Dispatcher constructor.
-     *
-     * @param MarkdownFactoryInterface     $markdownFactory
-     * @param ExpressionProcessorInterface $expressionProcessor
      */
     public function __construct(
         MarkdownFactoryInterface $markdownFactory,
-        ExpressionProcessorInterface $expressionProcessor
+        ExpressionProcessorInterface $expressionProcessor,
     ) {
         $this->markdownFactory = $markdownFactory;
         $this->expressionProcessor = $expressionProcessor;
@@ -112,7 +110,7 @@ class Dispatcher implements DispatcherInterface, ContextInterface
             return $response;
         } catch (Exception $exception) {
             $fileHandle = fopen('php://stderr', 'w');
-            fwrite($fileHandle, (string)$exception);
+            fwrite($fileHandle, (string) $exception);
             if (ConfigurationManager::getConfiguration()->isDevelopmentMode()) {
                 return new Response('An error occurred: ' . $exception, 500);
             } else {
@@ -125,7 +123,9 @@ class Dispatcher implements DispatcherInterface, ContextInterface
      * Fill the template with the contents
      *
      * @param Response $response
+     *
      * @return Response
+     *
      * @throws Ui\Exception\InvalidExpressionException
      */
     public function createTemplateResponse($response)
@@ -166,8 +166,6 @@ class Dispatcher implements DispatcherInterface, ContextInterface
 
     /**
      * Return the Page object for the current URI
-     *
-     * @return Page|null
      */
     public function getPage(): ?Page
     {
@@ -180,8 +178,6 @@ class Dispatcher implements DispatcherInterface, ContextInterface
 
     /**
      * Return the page data
-     *
-     * @return Page|null
      */
     public function getNotFoundPage(): ?Page
     {
@@ -193,7 +189,6 @@ class Dispatcher implements DispatcherInterface, ContextInterface
      *
      * If the current page URI was not found, the URI "/NotFound/" will be checked
      *
-     * @return Response
      * @throws Ui\Exception\InvalidExpressionException
      */
     public function getResponse(): Response
@@ -217,8 +212,6 @@ class Dispatcher implements DispatcherInterface, ContextInterface
     /**
      * Return the response for the page URI or NULL if no data was found
      *
-     * @param string $uri
-     * @return Response|NULL
      * @deprecated will be removed in 3.0.0
      */
     public function buildResponseForUri(string $uri): ?Response
@@ -233,14 +226,11 @@ class Dispatcher implements DispatcherInterface, ContextInterface
 
     /**
      * Return the Page for the page URI or NULL if no data was found
-     *
-     * @param string $uri
-     * @return Page|null
      */
     public function getPageForUri(string $uri): ?Page
     {
         $pageIdentifier = trim(urldecode($uri), '/');
-        if ($pageIdentifier === '') {
+        if ('' === $pageIdentifier) {
             $pageIdentifier = '/';
         }
 
@@ -255,18 +245,16 @@ class Dispatcher implements DispatcherInterface, ContextInterface
      * At the current stage this method doesn't do much. It simply returns "/Home/" if the current URI is "/"
      *
      * @param string $uri
-     * @return string
      */
     public function getAliasForUri($uri): string
     {
         $routingConfiguration = ConfigurationManager::getConfiguration()->get('routing');
         $aliasConfiguration = isset($routingConfiguration['alias']) ? $routingConfiguration['alias'] : [];
 
-        return isset($aliasConfiguration[$uri]) ? (string)$aliasConfiguration[$uri] : $uri;
+        return isset($aliasConfiguration[$uri]) ? (string) $aliasConfiguration[$uri] : $uri;
     }
 
     /**
-     * @param $context
      * @deprecated Will be removed in 3.0
      */
     public function setContext($context)
@@ -284,7 +272,7 @@ class Dispatcher implements DispatcherInterface, ContextInterface
      *
      * @return DispatcherInterface
      */
-    static public function getSharedDispatcher()
+    public static function getSharedDispatcher()
     {
         if (!static::$sharedDispatcher) {
             static::$sharedDispatcher = new static(new MarkdownFactory(), new ExpressionProcessor());
@@ -293,10 +281,6 @@ class Dispatcher implements DispatcherInterface, ContextInterface
         return static::$sharedDispatcher;
     }
 
-    /**
-     * @param string $uri
-     * @return string
-     */
     protected function prepareUri(string $uri): string
     {
         $basePath = ConfigurationManager::getConfiguration()->getRequestBasePath();

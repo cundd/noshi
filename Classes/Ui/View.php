@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi\Ui;
@@ -17,6 +18,7 @@ class View extends Template implements UiInterface
      * Sets the path to the template
      *
      * @param string $templatePath
+     *
      * @return $this
      */
     public function setTemplatePath($templatePath)

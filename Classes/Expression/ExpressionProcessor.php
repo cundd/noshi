@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi\Expression;
@@ -17,10 +18,6 @@ class ExpressionProcessor implements ExpressionProcessorInterface
     /**
      * Replace and resolve expressions in the content
      *
-     * @param string           $content
-     * @param ContextInterface $context
-     * @param array            $data
-     * @return string
      * @throws InvalidExpressionException
      */
     public function process(string $content, ContextInterface $context, array $data): string
@@ -38,20 +35,17 @@ class ExpressionProcessor implements ExpressionProcessorInterface
     /**
      * Resolve the given expression
      *
-     * @param string           $expression
-     * @param ContextInterface $context
-     * @param array            $data
      * @return string
      */
     private function resolveExpression(string $expression, ContextInterface $context, array $data)
     {
-        if (substr($expression, 0, 2) === '//') { // Handle expressions like "{//please.output.me}"
-            return '{' . trim((string)substr($expression, 2)) . '}';
-        } elseif (strpos($expression, '\\') !== false) {
+        if ('//' === substr($expression, 0, 2)) { // Handle expressions like "{//please.output.me}"
+            return '{' . trim((string) substr($expression, 2)) . '}';
+        } elseif (false !== strpos($expression, '\\')) {
             $expressionParts = explode(' ', $expression);
             $viewClass = '\\' . array_shift($expressionParts);
 
-            /** @var UiInterface $newView */
+            /* @var UiInterface $newView */
             if (!class_exists($viewClass)) {
                 return '<!-- view class ' . $viewClass . ' not found -->';
             }
@@ -63,7 +57,7 @@ class ExpressionProcessor implements ExpressionProcessorInterface
                 return $newView->render($newViewData);
             }
             try {
-                return (string)$newView;
+                return (string) $newView;
             } catch (Exception $exception) {
                 return '<!-- view class ' . $viewClass . '::__toString() failed -->';
             }
@@ -76,7 +70,7 @@ class ExpressionProcessor implements ExpressionProcessorInterface
      * Return the assigned variable value
      *
      * @param string $keyPath
-     * @param array  $data
+     *
      * @return string
      */
     private function resolveExpressionValue($keyPath, array $data)
@@ -91,7 +85,6 @@ class ExpressionProcessor implements ExpressionProcessorInterface
     /**
      * Find expressions in the content
      *
-     * @param string $content
      * @return string[]
      */
     private function detectExpressions(string $content): array
@@ -106,10 +99,6 @@ class ExpressionProcessor implements ExpressionProcessorInterface
     }
 
     /**
-     * @param ContextInterface $context
-     * @param array            $data
-     * @param string           $expression
-     * @return string
      * @throws InvalidExpressionException
      */
     private function renderExpression(ContextInterface $context, array $data, string $expression): string
@@ -126,6 +115,6 @@ class ExpressionProcessor implements ExpressionProcessorInterface
             );
         }
 
-        return (string)$resolvedExpression;
+        return (string) $resolvedExpression;
     }
 }

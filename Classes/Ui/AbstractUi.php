@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi\Ui;
@@ -16,7 +17,6 @@ abstract class AbstractUi implements UiInterface
     /**
      * Set the context
      *
-     * @param ContextInterface $context
      * @return $this
      */
     public function setContext(ContextInterface $context): UiInterface
@@ -26,7 +26,7 @@ abstract class AbstractUi implements UiInterface
         return $this;
     }
 
-    function __toString()
+    public function __toString()
     {
         return $this->render([]);
     }

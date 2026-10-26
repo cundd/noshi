@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi\Expression;
@@ -11,10 +12,6 @@ interface ExpressionProcessorInterface
     /**
      * Replace and resolve expressions in the content
      *
-     * @param string           $content
-     * @param ContextInterface $context
-     * @param array            $data
-     * @return string
      * @throws InvalidExpressionException
      */
     public function process(string $content, ContextInterface $context, array $data): string;

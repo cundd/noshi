@@ -36,8 +36,6 @@ class PageRepository implements PageRepositoryInterface
 
     /**
      * PageRepository constructor
-     *
-     * @param MarkdownFactoryInterface $markdownFactory
      */
     public function __construct(MarkdownFactoryInterface $markdownFactory)
     {
@@ -46,9 +44,6 @@ class PageRepository implements PageRepositoryInterface
 
     /**
      * Find the page with tie given identifier
-     *
-     * @param string $identifier
-     * @return Page
      */
     public function findByIdentifier(string $identifier): ?Page
     {
@@ -65,7 +60,7 @@ class PageRepository implements PageRepositoryInterface
         $directoryDataPath = $dataPath . $pageName;
         $metaDataPath = $dataPath . $pageName . '.json';
 
-        $lastSlashPosition = (int)strrpos($pageName, '/');
+        $lastSlashPosition = (int) strrpos($pageName, '/');
 
         $hiddenPageDataPath = $dataPath
             . substr($pageName, 0, $lastSlashPosition)
@@ -96,7 +91,7 @@ class PageRepository implements PageRepositoryInterface
 
         $page = new Page(
             $identifier,
-            (string)$rawPageData,
+            (string) $rawPageData,
             $this->buildMetaDataForPageIdentifier($identifier, $pageDataPath),
             $this->markdownFactory
         );
@@ -109,7 +104,9 @@ class PageRepository implements PageRepositoryInterface
      * Return the page file name for the given page identifier
      *
      * @param string $identifier
+     *
      * @return string
+     *
      * @throws InvalidPageIdentifierException if the given page identifier is invalid
      */
     public function getPageNameForPageIdentifier($identifier)
@@ -125,11 +122,9 @@ class PageRepository implements PageRepositoryInterface
      * The meta data is read from the global configuration and the page's config file (i.e. 'PageName.json'), whilst the
      * page config takes precedence.
      *
-     * @param string      $identifier
      * @param string|null $pageDataPath Determined path to the page contents
-     * @return array
      */
-    public function buildMetaDataForPageIdentifier(string $identifier, string $pageDataPath = null): array
+    public function buildMetaDataForPageIdentifier(string $identifier, ?string $pageDataPath = null): array
     {
         $configuration = ConfigurationManager::getConfiguration();
         $dataPath = $configuration->get('basePath') . $configuration->get('dataPath');
@@ -143,10 +138,10 @@ class PageRepository implements PageRepositoryInterface
         // Check if the node exists
         if (file_exists($metaDataPath)) {
             $rawMetaData = file_get_contents($metaDataPath);
-            $metaData = array_merge($metaData, (array)json_decode($rawMetaData, true));
+            $metaData = array_merge($metaData, (array) json_decode($rawMetaData, true));
         } elseif (file_exists($whiteSpaceMetadataPath)) {
             $rawMetaData = file_get_contents($whiteSpaceMetadataPath);
-            $metaData = array_merge($metaData, (array)json_decode($rawMetaData, true));
+            $metaData = array_merge($metaData, (array) json_decode($rawMetaData, true));
         }
 
         if ($pageDataPath && file_exists($pageDataPath)) {
@@ -189,8 +184,6 @@ class PageRepository implements PageRepositoryInterface
     /**
      * Return all available pages for the given path
      *
-     * @param string $path
-     * @param string $uriBase
      * @return array[]
      */
     public function getPagesForPath(string $path, string $uriBase = ''): array
@@ -210,18 +203,18 @@ class PageRepository implements PageRepositoryInterface
 
             while (false !== ($file = readdir($handle))) {
                 // Skip the current file if the first character is a dot
-                if ($file[0] === '.') {
+                if ('.' === $file[0]) {
                     continue;
                 }
 
                 // Skip hidden pages
-                if ($file[0] === '_') {
+                if ('_' === $file[0]) {
                     continue;
                 }
 
-                $isFolder = strpos($file, '.') === false;
+                $isFolder = false === strpos($file, '.');
                 $isPage = substr($file, -$dataSuffixLength) === $dataSuffix;
-                $isConfig = substr($file, -5) === '.json';
+                $isConfig = '.json' === substr($file, -5);
 
                 if (!($isFolder || $isPage || $isConfig)) {
                     continue;
@@ -230,7 +223,7 @@ class PageRepository implements PageRepositoryInterface
                 $relativePageIdentifier = str_replace(
                     ' ',
                     Page::URI_WHITESPACE_REPLACE,
-                    substr($file, 0, (int)strrpos($file, '.'))
+                    substr($file, 0, (int) strrpos($file, '.'))
                 );
                 $pageIdentifier = ($uriBase ? $uriBase . '/' : '') . ($relativePageIdentifier ?: $file);
 
@@ -285,8 +278,6 @@ class PageRepository implements PageRepositoryInterface
     }
 
     /**
-     * @param $identifier
-     *
      * @throws InvalidPageIdentifierException if the given page identifier is invalid
      */
     private function assertValidPageIdentifier($identifier)
@@ -295,7 +286,7 @@ class PageRepository implements PageRepositoryInterface
             throw new InvalidPageIdentifierException('Invalid page identifier', 1549723840);
         }
 
-        if (!$identifier || $identifier[0] === '.' || strpos($identifier, '/.') !== false) {
+        if (!$identifier || '.' === $identifier[0] || false !== strpos($identifier, '/.')) {
             throw new InvalidPageIdentifierException('Invalid page identifier', 1549723830);
         }
     }

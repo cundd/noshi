@@ -18,9 +18,6 @@ class Menu extends AbstractUi
 
     /**
      * Renders the element
-     *
-     * @param array $data
-     * @return string
      */
     public function render(array $data): string
     {
@@ -28,7 +25,6 @@ class Menu extends AbstractUi
     }
 
     /**
-     * @param array $pages
      * @return string
      */
     public function renderPages(array $pages)
@@ -79,6 +75,7 @@ class Menu extends AbstractUi
      * Return all available page data
      *
      * @return array[]
+     *
      * @deprecated use PageRepository::getPageTree() instead. Will be private in 3.0
      */
     public function getPageTree(): array
@@ -90,6 +87,7 @@ class Menu extends AbstractUi
      * Return the page repository
      *
      * @return PageRepository
+     *
      * @deprecated use PageRepository instead. Will be private in 3.0
      */
     public function getPageRepository()

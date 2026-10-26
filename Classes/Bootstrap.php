@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi;
@@ -16,9 +17,9 @@ class Bootstrap
      */
     protected $dispatcher;
 
-    function __construct(string $basePath, ?string $dataPath = null)
+    public function __construct(string $basePath, ?string $dataPath = null)
     {
-        if (substr($basePath, -1) !== DIRECTORY_SEPARATOR) {
+        if (DIRECTORY_SEPARATOR !== substr($basePath, -1)) {
             $basePath .= DIRECTORY_SEPARATOR;
         }
 
@@ -38,8 +39,6 @@ class Bootstrap
 
     /**
      * Invokes the CLI dispatcher
-     *
-     * @param array $arguments
      */
     public function runCli(array $arguments)
     {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi\Helpers\Markdown;
@@ -9,6 +10,7 @@ trait AnchorTrait
      * Add IDs to headlines
      *
      * @param string $content
+     *
      * @return string
      */
     public function addHeadlineIds($content)
@@ -23,22 +25,23 @@ trait AnchorTrait
 
                 return sprintf(
                     '<h%d id="%s">%s</h%d>',
-                    (int)$headlineLevel,
+                    (int) $headlineLevel,
                     $this->buildElementId($headlineText),
                     $headlineText,
-                    (int)$headlineLevel
+                    (int) $headlineLevel
                 );
             },
-            (string)$content
+            (string) $content
         );
     }
 
     /**
      * @param string $headlineText
+     *
      * @return string
      */
     private function buildElementId($headlineText)
     {
-        return (string)strtolower(preg_replace('/[^a-zA-Z0-9_\-]/', '-', $headlineText));
+        return (string) strtolower(preg_replace('/[^a-zA-Z0-9_\-]/', '-', $headlineText));
     }
 }

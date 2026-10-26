@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi\Utilities;
@@ -17,10 +18,10 @@ class ObjectUtility
      * @param string       $keyPath Key path of the property to fetch
      * @param object|array $object  Source to fetch the data from
      * @param mixed        $default An optional default value to return if the path could not be resolved. If a callback is passed, it's return value is used
-     * @return mixed
+     *
      * @throws LogicException if the given key path is no string
      */
-    static public function valueForKeyPathOfObject($keyPath, $object, $default = null)
+    public static function valueForKeyPathOfObject($keyPath, $object, $default = null)
     {
         $keyPathParts = explode('.', $keyPath);
         $keyPathPartsLength = count($keyPathParts);
@@ -33,7 +34,7 @@ class ObjectUtility
             );
         }
 
-        for ($i = 0; $i < $keyPathPartsLength; $i++) {
+        for ($i = 0; $i < $keyPathPartsLength; ++$i) {
             $key = $keyPathParts[$i];
             $accessorMethod = 'get' . ucfirst($key);
 
@@ -43,7 +44,7 @@ class ObjectUtility
                     $currentValue = $currentValue[$key];
                     break;
 
-                // Current value is an object
+                    // Current value is an object
                 case is_object($currentValue):
                     if (method_exists($currentValue, $accessorMethod)) { // Getter method
                         $currentValue = $currentValue->$accessorMethod();
@@ -62,7 +63,7 @@ class ObjectUtility
                     $currentValue = null;
             }
 
-            if ($currentValue === null) {
+            if (null === $currentValue) {
                 break;
             }
         }

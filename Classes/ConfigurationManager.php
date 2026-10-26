@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Cundd\Noshi;
@@ -8,16 +9,14 @@ class ConfigurationManager
     /**
      * @var Configuration
      */
-    static protected $sharedConfiguration;
+    protected static $sharedConfiguration;
 
     /**
      * Initializes the shared configuration
      *
-     * @param string $basePath
-     * @param string $dataPath
      * @return Configuration
      */
-    static public function initializeConfiguration(string $basePath, ?string $dataPath)
+    public static function initializeConfiguration(string $basePath, ?string $dataPath)
     {
         // Read the configurations file
         $configuration = [];
@@ -41,7 +40,7 @@ class ConfigurationManager
      *
      * @return Configuration
      */
-    static public function getConfiguration()
+    public static function getConfiguration()
     {
         return self::$sharedConfiguration;
     }
