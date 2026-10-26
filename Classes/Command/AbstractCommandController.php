@@ -86,7 +86,10 @@ abstract class AbstractCommandController
 
         $commandName = $this->command . 'Command';
         if (is_callable([$this, $commandName])) {
-            $exitCode = call_user_func_array([$this, $commandName], $this->arguments);
+            $exitCode = call_user_func_array(
+                [$this, $commandName],
+                $this->arguments
+            ) ?? 0;
         } else {
             $this->outputError('Command ' . $this->command . ' could not be found');
             $exitCode = 1;
