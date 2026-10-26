@@ -164,7 +164,9 @@ final class Dispatcher implements DispatcherInterface, ContextInterface
     {
         $configuration = ConfigurationManager::getConfiguration();
 
-        return $configuration->getThemePath() . $configuration->get('templatePath') . 'Page.html';
+        return $configuration->getThemePath()
+            . $configuration->get('templatePath')
+            . 'Page.html';
     }
 
     /**
@@ -204,7 +206,11 @@ final class Dispatcher implements DispatcherInterface, ContextInterface
         }
 
         if ($page) {
-            $content = $this->expressionProcessor->process($page->getContent(), new Context($this), []);
+            $content = $this->expressionProcessor->process(
+                $page->getContent(),
+                new Context($this),
+                []
+            );
         } else {
             $content = 'Not found';
         }
@@ -251,10 +257,11 @@ final class Dispatcher implements DispatcherInterface, ContextInterface
      */
     public function getAliasForUri($uri): string
     {
-        $routingConfiguration = ConfigurationManager::getConfiguration()->get('routing');
-        $aliasConfiguration = isset($routingConfiguration['alias']) ? $routingConfiguration['alias'] : [];
+        $routingConfiguration = ConfigurationManager::getConfiguration()
+            ->get('routing');
+        $aliasConfiguration = $routingConfiguration['alias'] ?? [];
 
-        return isset($aliasConfiguration[$uri]) ? (string) $aliasConfiguration[$uri] : $uri;
+        return (string) ($aliasConfiguration[$uri] ?? $uri);
     }
 
     /**
@@ -278,7 +285,10 @@ final class Dispatcher implements DispatcherInterface, ContextInterface
     public static function getSharedDispatcher()
     {
         if (!static::$sharedDispatcher) {
-            static::$sharedDispatcher = new static(new MarkdownFactory(), new ExpressionProcessor());
+            static::$sharedDispatcher = new static(
+                new MarkdownFactory(),
+                new ExpressionProcessor()
+            );
         }
 
         return static::$sharedDispatcher;
@@ -286,9 +296,10 @@ final class Dispatcher implements DispatcherInterface, ContextInterface
 
     private function prepareUri(string $uri): string
     {
-        $basePath = ConfigurationManager::getConfiguration()->getRequestBasePath();
+        $basePath = ConfigurationManager::getConfiguration()
+            ->getRequestBasePath();
         $basePathLength = strlen($basePath);
-        if ($basePath && substr($uri, 0, $basePathLength) === $basePath) {
+        if ($basePath && str_starts_with($uri, $basePath)) {
             $uri = '/' . substr($uri, $basePathLength);
         }
 

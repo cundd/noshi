@@ -13,6 +13,8 @@ use Cundd\Noshi\Exception\SecurityException;
  * @method string getBasePath()
  * @method string getDataPath()
  * @method string getTemplatePath()
+ *
+ * @implements ArrayAccess<string,mixed>
  */
 class Configuration implements ArrayAccess
 {
@@ -29,6 +31,9 @@ class Configuration implements ArrayAccess
         ],
     ];
 
+    /**
+     * @param array<string,mixed> $configuration
+     */
     public function __construct(array $configuration = [])
     {
         $this->configuration = array_merge(
@@ -42,6 +47,10 @@ class Configuration implements ArrayAccess
      * Prepare the configuration values
      *
      * Append a slash at the end of directory configurations
+     *
+     * @param array<string,mixed> $configuration
+     *
+     * @return array<string,mixed>
      */
     private function prepareConfigurationArray(array $configuration): array
     {
@@ -236,7 +245,7 @@ class Configuration implements ArrayAccess
         $this->set($offset, null);
     }
 
-    public function __call($name, $arguments)
+    public function __call($name, $arguments): mixed
     {
         if (str_starts_with($name, 'get')) {
             return $this->get(lcfirst(substr($name, 3)));

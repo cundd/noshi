@@ -10,15 +10,12 @@ use Cundd\Noshi\Utilities\Profiler;
 
 class Bootstrap
 {
-    /**
-     * Dispatcher instance
-     *
-     * @var DispatcherInterface
-     */
-    protected $dispatcher;
+    protected DispatcherInterface $dispatcher;
 
-    public function __construct(string $basePath, ?string $dataPath = null)
-    {
+    public function __construct(
+        string $basePath,
+        ?string $dataPath = null,
+    ) {
         if (DIRECTORY_SEPARATOR !== substr($basePath, -1)) {
             $basePath .= DIRECTORY_SEPARATOR;
         }
@@ -32,26 +29,32 @@ class Bootstrap
     /**
      * Invoke the web dispatcher
      */
-    public function run()
+    public function run(): void
     {
-        echo Dispatcher::getSharedDispatcher()->dispatch($this->getUri(), $this->getMethod(), $this->getArguments());
+        echo Dispatcher::getSharedDispatcher()->dispatch(
+            $this->getUri(),
+            $this->getMethod(),
+            $this->getArguments()
+        );
     }
 
     /**
      * Invokes the CLI dispatcher
+     *
+     * @param array<string,mixed> $arguments
      */
-    public function runCli(array $arguments)
+    public function runCli(array $arguments): void
     {
         $commandController = new NoshiCommandController($arguments);
         $commandController->dispatch();
     }
 
     /**
-     * @return array
+     * @return array<string,mixed>
      */
-    private function getArguments()
+    private function getArguments(): array
     {
-        $argumentsString = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
+        $argumentsString = $_SERVER['QUERY_STRING'] ?? '';
         $arguments = [];
         if ($argumentsString) {
             parse_str($argumentsString, $tempArguments);
@@ -65,10 +68,7 @@ class Bootstrap
         return $arguments;
     }
 
-    /**
-     * @return string
-     */
-    private function getUri()
+    private function getUri(): string
     {
         if (isset($_SERVER['REQUEST_URI'])) {
             $uriParts = explode('?', $_SERVER['REQUEST_URI'], 2);
@@ -85,17 +85,12 @@ class Bootstrap
         return $uri;
     }
 
-    /**
-     * @return string
-     */
-    private function getMethod()
+    private function getMethod(): string
     {
-        $method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
-
-        return $method;
+        return $_SERVER['REQUEST_METHOD'] ?? 'GET';
     }
 
-    private function configureEnvironment()
+    private function configureEnvironment(): void
     {
         ini_set('default_charset', 'utf-8');
         ini_set('mbstring.encoding_translation', 'true');
