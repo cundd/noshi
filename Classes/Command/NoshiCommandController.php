@@ -6,25 +6,23 @@ namespace Cundd\Noshi\Command;
 
 use Cundd\Noshi\Domain\Model\Page;
 use Cundd\Noshi\Domain\Repository\PageRepository;
+use Cundd\Noshi\Helpers\MarkdownFactory;
 use InvalidArgumentException;
 
-/**
- * NoshiCommandController
- */
-class NoshiCommandController extends AbstractCommandController
+final class NoshiCommandController extends AbstractCommandController
 {
     /**
      * Lists all pages
      */
-    public function listPagesCommand()
+    public function listPagesCommand(): int
     {
-        $pageRepository = new PageRepository();
+        $pageRepository = new PageRepository(new MarkdownFactory());
         try {
             $pages = $pageRepository->findAll();
         } catch (InvalidArgumentException $exception) {
             $this->outputError($exception->getMessage());
 
-            return;
+            return 1;
         }
         $tableData = [];
         /** @var Page $page */
@@ -38,5 +36,7 @@ class NoshiCommandController extends AbstractCommandController
             ];
         }
         $this->outputTable($tableData);
+
+        return 0;
     }
 }

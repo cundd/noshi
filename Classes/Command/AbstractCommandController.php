@@ -130,8 +130,12 @@ abstract class AbstractCommandController
      * @param array  $data      Table data to display
      * @param string $delimiter Delimiter for table cells
      */
-    public function outputTable($data, $delimiter = '|')
+    public function outputTable(array $data, string $delimiter = '|'): void
     {
+        if (empty($data)) {
+            return;
+        }
+
         $output = '';
         $firstRow = reset($data);
         $columnWidths = [];
@@ -153,7 +157,9 @@ abstract class AbstractCommandController
                     function ($row) use ($columnIndex) {
                         $row = array_values($row);
 
-                        return (isset($row[$columnIndex]) ? strlen($row[$columnIndex]) : 0);
+                        return is_string($row[$columnIndex] ?? false)
+                            ? strlen($row[$columnIndex])
+                            : 0;
                     },
                     $data
                 )
@@ -171,7 +177,7 @@ abstract class AbstractCommandController
             $output .= $delimiter . ' ';
             foreach ($headerRow as $columnIndex => $cell) {
                 $output .= ''
-                    . str_pad($cell, $columnWidths[$columnIndex])
+                    . str_pad((string) $cell, $columnWidths[$columnIndex])
                     . ' ' . $delimiter . ' ';
             }
             $output .= PHP_EOL;
@@ -198,7 +204,7 @@ abstract class AbstractCommandController
                     $cell = $cell ? 'TRUE' : 'FALSE';
                 }
                 $output .= ''
-                    . str_pad($cell, $columnWidths[$columnIndex])
+                    . str_pad((string) $cell, $columnWidths[$columnIndex])
                     . ' ' . $delimiter . ' ';
             }
             $output .= PHP_EOL;
