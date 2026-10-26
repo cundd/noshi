@@ -9,8 +9,6 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 
-use function var_dump;
-
 /**
  * Abstract controller for CLI tools
  */
@@ -19,22 +17,22 @@ abstract class AbstractCommandController
     /**
      * ASCII command escape
      */
-    const ESCAPE = "\033";
+    public const ESCAPE = "\033";
 
     /**
      * ASCII style normal
      */
-    const NORMAL = "[0m";
+    public const NORMAL = '[0m';
 
     /**
      * ASCII color green
      */
-    const GREEN = "[0;32m";
+    public const GREEN = '[0;32m';
 
     /**
      * ASCII color red
      */
-    const RED = "[0;31m";
+    public const RED = '[0;31m';
 
     /**
      * Raw input arguments
@@ -66,7 +64,7 @@ abstract class AbstractCommandController
      */
     protected $scriptPath = '';
 
-    function __construct($arguments)
+    public function __construct($arguments)
     {
         $this->rawArguments = $arguments;
     }
@@ -97,23 +95,22 @@ abstract class AbstractCommandController
     }
 
     /**
-     * @param $arguments
      * @return array
      */
     public function parseArguments($arguments)
     {
         $parsedArguments = [];
         $argumentsCount = count($arguments);
-        for ($i = 0; $i < $argumentsCount; $i++) {
+        for ($i = 0; $i < $argumentsCount; ++$i) {
             $currentArgument = $arguments[$i];
             switch (true) {
-                case substr($currentArgument, 0, 2) === '--':
+                case '--' === substr($currentArgument, 0, 2):
                     $parsedArguments[substr($currentArgument, 2)] = true;
                     break;
 
-                case substr($currentArgument, 0, 1) === '-':
+                case '-' === substr($currentArgument, 0, 1):
                     $parsedArguments[substr($currentArgument, 1)] = $arguments[$i + 1];
-                    $i++;
+                    ++$i;
                     break;
 
                 default:
@@ -147,7 +144,7 @@ abstract class AbstractCommandController
         }
 
         // Collect the column widths
-        for ($columnIndex = 0; $columnIndex < $columnCount; $columnIndex++) {
+        for ($columnIndex = 0; $columnIndex < $columnCount; ++$columnIndex) {
             $columnWidths[$columnIndex] = max(
                 array_map(
                     function ($row) use ($columnIndex) {
@@ -289,19 +286,19 @@ abstract class AbstractCommandController
             $methodDescription = [];
             $methodName = $method->name;
             $docComment = $method->getDocComment();
-            $docCommentLines = explode(PHP_EOL, (string)$docComment);
+            $docCommentLines = explode(PHP_EOL, (string) $docComment);
 
-            if (substr($methodName, -7) !== 'Command') {
+            if ('Command' !== substr($methodName, -7)) {
                 continue;
             }
 
             foreach ($docCommentLines as $currentLine) {
                 $currentLine = trim($currentLine);
-                if (substr($currentLine, 0, 2) === '/*') {
+                if ('/*' === substr($currentLine, 0, 2)) {
                     continue;
                 }
 
-                if (substr($currentLine, 0, 1) === '*') {
+                if ('*' === substr($currentLine, 0, 1)) {
                     $currentLine = substr($currentLine, 1);
                 }
 
@@ -309,10 +306,10 @@ abstract class AbstractCommandController
                 if (!$currentLine) {
                     continue;
                 }
-                if ($currentLine[0] === '@') {
+                if ('@' === $currentLine[0]) {
                     continue;
                 }
-                if ($currentLine === '/') {
+                if ('/' === $currentLine) {
                     continue;
                 }
                 $methodDescription[] = trim($currentLine);
